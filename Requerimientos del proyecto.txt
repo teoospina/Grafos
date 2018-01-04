@@ -1,0 +1,9 @@
+1-No se ha hecho nada.
+-----------------
+Clases:
+-Banco
+-Patrulla
+-Estacion policia
+-Guarida
+-Carro ladron
+-Escudos restauradores
