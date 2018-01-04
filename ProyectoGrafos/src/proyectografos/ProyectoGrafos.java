@@ -5,10 +5,6 @@
  */
 package proyectografos;
 
-/**
- *
- * @author Mateo
- */
 public class ProyectoGrafos {
 
     /**
