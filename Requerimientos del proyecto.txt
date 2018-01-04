@@ -7,3 +7,25 @@ Clases:
 -Guarida
 -Carro ladron
 -Escudos restauradores
+-Barrea Bloqueo
+-----------------
+Metodos:
+-Cargar el mapa de una ciudad desde archivos JSON o XML.
+-Se deben tener dos modos de juego (Humano y Máquina).
+-En cualquier momento, los escudos pueden ponerse en los
+caminos.
+-Se debe permitir en tiempo de ejecución, ubicar manualmente
+escudos de restauración para los delincuentes en las vías.
+-*Metodos rutas:
+a. La ruta que más escudos de restauración pueda obtener
+el vehículo
+b. La ruta más corta desde el origen hacia la guarida.
+c. La ruta del ladrón avaricioso: en ésta ruta los
+ladrones deben conseguir el mayor botín recorriendo
+todos los bancos antes de ser capturados o haber
+llegado a la guarida (si llega a la guarida el botín
+se multiplica por dos). Ustedes definen las
+estrategias (primero a los bancos más cercanos o
+primero a los bancos con mayor dinero o … etc)
+-Algoritmo de Voronoi o el algoritmo de
+Delaunay
