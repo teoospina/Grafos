@@ -5,6 +5,13 @@
  */
 package Vista;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.LinkedList;
+
 /**
  *
  * @author Mateo
@@ -12,10 +19,62 @@ package Vista;
 public class VistaPrincipal extends javax.swing.JFrame {
 
     /**
+     *
+     */
+    public static int[][] matrizMapa;
+    private Gson gson;
+
+    /**
      * Creates new form VistaPrincipal
      */
     public VistaPrincipal() {
         initComponents();
+        matrizMapa = new int[10][10];
+        gson = new Gson();
+        System.out.println(cargarJson("src/proyectografos/persona.json"));
+
+    }
+
+    /***
+     * Metodo cargarJson se encargar de abrir el archivo JSON y extraer la
+     * informacion
+     *
+     * @param ruta es la ruta del archvo a cargar.
+     * @return La informacion del archivo en formato String.
+     */
+    public String cargarJson(String ruta) {
+        StringBuilder datos = new StringBuilder();
+        String cadena;
+        FileReader f;
+        BufferedReader b = null;
+        try {
+            f = new FileReader(ruta);
+            b = new BufferedReader(f);
+            while ((cadena = b.readLine()) != null) {
+                datos.append(cadena);
+            }
+            b.close();
+        } catch (IOException e) {
+            System.err.println("Error cargarJson " + e);
+        }
+        return datos.toString();
+    }
+
+    /***
+     * Metodo cargarEnMatrizJSON se encarga de pasar la informacion recuperada
+     * del archivo JSON y distribuirla en la matriz del mapa del juego
+     *
+     * @param infoJSON informacion recuperada del archivo JSON
+     */
+    public void cargarEnMatrizJSON(String infoJSON) {
+        LinkedList<LinkedList<Integer>> matriz;
+        matriz = gson.fromJson(infoJSON, new TypeToken<LinkedList<LinkedList<Integer>>>() {
+        }.getType());
+        for (int i = 0; i < matriz.size(); i++) {
+            for (int j = 0; j < matriz.get(i).size(); j++) {
+                matrizMapa[i][j] = matriz.get(i).get(j);
+            }
+        }
     }
 
     /**
@@ -46,7 +105,6 @@ public class VistaPrincipal extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    static int[][] matrizMapa= new int[10][10];
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -58,16 +116,24 @@ public class VistaPrincipal extends javax.swing.JFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
+
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(VistaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VistaPrincipal.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(VistaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VistaPrincipal.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(VistaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VistaPrincipal.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(VistaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VistaPrincipal.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
