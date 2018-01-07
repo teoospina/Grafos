@@ -34,6 +34,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
      *
      */
     public static int[][] matrizMapa;
+    public static int[][] matrizAdyacen;
     private final Gson gson;
 
     /**
@@ -42,6 +43,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
     public VistaPrincipal() {
         initComponents();
         matrizMapa = new int[10][10];
+        matrizAdyacen = new int[10][10];
         gson = new Gson();
         //cargarDatos();
         this.setSize(600, 600);
