@@ -14,6 +14,15 @@ import java.io.IOException;
 import java.util.LinkedList;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import org.jdom2.input.SAXBuilder;
+//XML
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
+import org.jdom2.Document;         // |
+import org.jdom2.Element;          // |\ Librerías
+import org.jdom2.JDOMException;    // |/ JDOM
+import org.jdom2.input.SAXBuilder; // |
 
 /**
  *
@@ -95,6 +104,41 @@ public class VistaPrincipal extends javax.swing.JFrame {
         }
     }
 
+    /***
+     * Metodo para que bertel me lo sople,
+     * Metodo cargarXml se encarga de extraer la informacion de un archivo XML
+     * Y distribuirla para general el mapa del juego.
+     * @param ruta Es la direccion especificada por el filechooser donde se enc-
+     * cuentra el archivo XML.
+     */
+    public void cargarXml(String ruta) {
+        SAXBuilder builder = new SAXBuilder();
+        File xmlFile = new File(ruta);
+        try {
+            Document document = (Document) builder.build(xmlFile);
+            Element rootNode = document.getRootElement();
+            List list = rootNode.getChildren("tbody");
+            for (int i = 0; i < list.size(); i++) {
+                Element tbody = (Element) list.get(i);
+                List lista_tr = tbody.getChildren();
+                for (int j = 0; j < lista_tr.size(); j++) {
+                    Element tr = (Element) lista_tr.get(j);
+                    List lista_td = tr.getChildren();
+                    for (int k = 0; k < 10; k++) {
+                        Element td = (Element) lista_td.get(k);
+                        String th = td.getValue();
+                        matrizMapa[j][k] = Integer.parseInt(th);
+                    }
+                }
+            }
+
+        } catch (IOException io) {
+            System.out.println(io.getMessage());
+        } catch (JDOMException jdomex) {
+            System.out.println(jdomex.getMessage());
+        }
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -168,17 +212,24 @@ public class VistaPrincipal extends javax.swing.JFrame {
             try {
                 String nombre = f.getName();
                 String path = f.getAbsolutePath();
-                String datos = cargarJSON(path);
-                cargarEnMatrizJSON(datos);
+                if (path.substring(path.length() - 5).contains(".xml")) {
+                    cargarXml(path);
+                } else if (path.substring(path.length() - 5).contains(".json")) {
+                    String datos = cargarJSON(path);
+                    cargarEnMatrizJSON(datos);
+                }else{
+                    JOptionPane.showMessageDialog(this,"Archivo invalido, solo puede cargar archivos *.json o *.xml");
+                }
+
             } catch (Exception e) {
-                System.err.println("Error cargarArchivo filechooser "+e);
+                System.err.println("Error cargarArchivo filechooser " + e);
             }
         }
     }//GEN-LAST:event_btnCargarMapaActionPerformed
 
     /**
-         * @param args the command line arguments
-         */
+     * @param args the command line arguments
+     */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">

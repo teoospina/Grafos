@@ -142,7 +142,7 @@ public class ProyectoGrafos {
      List list = rootNode.getChildren( "Nombre" );
         for (int i = 0; i < list.size(); i++) {
             Element nombre = (Element) list.get(i);
-            String nombrep=nombre.getAttributeValue("nombre");
+            String nombrep=nombre.getValue();
             
             System.out.println(nombrep);
           
