@@ -10,7 +10,7 @@ Clases:
 -Barrea Bloqueo
 -----------------
 Metodos:
--Cargar el mapa de una ciudad desde archivos JSON o XML.
+-Cargar el mapa de una ciudad desde archivos JSON o XML.-ok 
 -Se deben tener dos modos de juego (Humano y Máquina).
 -En cualquier momento, los escudos pueden ponerse en los
 caminos.

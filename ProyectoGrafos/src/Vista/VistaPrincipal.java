@@ -8,9 +8,12 @@ package Vista;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.LinkedList;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -22,7 +25,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
      *
      */
     public static int[][] matrizMapa;
-    private Gson gson;
+    private final Gson gson;
 
     /**
      * Creates new form VistaPrincipal
@@ -31,18 +34,32 @@ public class VistaPrincipal extends javax.swing.JFrame {
         initComponents();
         matrizMapa = new int[10][10];
         gson = new Gson();
-        System.out.println(cargarJson("src/proyectografos/persona.json"));
+        //cargarDatos();
+        this.setSize(600, 600);
+        this.setLocationRelativeTo(null);
+        this.setResizable(false);
+    }
+
+    /**
+     * *
+     * Metodo cargarDatos se encarga de llamar al respectivo metodo para obtener
+     * la informacion del archivo a utilizar para cargar el mapa(JSON o XML)
+     */
+    private void cargarDatos() {
+        String json = cargarJSON("src/proyectografos/persona.json");
+        cargarEnMatrizJSON(json);
 
     }
 
-    /***
-     * Metodo cargarJson se encargar de abrir el archivo JSON y extraer la
+    /**
+     * *
+     * Metodo cargarJSON se encargar de abrir el archivo JSON y extraer la
      * informacion
      *
      * @param ruta es la ruta del archvo a cargar.
      * @return La informacion del archivo en formato String.
      */
-    public String cargarJson(String ruta) {
+    public String cargarJSON(String ruta) {
         StringBuilder datos = new StringBuilder();
         String cadena;
         FileReader f;
@@ -60,7 +77,8 @@ public class VistaPrincipal extends javax.swing.JFrame {
         return datos.toString();
     }
 
-    /***
+    /**
+     * *
      * Metodo cargarEnMatrizJSON se encarga de pasar la informacion recuperada
      * del archivo JSON y distribuirla en la matriz del mapa del juego
      *
@@ -86,25 +104,81 @@ public class VistaPrincipal extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        panelVistaPrincipal1 = new Vista.PanelVistaPrincipal();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        btnCargarMapa = new javax.swing.JMenuItem();
+        jMenu2 = new javax.swing.JMenu();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        javax.swing.GroupLayout panelVistaPrincipal1Layout = new javax.swing.GroupLayout(panelVistaPrincipal1);
+        panelVistaPrincipal1.setLayout(panelVistaPrincipal1Layout);
+        panelVistaPrincipal1Layout.setHorizontalGroup(
+            panelVistaPrincipal1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 600, Short.MAX_VALUE)
+        );
+        panelVistaPrincipal1Layout.setVerticalGroup(
+            panelVistaPrincipal1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 600, Short.MAX_VALUE)
+        );
+
+        jMenu1.setText("Archivo");
+
+        btnCargarMapa.setText("Cargar mapa");
+        btnCargarMapa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCargarMapaActionPerformed(evt);
+            }
+        });
+        jMenu1.add(btnCargarMapa);
+
+        jMenuBar1.add(jMenu1);
+
+        jMenu2.setText("Edit");
+        jMenuBar1.add(jMenu2);
+
+        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addComponent(panelVistaPrincipal1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(panelVistaPrincipal1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnCargarMapaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCargarMapaActionPerformed
+        JFileChooser abrirArchivo = new JFileChooser();
+        //Con esto solamente podamos abrir archivos
+        abrirArchivo.setFileSelectionMode(JFileChooser.FILES_ONLY);
+
+        int seleccion = abrirArchivo.showOpenDialog(this);
+
+        if (seleccion == JFileChooser.APPROVE_OPTION) {
+            File f = abrirArchivo.getSelectedFile();
+            try {
+                String nombre = f.getName();
+                String path = f.getAbsolutePath();
+                String datos = cargarJSON(path);
+                cargarEnMatrizJSON(datos);
+            } catch (Exception e) {
+                System.err.println("Error cargarArchivo filechooser "+e);
+            }
+        }
+    }//GEN-LAST:event_btnCargarMapaActionPerformed
+
     /**
-     * @param args the command line arguments
-     */
+         * @param args the command line arguments
+         */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -146,5 +220,10 @@ public class VistaPrincipal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem btnCargarMapa;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenuBar jMenuBar1;
+    private Vista.PanelVistaPrincipal panelVistaPrincipal1;
     // End of variables declaration//GEN-END:variables
 }
