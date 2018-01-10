@@ -35,6 +35,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
      */
     public static int[][] matrizMapa;
     public static int[][] matrizAdyacen;
+    public static List<Integer> noEs0List= new LinkedList<Integer>();
     private final Gson gson;
 
     /**
@@ -106,10 +107,12 @@ public class VistaPrincipal extends javax.swing.JFrame {
         }
     }
 
-    /***
-     * Metodo para que bertel me lo sople,
-     * Metodo cargarXml se encarga de extraer la informacion de un archivo XML
-     * Y distribuirla para general el mapa del juego.
+    /**
+     * *
+     * Metodo para que bertel me lo sople, Metodo cargarXml se encarga de
+     * extraer la informacion de un archivo XML Y distribuirla para general el
+     * mapa del juego.
+     *
      * @param ruta Es la direccion especificada por el filechooser donde se enc-
      * cuentra el archivo XML.
      */
@@ -219,8 +222,8 @@ public class VistaPrincipal extends javax.swing.JFrame {
                 } else if (path.substring(path.length() - 5).contains(".json")) {
                     String datos = cargarJSON(path);
                     cargarEnMatrizJSON(datos);
-                }else{
-                    JOptionPane.showMessageDialog(this,"Archivo invalido, solo puede cargar archivos *.json o *.xml");
+                } else {
+                    JOptionPane.showMessageDialog(this, "Archivo invalido, solo puede cargar archivos *.json o *.xml");
                 }
 
             } catch (Exception e) {
@@ -228,6 +231,15 @@ public class VistaPrincipal extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_btnCargarMapaActionPerformed
+    public void noEsCero() {
+        for (int i = 0; i < matrizMapa.length; i++) {
+            for (int j = 0; j < matrizMapa.length; j++) {
+                if (matrizMapa[i][j]!=0) {
+                    noEs0List.add(matrizMapa[i][j]);
+                }
+            }
+        }
+    }
 
     /**
      * @param args the command line arguments
