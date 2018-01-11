@@ -69,7 +69,8 @@ public class PanelVistaPrincipal extends javax.swing.JPanel {
         if (objetosList.size() > 0) {
             for (int i = 0; i < objetosList.size(); i++) {
                 if(objetosList.get(i).getImagen()!=null){
-                    g.drawImage(objetosList.get(i).getImagen(), objetosList.get(i).getColumna()*proporcion,objetosList.get(i).getFila()*proporcion , 50, 50, null);
+                    System.err.println("Pinto "+objetosList.get(i).getTipo());
+                    g.drawImage(objetosList.get(i).getImagen(), posInicialX+objetosList.get(i).getColumna()*proporcion,posInicialY+objetosList.get(i).getFila()*proporcion , 50, 50, null);
                 }
             }
         }

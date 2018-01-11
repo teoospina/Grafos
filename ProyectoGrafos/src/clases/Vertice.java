@@ -32,13 +32,13 @@ public class Vertice {
         this.columna = columna;
         switch (tipo) {
             case "Banco":
-                this.imagen=new ImageIcon(getClass().getResource("src/imagenes/Banco/bank.png")).getImage();
+                this.imagen=new ImageIcon(getClass().getResource("../imagenes/Banco/bank.png")).getImage();
                 break;
             case "EstacionP":
-                this.imagen=new ImageIcon(getClass().getResource("src/imagenes/Policia/4.png")).getImage();
+                this.imagen=new ImageIcon(getClass().getResource("../imagenes/Policia/4.png")).getImage();
                 break;
             case "Guarida":
-                 this.imagen=new ImageIcon(getClass().getResource("src/imagenes/Guarida/guarida.png")).getImage();
+                 this.imagen=new ImageIcon(getClass().getResource("../imagenes/Guarida/guarida.png")).getImage();
                 break;
         }
     }

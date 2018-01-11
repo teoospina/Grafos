@@ -241,7 +241,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
             for (int j = 0; j < matrizMapa[i].length; j++) {
                 if (matrizMapa[i][j] != 0) {
                     if (matrizMapa[i][j] == 5) {
-                        objetosList.add(new Vertice("EstacioP", i, j));
+                        objetosList.add(new Vertice("EstacionP", i, j));
                     }
                     if (matrizMapa[i][j] == 2) {
                         objetosList.add(new Vertice("Banco", i, j));
