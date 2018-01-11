@@ -5,19 +5,18 @@
  */
 package Vista;
 
+import clases.Vertice;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileReader;
-import java.io.IOException;
 import java.util.LinkedList;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
-import org.jdom2.input.SAXBuilder;
 //XML
 import java.io.File;
 import java.io.IOException;
+import static java.lang.Math.abs;
 import java.util.List;
 import org.jdom2.Document;         // |
 import org.jdom2.Element;          // |\ Librerías
@@ -35,7 +34,8 @@ public class VistaPrincipal extends javax.swing.JFrame {
      */
     public static int[][] matrizMapa;
     public static int[][] matrizAdyacen;
-    public static List<Integer> noEs0List= new LinkedList<Integer>();
+    public static List<Vertice> objetosList;
+
     private final Gson gson;
 
     /**
@@ -44,12 +44,12 @@ public class VistaPrincipal extends javax.swing.JFrame {
     public VistaPrincipal() {
         initComponents();
         matrizMapa = new int[10][10];
-        matrizAdyacen = new int[10][10];
         gson = new Gson();
         //cargarDatos();
         this.setSize(600, 600);
         this.setLocationRelativeTo(null);
         this.setResizable(false);
+        objetosList = new LinkedList<Vertice>();
     }
 
     /**
@@ -219,9 +219,14 @@ public class VistaPrincipal extends javax.swing.JFrame {
                 String path = f.getAbsolutePath();
                 if (path.substring(path.length() - 5).contains(".xml")) {
                     cargarXml(path);
+                    recorreCreaObj();
+                    esAdyacente();
+
                 } else if (path.substring(path.length() - 5).contains(".json")) {
                     String datos = cargarJSON(path);
                     cargarEnMatrizJSON(datos);
+                    recorreCreaObj();
+                    esAdyacente();
                 } else {
                     JOptionPane.showMessageDialog(this, "Archivo invalido, solo puede cargar archivos *.json o *.xml");
                 }
@@ -231,14 +236,72 @@ public class VistaPrincipal extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_btnCargarMapaActionPerformed
-    public void noEsCero() {
+    public void recorreCreaObj() {
         for (int i = 0; i < matrizMapa.length; i++) {
-            for (int j = 0; j < matrizMapa.length; j++) {
-                if (matrizMapa[i][j]!=0) {
-                    noEs0List.add(matrizMapa[i][j]);
+            for (int j = 0; j < matrizMapa[i].length; j++) {
+                if (matrizMapa[i][j] != 0) {
+                    if (matrizMapa[i][j] == 5) {
+                        objetosList.add(new Vertice("EstacioP", i, j));
+                    }
+                    if (matrizMapa[i][j] == 2) {
+                        objetosList.add(new Vertice("Banco", i, j));
+                    }
+                    if (matrizMapa[i][j] == 7) {
+                        objetosList.add(new Vertice("Guarida", i, j));
+                    }
+//                    if (matrizMapa[i][j]==18) {
+//                        Patrulla patrulla=new Patrulla();
+//                        objetosList.add(patrulla);
+//                    }
+//                    if (matrizMapa[i][j]==12) {
+//                        CarroLadron carroLadron=new CarroLadron();
+//                        objetosList.add(carroLadron);
+//                    }
+//                    if (matrizMapa[i][j]==1817) {
+//                        Vertice verticeBala= new Vertice();
+//                        verticeBala.setTipo("proyectil");
+//                        objetosList.add(verticeBala);
+//                    }
+//                    if (matrizMapa[i][j]==20) {
+//                        Vertice verticeEscudo= new Vertice();
+//                        verticeEscudo.setTipo("escudo");
+//                        objetosList.add(verticeEscudo);
+//                    }
+//                    if (matrizMapa[i][j]==2120) {
+//                        Vertice verticebarrera= new Vertice();
+//                        verticebarrera.setTipo("barrera");
+//                        objetosList.add(verticebarrera);
+//                    }
+                    if (matrizMapa[i][j] == 1) {
+                        objetosList.add(new Vertice("Calle", i, j));
+                    }
                 }
             }
         }
+    }
+
+    public void esAdyacente() {
+        matrizAdyacen = new int[objetosList.size()][objetosList.size()];
+        for (int i = 0; i < objetosList.size(); i++) {
+            for (int j = 0; j < objetosList.size(); j++) {
+                if (!objetosList.get(i).equals(objetosList.get(j))) {
+                    if (abs(objetosList.get(i).getFila() - objetosList.get(j).getFila()) < 2 && abs(objetosList.get(i).getColumna() - objetosList.get(j).getColumna()) < 2) {
+                        matrizAdyacen[i][j] = 1;
+                    }
+                }
+            }
+        }
+//        for (int i = 0; i < matrizAdyacen.length; i++) {
+//            for (int j = 0; j < matrizAdyacen[i].length; j++) {
+//                if (matrizAdyacen[i][j] == 1) {
+//                    System.out.print("&&|");
+//
+//                }
+//                System.out.print(" |");
+//
+//            }
+//            System.out.println();
+//        }
     }
 
     /**

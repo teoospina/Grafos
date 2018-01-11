@@ -14,12 +14,12 @@ import javax.swing.ImageIcon;
  */
 public class CarroLadron {
 
-    int fila;
-    int columna;
-    int areaContacto;
-    String[] direccionesImgLadron;
-    Image[] ladronImg;
-    String direccionLadron;
+    private int fila;
+    private int columna;
+    private int areaContacto;
+    private String[] direccionesImgLadron;
+    private Image[] ladronImg;
+    private String direccionLadron;
 
     public CarroLadron() {
     }
@@ -35,6 +35,90 @@ public class CarroLadron {
            this.ladronImg[i-1]=new ImageIcon(getClass().getResource(dirObtenida+"/"+i+".png")).getImage();
         }
         this.ladronImg = ladronImg;
+        this.direccionLadron = direccionLadron;
+    }
+
+    /**
+     * @return the fila
+     */
+    public int getFila() {
+        return fila;
+    }
+
+    /**
+     * @param fila the fila to set
+     */
+    public void setFila(int fila) {
+        this.fila = fila;
+    }
+
+    /**
+     * @return the columna
+     */
+    public int getColumna() {
+        return columna;
+    }
+
+    /**
+     * @param columna the columna to set
+     */
+    public void setColumna(int columna) {
+        this.columna = columna;
+    }
+
+    /**
+     * @return the areaContacto
+     */
+    public int getAreaContacto() {
+        return areaContacto;
+    }
+
+    /**
+     * @param areaContacto the areaContacto to set
+     */
+    public void setAreaContacto(int areaContacto) {
+        this.areaContacto = areaContacto;
+    }
+
+    /**
+     * @return the direccionesImgLadron
+     */
+    public String[] getDireccionesImgLadron() {
+        return direccionesImgLadron;
+    }
+
+    /**
+     * @param direccionesImgLadron the direccionesImgLadron to set
+     */
+    public void setDireccionesImgLadron(String[] direccionesImgLadron) {
+        this.direccionesImgLadron = direccionesImgLadron;
+    }
+
+    /**
+     * @return the ladronImg
+     */
+    public Image[] getLadronImg() {
+        return ladronImg;
+    }
+
+    /**
+     * @param ladronImg the ladronImg to set
+     */
+    public void setLadronImg(Image[] ladronImg) {
+        this.ladronImg = ladronImg;
+    }
+
+    /**
+     * @return the direccionLadron
+     */
+    public String getDireccionLadron() {
+        return direccionLadron;
+    }
+
+    /**
+     * @param direccionLadron the direccionLadron to set
+     */
+    public void setDireccionLadron(String direccionLadron) {
         this.direccionLadron = direccionLadron;
     }
     

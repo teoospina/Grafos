@@ -10,9 +10,51 @@ package clases;
  * @author Mateo
  */
 public class Barrera {
+    private int fila;
+    private int columna;
+    private int idBarrera;
+    /**
+     * @return the fila
+     */
+    public int getFila() {
+        return fila;
+    }
 
-    int fila;
-    int columna;
-    int idBarrera;
+    /**
+     * @param fila the fila to set
+     */
+    public void setFila(int fila) {
+        this.fila = fila;
+    }
+
+    /**
+     * @return the columna
+     */
+    public int getColumna() {
+        return columna;
+    }
+
+    /**
+     * @param columna the columna to set
+     */
+    public void setColumna(int columna) {
+        this.columna = columna;
+    }
+
+    /**
+     * @return the idBarrera
+     */
+    public int getIdBarrera() {
+        return idBarrera;
+    }
+
+    /**
+     * @param idBarrera the idBarrera to set
+     */
+    public void setIdBarrera(int idBarrera) {
+        this.idBarrera = idBarrera;
+    }
+
+    
 
 }

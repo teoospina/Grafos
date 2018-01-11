@@ -11,8 +11,50 @@ package clases;
  */
 public class EstacionDePolicia {
 
-    int fila;
-    int columna;
-    int[][] radioAccionMatriz;
+    private int fila;
+    private int columna;
+    private int[][] radioAccionMatriz;
+
+    /**
+     * @return the fila
+     */
+    public int getFila() {
+        return fila;
+    }
+
+    /**
+     * @param fila the fila to set
+     */
+    public void setFila(int fila) {
+        this.fila = fila;
+    }
+
+    /**
+     * @return the columna
+     */
+    public int getColumna() {
+        return columna;
+    }
+
+    /**
+     * @param columna the columna to set
+     */
+    public void setColumna(int columna) {
+        this.columna = columna;
+    }
+
+    /**
+     * @return the radioAccionMatriz
+     */
+    public int[][] getRadioAccionMatriz() {
+        return radioAccionMatriz;
+    }
+
+    /**
+     * @param radioAccionMatriz the radioAccionMatriz to set
+     */
+    public void setRadioAccionMatriz(int[][] radioAccionMatriz) {
+        this.radioAccionMatriz = radioAccionMatriz;
+    }
 
 }

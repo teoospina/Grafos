@@ -46,7 +46,9 @@ public class ProyectoGrafos {
         FileReader fr = new FileReader("src/proyectografos/persona.json");
         JsonElement datos = parser.parse(fr);
         dumpJSONElement(datos);*/
-       cargarXml();
+       //cargarXml();
+       char x = (char)178;
+        System.out.println(x);
 
     }
     public static void dumpJSONElement(JsonElement elemento) {

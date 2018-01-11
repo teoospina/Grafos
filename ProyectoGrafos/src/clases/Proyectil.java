@@ -11,8 +11,51 @@ package clases;
  */
 public class Proyectil {
 
-    int fila;
-    int columna;
-    int idBarrera;
+    private int fila;
+    private int columna;
+    private int idBala;
+
+    /**
+     * @return the fila
+     */
+    public int getFila() {
+        return fila;
+    }
+
+    /**
+     * @param fila the fila to set
+     */
+    public void setFila(int fila) {
+        this.fila = fila;
+    }
+
+    /**
+     * @return the columna
+     */
+    public int getColumna() {
+        return columna;
+    }
+
+    /**
+     * @param columna the columna to set
+     */
+    public void setColumna(int columna) {
+        this.columna = columna;
+    }
+
+    /**
+     * @return the idBala
+     */
+    public int getIdBala() {
+        return idBala;
+    }
+
+    /**
+     * @param idBala the idBala to set
+     */
+    public void setIdBala(int idBala) {
+        this.idBala = idBala;
+    }
+    
 
 }

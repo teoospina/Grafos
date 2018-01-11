@@ -9,10 +9,9 @@ package clases;
  *
  * @author Mateo
  */
-public class EscudosRestauradores {
+public class Calle {
     private int fila;
     private int columna;
-    private int idEscudo;
 
     /**
      * @return the fila
@@ -41,19 +40,4 @@ public class EscudosRestauradores {
     public void setColumna(int columna) {
         this.columna = columna;
     }
-
-    /**
-     * @return the idEscudo
-     */
-    public int getIdEscudo() {
-        return idEscudo;
-    }
-
-    /**
-     * @param idEscudo the idEscudo to set
-     */
-    public void setIdEscudo(int idEscudo) {
-        this.idEscudo = idEscudo;
-    }
-    
 }

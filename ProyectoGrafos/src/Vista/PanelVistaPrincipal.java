@@ -5,9 +5,13 @@
  */
 package Vista;
 
+import static Vista.VistaPrincipal.matrizMapa;
+import static Vista.VistaPrincipal.objetosList;
+import clases.*;
 import java.awt.Color;
 import java.awt.Graphics;
-import static Vista.VistaPrincipal.matrizMapa;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  *
@@ -18,6 +22,7 @@ public class PanelVistaPrincipal extends javax.swing.JPanel {
     private final int posInicialX;
     private final int posInicialY;
     private final int proporcion;
+   
 
     /**
      * Creates new form PanelVistaPrincipal
@@ -28,25 +33,46 @@ public class PanelVistaPrincipal extends javax.swing.JPanel {
         this.posInicialX = 100;
         this.posInicialY = 10;
         this.proporcion = 40;
-    }
+    }    
 
     @Override
     protected void paintComponent(Graphics g) {
-        g.setColor(Color.white);
+        pintarMapa(g);
+        pintarObjetos(g);
+        repaint();
+    }
+    /***
+     * Metodo para graficar el mapa sin aun paramerizar los objetos de este.
+     * @param g Componente grafico de la interfaz, donde se visualiaza
+     */
+    private void pintarMapa(Graphics g){
+        g.setColor(Color.black);
         g.fillRect(0, 0, 600, 600);
         if (matrizMapa.length > 0) {
             for (int i = 0; i < matrizMapa.length; i++) {
                 for (int j = 0; j < matrizMapa[i].length; j++) {
-                    if (matrizMapa[i][j] == 0) {
+                    if (matrizMapa[i][j] == 1) {
+                        g.setColor(Color.white);
+                    } else{
                         g.setColor(Color.green);
-                    } else {
-                        g.setColor(Color.black);
                     }
                     g.fillRect(posInicialX+(proporcion*j),posInicialY+(proporcion*i), proporcion, proporcion);
                 }
             }
         }
-        repaint();
+    }
+    /***
+     * Metodo que grafica los objetos vertice
+     * @param g Componente grafico
+     */
+    private void pintarObjetos(Graphics g){
+        if (objetosList.size() > 0) {
+            for (int i = 0; i < objetosList.size(); i++) {
+                if(objetosList.get(i).getImagen()!=null){
+                    g.drawImage(objetosList.get(i).getImagen(), objetosList.get(i).getColumna()*proporcion,objetosList.get(i).getFila()*proporcion , 50, 50, null);
+                }
+            }
+        }
     }
 
     /**
