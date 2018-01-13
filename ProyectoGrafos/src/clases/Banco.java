@@ -4,43 +4,24 @@
  * and open the template in the editor.
  */
 package clases;
+import static Vista.VistaPrincipal.cuentaBanco;
 
 /**
  *
  * @author Mateo
  */
 public class Banco {
-    private int fila;
-    private int columna;
+  
     private float dinero;
     private int idBanco;
-    /**
-     * @return the fila
-     */
-    public int getFila() {
-        return fila;
-    }
 
-    /**
-     * @param fila the fila to set
-     */
-    public void setFila(int fila) {
-        this.fila = fila;
+    public Banco( ) {
+        this.dinero = dinero;
+        this.idBanco = cuentaBanco;
+        cuentaBanco+=1;
     }
-
-    /**
-     * @return the columna
-     */
-    public int getColumna() {
-        return columna;
-    }
-
-    /**
-     * @param columna the columna to set
-     */
-    public void setColumna(int columna) {
-        this.columna = columna;
-    }
+ 
+    
 
     /**
      * @return the dinero

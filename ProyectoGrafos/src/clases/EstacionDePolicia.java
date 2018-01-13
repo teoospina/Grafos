@@ -5,42 +5,41 @@
  */
 package clases;
 
+import java.util.LinkedList;
+import static Vista.VistaPrincipal.cuentaEstacion;
+
 /**
  *
  * @author Mateo
  */
 public class EstacionDePolicia {
 
-    private int fila;
-    private int columna;
     private int[][] radioAccionMatriz;
+    LinkedList<Patrulla> patrullas;
+    int idEstacion;
 
-    /**
-     * @return the fila
-     */
-    public int getFila() {
-        return fila;
+    public EstacionDePolicia(int[][] radioAccionMatriz, LinkedList<Patrulla> patrullas) {
+        this.radioAccionMatriz = radioAccionMatriz;
+        crearPatrulla();
     }
 
-    /**
-     * @param fila the fila to set
-     */
-    public void setFila(int fila) {
-        this.fila = fila;
+    public EstacionDePolicia(int[][] radioAccionMatriz) {
+        this.radioAccionMatriz = radioAccionMatriz;
+        crearPatrulla();
+        this.idEstacion = cuentaEstacion;
+        cuentaEstacion += 1;
     }
 
-    /**
-     * @return the columna
-     */
-    public int getColumna() {
-        return columna;
+    public EstacionDePolicia() {
     }
+    
+    
 
-    /**
-     * @param columna the columna to set
-     */
-    public void setColumna(int columna) {
-        this.columna = columna;
+    private void crearPatrulla() {
+        int Random = (int) (Math.random() * 3) + 1;
+        for (int i = 0; i < Random; i++) {
+            this.patrullas.add(new Patrulla());
+        }
     }
 
     /**

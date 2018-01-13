@@ -12,6 +12,7 @@ package clases;
 public class Guarida {
     private int fila;
     private int columna;
+    private int montoRobado;
     /**
      * @return the fila
      */
@@ -38,6 +39,20 @@ public class Guarida {
      */
     public void setColumna(int columna) {
         this.columna = columna;
+    }
+
+    /**
+     * @return the montoRobado
+     */
+    public int getMontoRobado() {
+        return montoRobado;
+    }
+
+    /**
+     * @param montoRobado the montoRobado to set
+     */
+    public void setMontoRobado(int montoRobado) {
+        this.montoRobado = montoRobado;
     }
     
     

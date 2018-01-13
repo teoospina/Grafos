@@ -21,6 +21,7 @@ public class Vertice {
     private int fila;
     private int columna;
     private Image imagen;
+    private Object contenedor;
 
     public Vertice() {
     }
@@ -33,13 +34,17 @@ public class Vertice {
         switch (tipo) {
             case "Banco":
                 this.imagen=new ImageIcon(getClass().getResource("../imagenes/Banco/bank.png")).getImage();
+                this.contenedor=new Banco();
                 break;
             case "EstacionP":
                 this.imagen=new ImageIcon(getClass().getResource("../imagenes/Policia/4.png")).getImage();
+                this.contenedor=new EstacionDePolicia();
                 break;
             case "Guarida":
                  this.imagen=new ImageIcon(getClass().getResource("../imagenes/Guarida/guarida.png")).getImage();
+                 this.contenedor=new Guarida();
                 break;
+        
         }
     }
 
@@ -111,6 +116,20 @@ public class Vertice {
      */
     public void setImagen(Image imagen) {
         this.imagen = imagen;
+    }
+
+    /**
+     * @return the contenedor
+     */
+    public Object getContenedor() {
+        return contenedor;
+    }
+
+    /**
+     * @param contenedor the contenedor to set
+     */
+    public void setContenedor(Object contenedor) {
+        this.contenedor = contenedor;
     }
 
 }

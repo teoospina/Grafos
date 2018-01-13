@@ -35,6 +35,8 @@ public class VistaPrincipal extends javax.swing.JFrame {
     public static int[][] matrizMapa;
     public static int[][] matrizAdyacen;
     public static List<Vertice> objetosList;
+    public static int cuentaBanco;
+    public static int cuentaEstacion;
 
     private final Gson gson;
 
