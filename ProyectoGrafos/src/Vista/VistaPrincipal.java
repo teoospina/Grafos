@@ -5,9 +5,11 @@
  */
 package Vista;
 
+import clases.EstacionDePolicia;
 import clases.Vertice;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import java.awt.Point;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.LinkedList;
@@ -34,6 +36,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
      */
     public static int[][] matrizMapa;
     public static int[][] matrizAdyacen;
+    public static int[][] matrizInfluencia;
     public static List<Vertice> objetosList;
     public static int cuentaBanco;
     public static int cuentaEstacion;
@@ -46,6 +49,9 @@ public class VistaPrincipal extends javax.swing.JFrame {
     public VistaPrincipal() {
         initComponents();
         matrizMapa = new int[10][10];
+        matrizInfluencia = new int[10][10];
+        cuentaBanco = 0;
+        cuentaEstacion = 1;
         gson = new Gson();
         //cargarDatos();
         this.setSize(600, 600);
@@ -62,7 +68,6 @@ public class VistaPrincipal extends javax.swing.JFrame {
     private void cargarDatos() {
         String json = cargarJSON("src/proyectografos/persona.json");
         cargarEnMatrizJSON(json);
-
     }
 
     /**
@@ -232,7 +237,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
                 } else {
                     JOptionPane.showMessageDialog(this, "Archivo invalido, solo puede cargar archivos *.json o *.xml");
                 }
-
+                obtenerMatrizInfluencia();
             } catch (Exception e) {
                 System.err.println("Error cargarArchivo filechooser " + e);
             }
@@ -304,6 +309,50 @@ public class VistaPrincipal extends javax.swing.JFrame {
 //            }
 //            System.out.println();
 //        }
+    }
+
+    private static void obtenerMatrizInfluencia() {
+        LinkedList<Vertice> listaEstaciones = new LinkedList<>();
+
+        for (int i = 0; i < objetosList.size(); i++) {
+            if (objetosList.get(i).getTipo().equalsIgnoreCase("EstacionP")) {
+                listaEstaciones.add(objetosList.get(i));
+            }
+        }
+        for (int i = 0; i < matrizInfluencia.length; i++) {
+            for (int j = 0; j < matrizInfluencia[i].length; j++) {
+                Vertice vertice = obtenerEstacionMasCercana(listaEstaciones,new Point(i,j));
+                matrizInfluencia[i][j]= ((EstacionDePolicia)vertice.getContenedor()).getIdEstacion();
+            }
+        }
+        
+        System.err.println("Matriz de influencia:");
+        for (int i = 0; i < matrizInfluencia.length; i++) {
+            for (int j = 0; j < matrizInfluencia[i].length; j++) {
+                System.out.print(matrizInfluencia[i][j]+"|");
+            }
+            System.out.println("");
+        }
+
+    }
+
+    private static Vertice obtenerEstacionMasCercana(LinkedList<Vertice> listaEstaciones, Point punto) {
+        int indiceLista = -1;
+        int distancia = 0;
+        for (int i = 0; i < listaEstaciones.size(); i++) {
+            int distanciaPunto = (int) Math.sqrt(
+                    Math.pow(abs(punto.getX() - listaEstaciones.get(i).getFila()), 2)
+                    + Math.pow(abs(punto.getY() - listaEstaciones.get(i).getColumna()), 2)
+            );
+            if (indiceLista == -1 || distanciaPunto < distancia) {
+                distancia = distanciaPunto;
+                indiceLista = i;
+            }
+        }
+        if (indiceLista != -1) {
+            return listaEstaciones.get(indiceLista);
+        }
+        return null;
     }
 
     /**
