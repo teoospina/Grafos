@@ -58,15 +58,13 @@ public class EstacionDePolicia {
         crearPatrulla();
     }
 
-    public EstacionDePolicia(int[][] radioAccionMatriz) {
-        this.radioAccionMatriz = radioAccionMatriz;
-        crearPatrulla();
+    public EstacionDePolicia() {
+        //this.radioAccionMatriz = radioAccionMatriz;
+        //crearPatrulla();
         this.idEstacion = cuentaEstacion;
         cuentaEstacion += 1;
     }
 
-    public EstacionDePolicia() {
-    }
     
     
 
