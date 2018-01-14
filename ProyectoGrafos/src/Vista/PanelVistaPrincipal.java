@@ -7,11 +7,9 @@ package Vista;
 
 import static Vista.VistaPrincipal.matrizMapa;
 import static Vista.VistaPrincipal.objetosList;
-import clases.*;
 import java.awt.Color;
 import java.awt.Graphics;
-import java.util.LinkedList;
-import java.util.List;
+import java.awt.Point;
 
 /**
  *
@@ -66,10 +64,11 @@ public class PanelVistaPrincipal extends javax.swing.JPanel {
         }
     }
 
-    public void obtenerMouse(int x, int y) {
+    public Point obtenerMouse(int x, int y) {
         x = (x - posInicialX) / proporcion;
         y = (y - posInicialY) / proporcion;
         System.out.println("fila" + y + "columna" + x);
+        return new Point(x, y);
     }
 
     /**
