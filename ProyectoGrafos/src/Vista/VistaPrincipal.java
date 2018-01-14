@@ -393,10 +393,12 @@ public class VistaPrincipal extends javax.swing.JFrame {
         return null;
     }
 
-    /***
-     * Metodo agregarEscudoAleatorio se encarga de crear un escudo cada vez que el metodo sea invocado,la 
-     * ubicacion del mismo se obtiene a partir de enlistar todas las posiciones en las calles disponibles,
-     * donde aun no exista un escudo anteriormente.
+    /**
+     * *
+     * Metodo agregarEscudoAleatorio se encarga de crear un escudo cada vez que
+     * el metodo sea invocado,la ubicacion del mismo se obtiene a partir de
+     * enlistar todas las posiciones en las calles disponibles, donde aun no
+     * exista un escudo anteriormente.
      */
     private void agregarEscudoAleatorio() {
         LinkedList<Vertice> listaCalles = new LinkedList<>();
@@ -406,18 +408,56 @@ public class VistaPrincipal extends javax.swing.JFrame {
                 listaCalles.add(objetosList.get(i));
             }
         }
-        int random = (int) Math.random()*(listaCalles.size());
+        int random = (int) Math.random() * (listaCalles.size());
         listaEscudos.add(new EscudosRestauradores(listaCalles.get(random).getFila(),
                 listaCalles.get(random).getColumna(),
                 listaEscudos.size()));
     }
 
     /***
-     * Metodo validarExistenciaEscudo, se encarga de verificar que en una posicion de fila y columna no exista ya
-     * un escudo creado.
+     * Metodo agregarEscudoManual, se encarga de crear un escudo den el momento de ser invocado, siempre
+     * y cuando sea una posicion de una calle y no exista ya un escudo en tal posicion.
+     * @param fila posicion fila donde colocar el escudo.
+     * @param columna posicion fila donde colocar el escudo.
+     */
+    private void agregarEscudoManual(int fila, int columna) {
+        if (!validarExistenciaEscudo(fila, columna)) {
+            if (validarCalleFilaColumna(fila, columna)) {
+                listaEscudos.add(new EscudosRestauradores(fila, columna, listaEscudos.size()));
+            } else {
+                JOptionPane.showMessageDialog(rootPane, "En esa posicion no se puede colocar un escudo.");
+            }
+        } else {
+            JOptionPane.showMessageDialog(rootPane, "Ya existe un escudo en esa posicion.");
+        }
+
+    }
+    /***
+     * Metodo validarCalleFilaColumna se encarga de validar que en una posicion fila, columna
+     * ingresada por parametro, exista una calle.
+     * @param fila posicion fila a buscar.
+     * @param columna posicion columna a buscar.
+     * @return retorna true si es una calle, de lo contrario retorna false.
+     */
+    private boolean validarCalleFilaColumna(int fila, int columna) {
+        for (int i = 0; i < objetosList.size(); i++) {
+            if (objetosList.get(i).getTipo().equalsIgnoreCase("Calle")
+                    && (objetosList.get(i).getFila() == fila && objetosList.get(i).getColumna() == columna)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * *
+     * Metodo validarExistenciaEscudo, se encarga de verificar que en una
+     * posicion de fila y columna no exista ya un escudo creado.
+     *
      * @param fila indice de fila a buscar.
      * @param columna indice de columna a buscar.
-     * @return retorna true si la posicion ya existe, de lo contrario retorna false.
+     * @return retorna true si la posicion ya existe, de lo contrario retorna
+     * false.
      */
     private boolean validarExistenciaEscudo(int fila, int columna) {
         for (EscudosRestauradores escudo : this.listaEscudos) {
