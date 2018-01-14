@@ -256,6 +256,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
         this.panelVistaPrincipal1.obtenerMouse(x,y);
 
     }//GEN-LAST:event_panelVistaPrincipal1MouseClicked
+    
     public void recorreCreaObj() {
         for (int i = 0; i < matrizMapa.length; i++) {
             for (int j = 0; j < matrizMapa[i].length; j++) {
@@ -323,7 +324,11 @@ public class VistaPrincipal extends javax.swing.JFrame {
 //            System.out.println();
 //        }
     }
-
+    /***
+     * Metodo obtenerMatrizInfluencia, se encarga de realizar la subdivision del mapa
+     * para cada una de las estaciones que se encuentran disponibles en el mismo, a 
+     * travez del Algoritmo de Voronoi.
+     */
     private static void obtenerMatrizInfluencia() {
         LinkedList<Vertice> listaEstaciones = new LinkedList<>();
 
@@ -349,6 +354,14 @@ public class VistaPrincipal extends javax.swing.JFrame {
 
     }
 
+    /***
+     * Metodo obtenerEstacionMasCercana se encarga de validar una posicion con respecto
+     * a las filas y columnas para determinar cual es la estacion mas cercana.
+     * @param listaEstaciones lista con todas las estaciones que existen en el mapa
+     * @param punto objeto Point empleado para enviar cordenadas de fila y columna
+     * @return retorna el vertice que cumple con la condicion de estar mas cerca al punto
+     * en caso de haber 2 o mas estaciones a la misma distancia, se toma la primera estacion.
+     */
     private static Vertice obtenerEstacionMasCercana(LinkedList<Vertice> listaEstaciones, Point punto) {
         int indiceLista = -1;
         int distancia = 0;
