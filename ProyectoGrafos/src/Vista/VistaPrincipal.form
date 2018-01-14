@@ -120,6 +120,9 @@
               <Image iconType="3" name="/imagenes/Escudo/icoe.png"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnEscudoActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JToggleButton" name="btnBanco">
           <Properties>
@@ -127,6 +130,9 @@
               <Image iconType="3" name="/imagenes/Banco/icob.png"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnBancoActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JToggleButton" name="btnGuarida">
           <Properties>
@@ -134,6 +140,9 @@
               <Image iconType="3" name="/imagenes/Guarida/icog.png"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnGuaridaActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JToggleButton" name="btnEstacion">
           <Properties>
@@ -141,6 +150,9 @@
               <Image iconType="3" name="/imagenes/Policia/icoec.png"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnEstacionActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

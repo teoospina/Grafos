@@ -44,7 +44,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
     public LinkedList<EscudosRestauradores> listaEscudos;
     public static int cuentaBanco;
     public static int cuentaEstacion;
-
+    private boolean guarida;
     private final Gson gson;
 
     /**
@@ -63,7 +63,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         this.setResizable(false);
         objetosList = new LinkedList<Vertice>();
-        sonidoFondo("src/Sonido/fondo.wav");
+        sonido("src/Sonido/fondo.wav");
     }
 
     /**
@@ -198,12 +198,32 @@ public class VistaPrincipal extends javax.swing.JFrame {
         panelEdicion.setBorder(javax.swing.BorderFactory.createTitledBorder("Panel edicion"));
 
         btnEscudo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Escudo/icoe.png"))); // NOI18N
+        btnEscudo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEscudoActionPerformed(evt);
+            }
+        });
 
         btnBanco.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Banco/icob.png"))); // NOI18N
+        btnBanco.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBancoActionPerformed(evt);
+            }
+        });
 
         btnGuarida.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Guarida/icog.png"))); // NOI18N
+        btnGuarida.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuaridaActionPerformed(evt);
+            }
+        });
 
         btnEstacion.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Policia/icoec.png"))); // NOI18N
+        btnEstacion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEstacionActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelEdicionLayout = new javax.swing.GroupLayout(panelEdicion);
         panelEdicion.setLayout(panelEdicionLayout);
@@ -286,7 +306,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
                 } else {
                     JOptionPane.showMessageDialog(this, "Archivo invalido, solo puede cargar archivos *.json o *.xml");
                 }
-                obtenerMatrizInfluencia();
+                //obtenerMatrizInfluencia();
                 this.panelEdicion.setVisible(true);
             } catch (Exception e) {
                 System.err.println("Error cargarArchivo filechooser " + e);
@@ -297,9 +317,46 @@ public class VistaPrincipal extends javax.swing.JFrame {
     private void panelVistaPrincipal1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelVistaPrincipal1MouseClicked
         int x = evt.getX();
         int y = evt.getY();
-        this.panelVistaPrincipal1.obtenerMouse(x, y);
+        Point punto = this.panelVistaPrincipal1.obtenerMouse(x, y);
+        if (this.btnBanco.isSelected()) {
+            objetosList.add(new Vertice("Banco", punto.y, punto.x));
+        } else if (this.btnEscudo.isSelected()) {
+        } else if (this.btnEstacion.isSelected()) {
+            objetosList.add(new Vertice("EstacionP", punto.y, punto.x));
+            obtenerMatrizInfluencia();
+        } else if (this.btnGuarida.isSelected()) {
+            if (!guarida) {
+                objetosList.add(new Vertice("Guarida", punto.y, punto.x));
+                guarida = !guarida;
+            }
+        }
+
 
     }//GEN-LAST:event_panelVistaPrincipal1MouseClicked
+
+    private void btnEscudoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEscudoActionPerformed
+        this.btnBanco.setSelected(false);
+        this.btnGuarida.setSelected(false);
+        this.btnEstacion.setSelected(false);
+    }//GEN-LAST:event_btnEscudoActionPerformed
+
+    private void btnGuaridaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuaridaActionPerformed
+        this.btnBanco.setSelected(false);
+        this.btnEscudo.setSelected(false);
+        this.btnEstacion.setSelected(false);
+    }//GEN-LAST:event_btnGuaridaActionPerformed
+
+    private void btnEstacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEstacionActionPerformed
+        this.btnBanco.setSelected(false);
+        this.btnEscudo.setSelected(false);
+        this.btnGuarida.setSelected(false);
+    }//GEN-LAST:event_btnEstacionActionPerformed
+
+    private void btnBancoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBancoActionPerformed
+        this.btnGuarida.setSelected(false);
+        this.btnEscudo.setSelected(false);
+        this.btnEstacion.setSelected(false);
+    }//GEN-LAST:event_btnBancoActionPerformed
 
     public void recorreCreaObj() {
         for (int i = 0; i < matrizMapa.length; i++) {
@@ -386,8 +443,9 @@ public class VistaPrincipal extends javax.swing.JFrame {
         for (int i = 0; i < matrizInfluencia.length; i++) {
             for (int j = 0; j < matrizInfluencia[i].length; j++) {
                 Vertice vertice = obtenerEstacionMasCercana(listaEstaciones, new Point(i, j));
-                if(vertice != null)
+                if (vertice != null) {
                     matrizInfluencia[i][j] = ((EstacionDePolicia) vertice.getContenedor()).getIdEstacion();
+                }
             }
         }
 
@@ -455,9 +513,12 @@ public class VistaPrincipal extends javax.swing.JFrame {
                 listaEscudos.size()));
     }
 
-    /***
-     * Metodo agregarEscudoManual, se encarga de crear un escudo den el momento de ser invocado, siempre
-     * y cuando sea una posicion de una calle y no exista ya un escudo en tal posicion.
+    /**
+     * *
+     * Metodo agregarEscudoManual, se encarga de crear un escudo den el momento
+     * de ser invocado, siempre y cuando sea una posicion de una calle y no
+     * exista ya un escudo en tal posicion.
+     *
      * @param fila posicion fila donde colocar el escudo.
      * @param columna posicion fila donde colocar el escudo.
      */
@@ -473,9 +534,12 @@ public class VistaPrincipal extends javax.swing.JFrame {
         }
 
     }
-    /***
-     * Metodo validarCalleFilaColumna se encarga de validar que en una posicion fila, columna
-     * ingresada por parametro, exista una calle.
+
+    /**
+     * *
+     * Metodo validarCalleFilaColumna se encarga de validar que en una posicion
+     * fila, columna ingresada por parametro, exista una calle.
+     *
      * @param fila posicion fila a buscar.
      * @param columna posicion columna a buscar.
      * @return retorna true si es una calle, de lo contrario retorna false.
@@ -508,12 +572,13 @@ public class VistaPrincipal extends javax.swing.JFrame {
         }
         return false;
     }
-    private void sonidoFondo(String ruta){
+
+    private void sonido(String ruta) {
         try {
             rep(ruta);
         } catch (Exception e) {
         }
-}
+    }
 
     /**
      * @param args the command line arguments
