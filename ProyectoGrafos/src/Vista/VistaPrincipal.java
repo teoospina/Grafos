@@ -58,7 +58,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
         cuentaBanco = 0;
         cuentaEstacion = 1;
         gson = new Gson();
-        //cargarDatos();
+        this.panelEdicion.setVisible(false);
         this.setSize(600, 600);
         this.setLocationRelativeTo(null);
         this.setResizable(false);
@@ -167,10 +167,14 @@ public class VistaPrincipal extends javax.swing.JFrame {
     private void initComponents() {
 
         panelVistaPrincipal1 = new Vista.PanelVistaPrincipal();
+        panelEdicion = new javax.swing.JPanel();
+        btnEscudo = new javax.swing.JToggleButton();
+        btnBanco = new javax.swing.JToggleButton();
+        btnGuarida = new javax.swing.JToggleButton();
+        btnEstacion = new javax.swing.JToggleButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         btnCargarMapa = new javax.swing.JMenuItem();
-        jMenu2 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -188,7 +192,40 @@ public class VistaPrincipal extends javax.swing.JFrame {
         );
         panelVistaPrincipal1Layout.setVerticalGroup(
             panelVistaPrincipal1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 600, Short.MAX_VALUE)
+            .addGap(0, 432, Short.MAX_VALUE)
+        );
+
+        panelEdicion.setBorder(javax.swing.BorderFactory.createTitledBorder("Panel edicion"));
+
+        btnEscudo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Escudo/icoe.png"))); // NOI18N
+
+        btnBanco.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Banco/icob.png"))); // NOI18N
+
+        btnGuarida.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Guarida/icog.png"))); // NOI18N
+
+        btnEstacion.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Policia/icoec.png"))); // NOI18N
+
+        javax.swing.GroupLayout panelEdicionLayout = new javax.swing.GroupLayout(panelEdicion);
+        panelEdicion.setLayout(panelEdicionLayout);
+        panelEdicionLayout.setHorizontalGroup(
+            panelEdicionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelEdicionLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(btnEscudo, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(108, 108, 108)
+                .addComponent(btnGuarida, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(113, 113, 113)
+                .addComponent(btnEstacion, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnBanco, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        panelEdicionLayout.setVerticalGroup(
+            panelEdicionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(btnEscudo, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(btnBanco, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(btnGuarida, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(btnEstacion, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         jMenu1.setText("Archivo");
@@ -203,9 +240,6 @@ public class VistaPrincipal extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu1);
 
-        jMenu2.setText("Edit");
-        jMenuBar1.add(jMenu2);
-
         setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -213,12 +247,15 @@ public class VistaPrincipal extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(panelVistaPrincipal1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(panelEdicion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(panelVistaPrincipal1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(panelEdicion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 84, Short.MAX_VALUE))
         );
 
         pack();
@@ -250,6 +287,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(this, "Archivo invalido, solo puede cargar archivos *.json o *.xml");
                 }
                 obtenerMatrizInfluencia();
+                this.panelEdicion.setVisible(true);
             } catch (Exception e) {
                 System.err.println("Error cargarArchivo filechooser " + e);
             }
@@ -348,7 +386,8 @@ public class VistaPrincipal extends javax.swing.JFrame {
         for (int i = 0; i < matrizInfluencia.length; i++) {
             for (int j = 0; j < matrizInfluencia[i].length; j++) {
                 Vertice vertice = obtenerEstacionMasCercana(listaEstaciones, new Point(i, j));
-                matrizInfluencia[i][j] = ((EstacionDePolicia) vertice.getContenedor()).getIdEstacion();
+                if(vertice != null)
+                    matrizInfluencia[i][j] = ((EstacionDePolicia) vertice.getContenedor()).getIdEstacion();
             }
         }
 
@@ -470,7 +509,6 @@ public class VistaPrincipal extends javax.swing.JFrame {
         return false;
     }
     private void sonidoFondo(String ruta){
-    
         try {
             rep(ruta);
         } catch (Exception e) {
@@ -521,10 +559,14 @@ public class VistaPrincipal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JToggleButton btnBanco;
     private javax.swing.JMenuItem btnCargarMapa;
+    private javax.swing.JToggleButton btnEscudo;
+    private javax.swing.JToggleButton btnEstacion;
+    private javax.swing.JToggleButton btnGuarida;
     private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JPanel panelEdicion;
     private Vista.PanelVistaPrincipal panelVistaPrincipal1;
     // End of variables declaration//GEN-END:variables
 }
