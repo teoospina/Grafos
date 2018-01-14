@@ -66,6 +66,12 @@ public class PanelVistaPrincipal extends javax.swing.JPanel {
         }
     }
 
+    public void obtenerMouse(int x, int y) {
+        x = (x - posInicialX) / proporcion;
+        y = (y - posInicialY) / proporcion;
+        System.out.println("fila" + y + "columna" + x);
+    }
+
     /**
      * *
      * Metodo que grafica los objetos vertice

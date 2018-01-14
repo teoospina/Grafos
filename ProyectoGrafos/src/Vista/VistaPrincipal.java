@@ -168,6 +168,12 @@ public class VistaPrincipal extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        panelVistaPrincipal1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                panelVistaPrincipal1MouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout panelVistaPrincipal1Layout = new javax.swing.GroupLayout(panelVistaPrincipal1);
         panelVistaPrincipal1.setLayout(panelVistaPrincipal1Layout);
         panelVistaPrincipal1Layout.setHorizontalGroup(
@@ -243,6 +249,13 @@ public class VistaPrincipal extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_btnCargarMapaActionPerformed
+
+    private void panelVistaPrincipal1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelVistaPrincipal1MouseClicked
+        int x=evt.getX();
+        int y=evt.getY();
+        this.panelVistaPrincipal1.obtenerMouse(x,y);
+
+    }//GEN-LAST:event_panelVistaPrincipal1MouseClicked
     public void recorreCreaObj() {
         for (int i = 0; i < matrizMapa.length; i++) {
             for (int j = 0; j < matrizMapa[i].length; j++) {

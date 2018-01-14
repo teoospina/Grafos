@@ -64,6 +64,9 @@
   </Layout>
   <SubComponents>
     <Container class="Vista.PanelVistaPrincipal" name="panelVistaPrincipal1">
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="panelVistaPrincipal1MouseClicked"/>
+      </Events>
 
       <Layout>
         <DimensionLayout dim="0">
