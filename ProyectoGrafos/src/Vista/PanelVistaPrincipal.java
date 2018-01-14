@@ -50,7 +50,7 @@ public class PanelVistaPrincipal extends javax.swing.JPanel {
     private void pintarMapa(Graphics g) {
         g.setColor(Color.black);
         g.fillRect(0, 0, 600, 600);
-        if (matrizMapa.length > 0) {
+        if (matrizMapa != null && matrizMapa.length > 0) {
             for (int i = 0; i < matrizMapa.length; i++) {
                 for (int j = 0; j < matrizMapa[i].length; j++) {
                     if (matrizMapa[i][j] == 1) {
@@ -79,7 +79,7 @@ public class PanelVistaPrincipal extends javax.swing.JPanel {
      * @param g Componente grafico
      */
     private void pintarObjetos(Graphics g) {
-        if (objetosList.size() > 0) {
+        if (objetosList != null && objetosList.size() > 0) {
             for (int i = 0; i < objetosList.size(); i++) {
                 if (objetosList.get(i).getImagen() != null) {
                     g.drawImage(objetosList.get(i).getImagen(), posInicialX + objetosList.get(i).getColumna() * proporcion, posInicialY + objetosList.get(i).getFila() * proporcion, 50, 50, null);
