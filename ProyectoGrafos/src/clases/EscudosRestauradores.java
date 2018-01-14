@@ -14,6 +14,15 @@ public class EscudosRestauradores {
     private int columna;
     private int idEscudo;
 
+    public EscudosRestauradores() {
+    }
+
+    public EscudosRestauradores(int fila, int columna, int idEscudo) {
+        this.fila = fila;
+        this.columna = columna;
+        this.idEscudo = idEscudo;
+    }
+    
     /**
      * @return the fila
      */

@@ -5,6 +5,7 @@
  */
 package Vista;
 
+import clases.EscudosRestauradores;
 import clases.EstacionDePolicia;
 import clases.Vertice;
 import com.google.gson.Gson;
@@ -20,6 +21,7 @@ import java.io.File;
 import java.io.IOException;
 import static java.lang.Math.abs;
 import java.util.List;
+import java.util.Random;
 import org.jdom2.Document;         // |
 import org.jdom2.Element;          // |\ Librerías
 import org.jdom2.JDOMException;    // |/ JDOM
@@ -38,6 +40,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
     public static int[][] matrizAdyacen;
     public static int[][] matrizInfluencia;
     public static List<Vertice> objetosList;
+    public LinkedList<EscudosRestauradores> listaEscudos;
     public static int cuentaBanco;
     public static int cuentaEstacion;
 
@@ -50,6 +53,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
         initComponents();
         matrizMapa = new int[10][10];
         matrizInfluencia = new int[10][10];
+        listaEscudos = new LinkedList<>();
         cuentaBanco = 0;
         cuentaEstacion = 1;
         gson = new Gson();
@@ -251,12 +255,12 @@ public class VistaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCargarMapaActionPerformed
 
     private void panelVistaPrincipal1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelVistaPrincipal1MouseClicked
-        int x=evt.getX();
-        int y=evt.getY();
-        this.panelVistaPrincipal1.obtenerMouse(x,y);
+        int x = evt.getX();
+        int y = evt.getY();
+        this.panelVistaPrincipal1.obtenerMouse(x, y);
 
     }//GEN-LAST:event_panelVistaPrincipal1MouseClicked
-    
+
     public void recorreCreaObj() {
         for (int i = 0; i < matrizMapa.length; i++) {
             for (int j = 0; j < matrizMapa[i].length; j++) {
@@ -324,10 +328,12 @@ public class VistaPrincipal extends javax.swing.JFrame {
 //            System.out.println();
 //        }
     }
-    /***
-     * Metodo obtenerMatrizInfluencia, se encarga de realizar la subdivision del mapa
-     * para cada una de las estaciones que se encuentran disponibles en el mismo, a 
-     * travez del Algoritmo de Voronoi.
+
+    /**
+     * *
+     * Metodo obtenerMatrizInfluencia, se encarga de realizar la subdivision del
+     * mapa para cada una de las estaciones que se encuentran disponibles en el
+     * mismo, a travez del Algoritmo de Voronoi.
      */
     private static void obtenerMatrizInfluencia() {
         LinkedList<Vertice> listaEstaciones = new LinkedList<>();
@@ -339,28 +345,34 @@ public class VistaPrincipal extends javax.swing.JFrame {
         }
         for (int i = 0; i < matrizInfluencia.length; i++) {
             for (int j = 0; j < matrizInfluencia[i].length; j++) {
-                Vertice vertice = obtenerEstacionMasCercana(listaEstaciones,new Point(i,j));
-                matrizInfluencia[i][j]= ((EstacionDePolicia)vertice.getContenedor()).getIdEstacion();
+                Vertice vertice = obtenerEstacionMasCercana(listaEstaciones, new Point(i, j));
+                matrizInfluencia[i][j] = ((EstacionDePolicia) vertice.getContenedor()).getIdEstacion();
             }
         }
-        
+
         System.err.println("Matriz de influencia:");
         for (int i = 0; i < matrizInfluencia.length; i++) {
             for (int j = 0; j < matrizInfluencia[i].length; j++) {
-                System.out.print(matrizInfluencia[i][j]+"|");
+                System.out.print(matrizInfluencia[i][j] + "|");
             }
             System.out.println("");
         }
 
     }
 
-    /***
-     * Metodo obtenerEstacionMasCercana se encarga de validar una posicion con respecto
-     * a las filas y columnas para determinar cual es la estacion mas cercana.
-     * @param listaEstaciones lista con todas las estaciones que existen en el mapa
-     * @param punto objeto Point empleado para enviar cordenadas de fila y columna
-     * @return retorna el vertice que cumple con la condicion de estar mas cerca al punto
-     * en caso de haber 2 o mas estaciones a la misma distancia, se toma la primera estacion.
+    /**
+     * *
+     * Metodo obtenerEstacionMasCercana se encarga de validar una posicion con
+     * respecto a las filas y columnas para determinar cual es la estacion mas
+     * cercana.
+     *
+     * @param listaEstaciones lista con todas las estaciones que existen en el
+     * mapa
+     * @param punto objeto Point empleado para enviar cordenadas de fila y
+     * columna
+     * @return retorna el vertice que cumple con la condicion de estar mas cerca
+     * al punto en caso de haber 2 o mas estaciones a la misma distancia, se
+     * toma la primera estacion.
      */
     private static Vertice obtenerEstacionMasCercana(LinkedList<Vertice> listaEstaciones, Point punto) {
         int indiceLista = -1;
@@ -379,6 +391,41 @@ public class VistaPrincipal extends javax.swing.JFrame {
             return listaEstaciones.get(indiceLista);
         }
         return null;
+    }
+
+    /***
+     * Metodo agregarEscudoAleatorio se encarga de crear un escudo cada vez que el metodo sea invocado,la 
+     * ubicacion del mismo se obtiene a partir de enlistar todas las posiciones en las calles disponibles,
+     * donde aun no exista un escudo anteriormente.
+     */
+    private void agregarEscudoAleatorio() {
+        LinkedList<Vertice> listaCalles = new LinkedList<>();
+        for (int i = 0; i < objetosList.size(); i++) {
+            if (objetosList.get(i).getTipo().equalsIgnoreCase("Calle")
+                    && !validarExistenciaEscudo(objetosList.get(i).getFila(), objetosList.get(i).getColumna())) {
+                listaCalles.add(objetosList.get(i));
+            }
+        }
+        int random = (int) Math.random()*(listaCalles.size());
+        listaEscudos.add(new EscudosRestauradores(listaCalles.get(random).getFila(),
+                listaCalles.get(random).getColumna(),
+                listaEscudos.size()));
+    }
+
+    /***
+     * Metodo validarExistenciaEscudo, se encarga de verificar que en una posicion de fila y columna no exista ya
+     * un escudo creado.
+     * @param fila indice de fila a buscar.
+     * @param columna indice de columna a buscar.
+     * @return retorna true si la posicion ya existe, de lo contrario retorna false.
+     */
+    private boolean validarExistenciaEscudo(int fila, int columna) {
+        for (EscudosRestauradores escudo : this.listaEscudos) {
+            if (escudo.getFila() == fila && escudo.getColumna() == columna) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
