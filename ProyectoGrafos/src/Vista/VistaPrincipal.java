@@ -7,6 +7,7 @@ package Vista;
 
 import clases.EscudosRestauradores;
 import clases.EstacionDePolicia;
+import static clases.Sounds.rep;
 import clases.Vertice;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -62,6 +63,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         this.setResizable(false);
         objetosList = new LinkedList<Vertice>();
+        sonidoFondo("src/Sonido/fondo.wav");
     }
 
     /**
@@ -467,6 +469,13 @@ public class VistaPrincipal extends javax.swing.JFrame {
         }
         return false;
     }
+    private void sonidoFondo(String ruta){
+    
+        try {
+            rep(ruta);
+        } catch (Exception e) {
+        }
+}
 
     /**
      * @param args the command line arguments
