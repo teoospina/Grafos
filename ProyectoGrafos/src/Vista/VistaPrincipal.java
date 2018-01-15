@@ -22,7 +22,6 @@ import java.io.File;
 import java.io.IOException;
 import static java.lang.Math.abs;
 import java.util.List;
-import java.util.Random;
 import org.jdom2.Document;         // |
 import org.jdom2.Element;          // |\ Librerías
 import org.jdom2.JDOMException;    // |/ JDOM
@@ -323,6 +322,9 @@ public class VistaPrincipal extends javax.swing.JFrame {
         } else if (this.btnEscudo.isSelected()) {
         } else if (this.btnEstacion.isSelected()) {
             objetosList.add(new Vertice("EstacionP", punto.y, punto.x));
+            EstacionDePolicia estacion =(EstacionDePolicia) objetosList.get(objetosList.size()-1).getContenedor();
+            int numeroPatrullas = Integer.parseInt(JOptionPane.showInputDialog("Numero de patrullas"));
+            estacion.crearPatrulla(numeroPatrullas);
             obtenerMatrizInfluencia();
         } else if (this.btnGuarida.isSelected()) {
             if (!guarida) {

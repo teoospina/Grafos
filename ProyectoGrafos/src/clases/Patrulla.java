@@ -5,17 +5,34 @@
  */
 package clases;
 
+import java.awt.Image;
+
 /**
  *
  * @author Mateo
  */
-public class Patrulla {
+public class Patrulla implements Runnable{
 
     private int idPatrulla;
     private int fila;
     private int columna;
     private int radioDisparo;
     private int radioAvistamiento;
+    private int indiceFila;
+    private Image [][] imagen;
+
+    public Patrulla() {
+        this.imagen = new Image[4][3];
+    }
+
+    public Patrulla(int idPatrulla, int fila, int columna, int radioDisparo, int radioAvistamiento, Image[][] imagen) {
+        this.idPatrulla = idPatrulla;
+        this.fila = fila;
+        this.columna = columna;
+        this.radioDisparo = radioDisparo;
+        this.radioAvistamiento = radioAvistamiento;
+        this.imagen = imagen;
+    }
 
     /**
      * @return the idPatrulla
@@ -85,6 +102,11 @@ public class Patrulla {
      */
     public void setRadioAvistamiento(int radioAvistamiento) {
         this.radioAvistamiento = radioAvistamiento;
+    }
+
+    @Override
+    public void run() {
+       
     }
 
 }

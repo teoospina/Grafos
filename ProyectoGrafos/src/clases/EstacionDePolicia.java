@@ -7,6 +7,7 @@ package clases;
 
 import java.util.LinkedList;
 import static Vista.VistaPrincipal.cuentaEstacion;
+import static Vista.VistaPrincipal.matrizInfluencia;
 
 /**
  *
@@ -14,11 +15,19 @@ import static Vista.VistaPrincipal.cuentaEstacion;
  */
 public class EstacionDePolicia {
 
-    /**
-     * @param radioAccionMatriz the radioAccionMatriz to set
-     */
-    public void setRadioAccionMatriz(int[][] radioAccionMatriz) {
-        this.radioAccionMatriz = radioAccionMatriz;
+    private LinkedList<Patrulla> patrullas;
+    private int idEstacion;
+
+    public EstacionDePolicia() {
+        patrullas = new LinkedList<>();
+        idEstacion = cuentaEstacion;
+        cuentaEstacion += 1;
+    }
+
+    public EstacionDePolicia(LinkedList<Patrulla> patrullas, int idEstacion) {
+        this.patrullas = patrullas;
+        idEstacion = cuentaEstacion;
+        cuentaEstacion += 1;
     }
 
     /**
@@ -49,43 +58,9 @@ public class EstacionDePolicia {
         this.idEstacion = idEstacion;
     }
 
-    private int[][] radioAccionMatriz;
-    private LinkedList<Patrulla> patrullas;
-    private int idEstacion;
-
-    public EstacionDePolicia(int[][] radioAccionMatriz, LinkedList<Patrulla> patrullas) {
-        this.radioAccionMatriz = radioAccionMatriz;
-        crearPatrulla();
-    }
-
-    public EstacionDePolicia() {
-        //this.radioAccionMatriz = radioAccionMatriz;
-        //crearPatrulla();
-        this.idEstacion = cuentaEstacion;
-        cuentaEstacion += 1;
-    }
-
-    
-    
-
-    private void crearPatrulla() {
-        int Random = (int) (Math.random() * 3) + 1;
-        for (int i = 0; i < Random; i++) {
+    public void crearPatrulla(int numero) {
+        for (int i = 0; i < numero; i++) {
             this.getPatrullas().add(new Patrulla());
         }
     }
-
-    /**
-     * @return the radioAccionMatriz
-     */
-    public int[][] getRadioAccionMatriz() {
-        return radioAccionMatriz;
-    }
-
-    /**
-     * @param radioAccionMatriz the radioAccionMatriz to set
-     */
-    /*  public void setRadioAccionMatriz(int[][] radioAccionMatriz) {
-    this.setRadioAccionMatriz(radioAccionMatriz);
-    }*/
 }
