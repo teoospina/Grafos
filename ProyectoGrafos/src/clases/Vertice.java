@@ -9,6 +9,7 @@ import java.awt.Image;
 import java.util.LinkedList;
 import java.util.List;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -34,7 +35,8 @@ public class Vertice {
         switch (tipo) {
             case "Banco":
                 this.imagen=new ImageIcon(getClass().getResource("../imagenes/Banco/bank.png")).getImage();
-                this.contenedor=new Banco();
+                int dinero= Integer.parseInt(JOptionPane.showInputDialog(null, "Ingrese Monto inicial del banco"));
+                this.contenedor=new Banco(dinero);
                 break;
             case "EstacionP":
                 this.imagen=new ImageIcon(getClass().getResource("../imagenes/Policia/4.png")).getImage();

@@ -15,7 +15,7 @@ public class Banco {
     private float dinero;
     private int idBanco;
 
-    public Banco( ) {
+    public Banco(int dinero ) {
         this.dinero = dinero;
         this.idBanco = cuentaBanco;
         cuentaBanco+=1;
