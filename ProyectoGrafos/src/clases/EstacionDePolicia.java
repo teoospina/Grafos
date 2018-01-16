@@ -59,7 +59,7 @@ public class EstacionDePolicia {
 
     public void crearPatrulla(int numero, int fila, int columna) {
         for (int i = 0; i < numero; i++) {
-            this.getPatrullas().add(new Patrulla(this.idEstacion+":"+i,idEstacion));
+            this.getPatrullas().add(new Patrulla(this.idEstacion+":"+i,idEstacion,fila,columna));
         }
     }
 }

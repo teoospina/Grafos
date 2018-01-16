@@ -8,6 +8,8 @@ package clases;
 import java.awt.Image;
 import java.awt.Rectangle;
 import static Vista.VistaPrincipal.matrizInfluencia;
+import static Vista.VistaPrincipal.matrizMapa;
+
 
 /**
  *
@@ -23,26 +25,19 @@ public class Patrulla implements Runnable {
     private Rectangle areaoAvistamientoAtras;
     private int indiceInfluencia;
     private Image[][] imagen;
-    /**
-     * Modos de accion:
-     * 1. Vigilante.
-     * se mueve en 1 sola direccion si encuentra 2 posibles sentidos.
-     * se gira y cambia de sentido, si solo encuentra 1 posicion
-     * si encuentra varios posibles caminos, escoge al asar para donde seguir
-     * 2. Persecucion.
-     * obtiene la ubicacion del labron.
-     * determina la ruta mas corta para llegar al destino.
-     * avanza.
-     * 3. Bloqueo.
-     * obtiene la ultima posicion en la que fue visto..
-     * determina cual es el banco mas cercano
-     */
-    
 
+    /**
+     * Modos de accion: 1. Vigilante. se mueve en 1 sola direccion si encuentra
+     * 2 posibles sentidos. se gira y cambia de sentido, si solo encuentra 1
+     * posicion si encuentra varios posibles caminos, escoge al asar para donde
+     * seguir 2. Persecucion. obtiene la ubicacion del labron. determina la ruta
+     * mas corta para llegar al destino. avanza. 3. Bloqueo. obtiene la ultima
+     * posicion en la que fue visto.. determina cual es el banco mas cercano
+     */
     public Patrulla() {
     }
-    
-    public Patrulla(String id,int indiceInfluencia){
+
+    public Patrulla(String id, int indiceInfluencia, int fila, int columna) {
         this.idPatrulla = id;
         this.indiceInfluencia = indiceInfluencia;
     }
