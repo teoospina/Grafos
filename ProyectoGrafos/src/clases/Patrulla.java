@@ -18,11 +18,11 @@ public class Patrulla implements Runnable{
     private int columna;
     private int radioDisparo;
     private int radioAvistamiento;
-    private int indiceFila;
+    private int indiceInfluencia;
     private Image [][] imagen;
 
     public Patrulla() {
-        this.imagen = new Image[4][3];
+
     }
 
     public Patrulla(int idPatrulla, int fila, int columna, int radioDisparo, int radioAvistamiento, Image[][] imagen) {
