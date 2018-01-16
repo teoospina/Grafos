@@ -15,7 +15,7 @@ import static Vista.VistaPrincipal.matrizInfluencia;
  */
 public class Patrulla implements Runnable {
 
-    private int idPatrulla;
+    private String idPatrulla;
     private int fila;
     private int columna;
     private Rectangle areaDisparo;
@@ -23,11 +23,31 @@ public class Patrulla implements Runnable {
     private Rectangle areaoAvistamientoAtras;
     private int indiceInfluencia;
     private Image[][] imagen;
+    /**
+     * Modos de accion:
+     * 1. Vigilante.
+     * se mueve en 1 sola direccion si encuentra 2 posibles sentidos.
+     * se gira y cambia de sentido, si solo encuentra 1 posicion
+     * si encuentra varios posibles caminos, escoge al asar para donde seguir
+     * 2. Persecucion.
+     * obtiene la ubicacion del labron.
+     * determina la ruta mas corta para llegar al destino.
+     * avanza.
+     * 3. Bloqueo.
+     * obtiene la ultima posicion en la que fue visto..
+     * determina cual es el banco mas cercano
+     */
+    
 
     public Patrulla() {
     }
+    
+    public Patrulla(String id,int indiceInfluencia){
+        this.idPatrulla = id;
+        this.indiceInfluencia = indiceInfluencia;
+    }
 
-    public Patrulla(int idPatrulla, int fila, int columna, Rectangle areaDisparo, Rectangle areaoAvistamientoAdelante, Rectangle areaoAvistamientoAtras, int indiceInfluencia, Image[][] imagen) {
+    public Patrulla(String idPatrulla, int fila, int columna, Rectangle areaDisparo, Rectangle areaoAvistamientoAdelante, Rectangle areaoAvistamientoAtras, int indiceInfluencia, Image[][] imagen) {
         this.idPatrulla = idPatrulla;
         this.fila = fila;
         this.columna = columna;
@@ -41,14 +61,14 @@ public class Patrulla implements Runnable {
     /**
      * @return the idPatrulla
      */
-    public int getIdPatrulla() {
+    public String getIdPatrulla() {
         return idPatrulla;
     }
 
     /**
      * @param idPatrulla the idPatrulla to set
      */
-    public void setIdPatrulla(int idPatrulla) {
+    public void setIdPatrulla(String idPatrulla) {
         this.idPatrulla = idPatrulla;
     }
 
