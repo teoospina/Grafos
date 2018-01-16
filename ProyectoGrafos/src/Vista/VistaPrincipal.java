@@ -359,7 +359,15 @@ public class VistaPrincipal extends javax.swing.JFrame {
         this.btnEscudo.setSelected(false);
         this.btnEstacion.setSelected(false);
     }//GEN-LAST:event_btnBancoActionPerformed
-
+/***
+ * Metodo para evitar el uso de botones de seleccion desopues de uniciada la simulacion.
+ */
+     private void desactivarBotones() {
+        this.btnGuarida.setVisible(false);
+        this.btnEscudo.setVisible(false);
+        this.btnEstacion.setVisible(false);
+        this.btnBanco.setVisible(false);
+    }
     public void recorreCreaObj() {
         for (int i = 0; i < matrizMapa.length; i++) {
             for (int j = 0; j < matrizMapa[i].length; j++) {
