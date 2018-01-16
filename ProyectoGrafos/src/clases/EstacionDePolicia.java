@@ -7,7 +7,6 @@ package clases;
 
 import java.util.LinkedList;
 import static Vista.VistaPrincipal.cuentaEstacion;
-import static Vista.VistaPrincipal.matrizInfluencia;
 
 /**
  *

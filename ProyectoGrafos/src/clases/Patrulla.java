@@ -6,31 +6,35 @@
 package clases;
 
 import java.awt.Image;
+import java.awt.Rectangle;
+import static Vista.VistaPrincipal.matrizInfluencia;
 
 /**
  *
  * @author Mateo
  */
-public class Patrulla implements Runnable{
+public class Patrulla implements Runnable {
 
     private int idPatrulla;
     private int fila;
     private int columna;
-    private int radioDisparo;
-    private int radioAvistamiento;
+    private Rectangle areaDisparo;
+    private Rectangle areaoAvistamientoAdelante;
+    private Rectangle areaoAvistamientoAtras;
     private int indiceInfluencia;
-    private Image [][] imagen;
+    private Image[][] imagen;
 
     public Patrulla() {
-
     }
 
-    public Patrulla(int idPatrulla, int fila, int columna, int radioDisparo, int radioAvistamiento, Image[][] imagen) {
+    public Patrulla(int idPatrulla, int fila, int columna, Rectangle areaDisparo, Rectangle areaoAvistamientoAdelante, Rectangle areaoAvistamientoAtras, int indiceInfluencia, Image[][] imagen) {
         this.idPatrulla = idPatrulla;
         this.fila = fila;
         this.columna = columna;
-        this.radioDisparo = radioDisparo;
-        this.radioAvistamiento = radioAvistamiento;
+        this.areaDisparo = areaDisparo;
+        this.areaoAvistamientoAdelante = areaoAvistamientoAdelante;
+        this.areaoAvistamientoAtras = areaoAvistamientoAtras;
+        this.indiceInfluencia = indiceInfluencia;
         this.imagen = imagen;
     }
 
@@ -76,37 +80,9 @@ public class Patrulla implements Runnable{
         this.columna = columna;
     }
 
-    /**
-     * @return the radioDisparo
-     */
-    public int getRadioDisparo() {
-        return radioDisparo;
-    }
-
-    /**
-     * @param radioDisparo the radioDisparo to set
-     */
-    public void setRadioDisparo(int radioDisparo) {
-        this.radioDisparo = radioDisparo;
-    }
-
-    /**
-     * @return the radioAvistamiento
-     */
-    public int getRadioAvistamiento() {
-        return radioAvistamiento;
-    }
-
-    /**
-     * @param radioAvistamiento the radioAvistamiento to set
-     */
-    public void setRadioAvistamiento(int radioAvistamiento) {
-        this.radioAvistamiento = radioAvistamiento;
-    }
-
     @Override
     public void run() {
-       
+
     }
 
 }
