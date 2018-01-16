@@ -324,7 +324,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
             objetosList.add(new Vertice("EstacionP", punto.y, punto.x));
             EstacionDePolicia estacion =(EstacionDePolicia) objetosList.get(objetosList.size()-1).getContenedor();
             int numeroPatrullas = Integer.parseInt(JOptionPane.showInputDialog("Numero de patrullas"));
-            estacion.crearPatrulla(numeroPatrullas);
+            estacion.crearPatrulla(numeroPatrullas,punto.y,punto.x);
             obtenerMatrizInfluencia();
         } else if (this.btnGuarida.isSelected()) {
             if (!guarida) {

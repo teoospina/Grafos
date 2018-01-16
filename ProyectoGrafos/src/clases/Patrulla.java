@@ -6,45 +6,69 @@
 package clases;
 
 import java.awt.Image;
+import java.awt.Rectangle;
+import static Vista.VistaPrincipal.matrizInfluencia;
 
 /**
  *
  * @author Mateo
  */
-public class Patrulla implements Runnable{
+public class Patrulla implements Runnable {
 
-    private int idPatrulla;
+    private String idPatrulla;
     private int fila;
     private int columna;
-    private int radioDisparo;
-    private int radioAvistamiento;
+    private Rectangle areaDisparo;
+    private Rectangle areaoAvistamientoAdelante;
+    private Rectangle areaoAvistamientoAtras;
     private int indiceInfluencia;
-    private Image [][] imagen;
+    private Image[][] imagen;
+    /**
+     * Modos de accion:
+     * 1. Vigilante.
+     * se mueve en 1 sola direccion si encuentra 2 posibles sentidos.
+     * se gira y cambia de sentido, si solo encuentra 1 posicion
+     * si encuentra varios posibles caminos, escoge al asar para donde seguir
+     * 2. Persecucion.
+     * obtiene la ubicacion del labron.
+     * determina la ruta mas corta para llegar al destino.
+     * avanza.
+     * 3. Bloqueo.
+     * obtiene la ultima posicion en la que fue visto..
+     * determina cual es el banco mas cercano
+     */
+    
 
     public Patrulla() {
-
+    }
+    
+    public Patrulla(String id,int indiceInfluencia){
+        this.idPatrulla = id;
+        this.indiceInfluencia = indiceInfluencia;
     }
 
-    public Patrulla(int idPatrulla, int fila, int columna, int radioDisparo, int radioAvistamiento, Image[][] imagen) {
+    public Patrulla(String idPatrulla, int fila, int columna, Rectangle areaDisparo, Rectangle areaoAvistamientoAdelante, Rectangle areaoAvistamientoAtras, int indiceInfluencia, Image[][] imagen) {
         this.idPatrulla = idPatrulla;
         this.fila = fila;
         this.columna = columna;
-        this.radioDisparo = radioDisparo;
-        this.radioAvistamiento = radioAvistamiento;
+        this.areaDisparo = areaDisparo;
+        this.areaoAvistamientoAdelante = areaoAvistamientoAdelante;
+        this.areaoAvistamientoAtras = areaoAvistamientoAtras;
+        this.indiceInfluencia = indiceInfluencia;
         this.imagen = imagen;
     }
 
     /**
      * @return the idPatrulla
      */
-    public int getIdPatrulla() {
+    public String getIdPatrulla() {
         return idPatrulla;
     }
 
     /**
      * @param idPatrulla the idPatrulla to set
      */
-    public void setIdPatrulla(int idPatrulla) {
+    public void setIdPatrulla(String idPatrulla) {
         this.idPatrulla = idPatrulla;
     }
 
@@ -76,37 +100,9 @@ public class Patrulla implements Runnable{
         this.columna = columna;
     }
 
-    /**
-     * @return the radioDisparo
-     */
-    public int getRadioDisparo() {
-        return radioDisparo;
-    }
-
-    /**
-     * @param radioDisparo the radioDisparo to set
-     */
-    public void setRadioDisparo(int radioDisparo) {
-        this.radioDisparo = radioDisparo;
-    }
-
-    /**
-     * @return the radioAvistamiento
-     */
-    public int getRadioAvistamiento() {
-        return radioAvistamiento;
-    }
-
-    /**
-     * @param radioAvistamiento the radioAvistamiento to set
-     */
-    public void setRadioAvistamiento(int radioAvistamiento) {
-        this.radioAvistamiento = radioAvistamiento;
-    }
-
     @Override
     public void run() {
-       
+
     }
 
 }
