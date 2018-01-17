@@ -49,15 +49,13 @@ public class Patrulla implements Runnable {
         this.columna = columna;
         this.hiloPatrulla = new Thread(this);
         this.imagen = new Image[][]{
-            {new ImageIcon(getClass().getResource("")).getImage(), new ImageIcon(getClass().getResource("")).getImage(), new ImageIcon(getClass().getResource("")).getImage()},
-            {new ImageIcon(getClass().getResource("")).getImage(), new ImageIcon(getClass().getResource("")).getImage(), new ImageIcon(getClass().getResource("")).getImage()},
-            {new ImageIcon(getClass().getResource("")).getImage(), new ImageIcon(getClass().getResource("")).getImage(), new ImageIcon(getClass().getResource("")).getImage()},
-            {new ImageIcon(getClass().getResource("")).getImage(), new ImageIcon(getClass().getResource("")).getImage(), new ImageIcon(getClass().getResource("")).getImage()}
-                
+            {new ImageIcon(getClass().getResource("src/imagenes/Policia/11.png")).getImage(), new ImageIcon(getClass().getResource("src/imagenes/Policia/12.png")).getImage(), new ImageIcon(getClass().getResource("src/imagenes/Policia/13.png")).getImage()},
+            {new ImageIcon(getClass().getResource("src/imagenes/Policia/21.png")).getImage(), new ImageIcon(getClass().getResource("src/imagenes/Policia/22.png")).getImage(), new ImageIcon(getClass().getResource("src/imagenes/Policia/23.png")).getImage()},
+            {new ImageIcon(getClass().getResource("src/imagenes/Policia/31.png")).getImage(), new ImageIcon(getClass().getResource("src/imagenes/Policia/32.png")).getImage(), new ImageIcon(getClass().getResource("src/imagenes/Policia/33.png")).getImage()},
+            {new ImageIcon(getClass().getResource("src/imagenes/Policia/41.png")).getImage(), new ImageIcon(getClass().getResource("src/imagenes/Policia/42.png")).getImage(), new ImageIcon(getClass().getResource("src/imagenes/Policia/43.png")).getImage()}
         };
-        System.out.println("ss");
     }
-
+//"src/imagenes/Policia/13.png"
     public Patrulla(String idPatrulla, int fila, int columna, Rectangle areaDisparo, Rectangle areaoAvistamientoAdelante, Rectangle areaoAvistamientoAtras, int indiceInfluencia, Image[][] imagen) {
         this.idPatrulla = idPatrulla;
         this.fila = fila;
