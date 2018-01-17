@@ -8,6 +8,7 @@ package clases;
 import java.awt.Image;
 import java.awt.Rectangle;
 import static Vista.VistaPrincipal.matrizMapa;
+import static Vista.VistaPrincipal.matrizInfluencia;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
@@ -107,50 +108,42 @@ public class Patrulla implements Runnable {
  */
     @Override
     public void run() {
-        int[] posAnterior = new int[2];
+       // int[] posAnterior = new int[2];
         while (true) {
             List<Integer[]> dirList = new LinkedList<>();
 
             if (this.fila >= 0 && this.fila < matrizMapa.length && this.columna - 1 >= 0 && this.columna - 1 < matrizMapa.length && matrizMapa[this.fila][this.columna - 1] == 1) {
-                if (this.fila != posAnterior[0] && this.columna - 1 != posAnterior[1]) {
+                if(indiceInfluencia==matrizInfluencia[this.fila][this.columna-1])
                     dirList.add(new Integer[]{this.fila, this.columna - 1});//Izq
-                }
+                
 
             }
             if (this.fila - 1 >= 0 && this.fila - 1 < matrizMapa.length && this.columna >= 0 && this.columna < matrizMapa.length && matrizMapa[this.fila - 1][this.columna] == 1) {
-                if (this.fila - 1 != posAnterior[0] && this.columna != posAnterior[1]) {
+                if(indiceInfluencia==matrizInfluencia[this.fila-1][this.columna])
                     dirList.add(new Integer[]{this.fila - 1, this.columna});//Arriba
-                }
+                
             }
             if (this.fila >= 0 && this.fila < matrizMapa.length && this.columna + 1 >= 0 && this.columna + 1 < matrizMapa.length && matrizMapa[this.fila][this.columna + 1] == 1) {
-                if (this.fila != posAnterior[0] && this.columna + 1 != posAnterior[1]) {
+                if(indiceInfluencia==matrizInfluencia[this.fila][this.columna+1])
                     dirList.add(new Integer[]{this.fila, this.columna + 1});//"Derecha"
-                }
+                
             }
             if (this.fila + 1 >= 0 && this.fila + 1 < matrizMapa.length && this.columna >= 0 && this.columna < matrizMapa.length && matrizMapa[this.fila + 1][this.columna] == 1) {
-                if (this.fila + 1 != posAnterior[0] && this.columna != posAnterior[1]) {
+                if(indiceInfluencia==matrizInfluencia[this.fila+1][this.columna])
                     dirList.add(new Integer[]{this.fila + 1, this.columna});//"Abajo"
-                }
+                
             }
-            if (!dirList.isEmpty()) {
                 int dirRandom = (int) (Math.random() * dirList.size());
-                posAnterior[0] = this.fila;
-                posAnterior[1] = this.columna;
+                if (!dirList.isEmpty()) {
                 this.fila = dirList.get(dirRandom)[0];
                 this.columna = dirList.get(dirRandom)[1];
             }
-//            }else{
-//                int datoTem;
-//                datoTem=this.fila;
-//                fila=posAnterior[0];
-//                posAnterior[0]=datoTem;
-//                datoTem=this.columna;
-//                this.columna=posAnterior[1];
-//                posAnterior[1]=datoTem;
-//            }
+                
+           
+
 
             try {
-                Thread.sleep(1500);
+                Thread.sleep(100);
             } catch (InterruptedException ex) {
                 Logger.getLogger(Patrulla.class.getName()).log(Level.SEVERE, null, ex);
             }
