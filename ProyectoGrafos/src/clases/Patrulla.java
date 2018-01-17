@@ -101,7 +101,10 @@ public class Patrulla implements Runnable {
     public void setColumna(int columna) {
         this.columna = columna;
     }
-
+/***
+ * Run donde se programa el conportamiendo del hilo que hace mover los coches de
+ * policia teniendo en cuenta la influencia de cada estacion sobre ellos.
+ */
     @Override
     public void run() {
         int[] posAnterior = new int[2];
