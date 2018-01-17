@@ -19,9 +19,9 @@ import java.awt.Point;
  */
 public class PanelVistaPrincipal extends javax.swing.JPanel {
 
-    private final int posInicialX;
-    private final int posInicialY;
-    private final int proporcion;
+    public static  int posInicialX;
+    public static  int posInicialY;
+    public static  int proporcion;
 
     /**
      * Creates new form PanelVistaPrincipal
@@ -29,9 +29,9 @@ public class PanelVistaPrincipal extends javax.swing.JPanel {
     public PanelVistaPrincipal() {
         initComponents();
         this.setSize(600, 600);
-        this.posInicialX = 100;
-        this.posInicialY = 10;
-        this.proporcion = 40;
+        posInicialX = 100;
+        posInicialY = 10;
+        proporcion = 40;
     }
 
     @Override
@@ -94,8 +94,9 @@ public class PanelVistaPrincipal extends javax.swing.JPanel {
     private void pintarPatrulla( Vertice vertice, Graphics g){
         EstacionDePolicia estacionP= (EstacionDePolicia)vertice.getContenedor();
         for (int i = 0; i < estacionP.getPatrullas().size(); i++) {
-            g.setColor(Color.blue);
-            g.fillRect((estacionP.getPatrullas().get(i).getColumna()*proporcion)+posInicialX, (estacionP.getPatrullas().get(i).getFila()*proporcion)+posInicialY, 20, 20);
+            //g.setColor(Color.blue);
+            //g.fillRect((estacionP.getPatrullas().get(i).getColumna()*proporcion)+posInicialX, (estacionP.getPatrullas().get(i).getFila()*proporcion)+posInicialY, 20, 20);
+            g.drawImage(estacionP.getPatrullas().get(i).getImagenes(),estacionP.getPatrullas().get(i).getxObjeto(), estacionP.getPatrullas().get(i).getyObjeto(), 40, 40, this);
         }
     }
 

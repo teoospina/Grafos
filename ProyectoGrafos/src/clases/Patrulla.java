@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
+import static Vista.PanelVistaPrincipal.*;
 
 /**
  *
@@ -29,7 +30,13 @@ public class Patrulla implements Runnable {
     private Rectangle areaoAvistamientoAtras;
     private int indiceInfluencia;
     private Image[][] imagen;
-    Thread hiloPatrulla;
+    private Thread hiloPatrulla;
+    private int sentidoImagen;
+    private int movSirena;
+    private int xObjeto;
+    private int xDestino;
+    private int yObjeto;
+    private int yDestino;
 
     /**
      * Modos de accion: 1. Vigilante. se mueve en 1 sola direccion si encuentra
@@ -49,13 +56,21 @@ public class Patrulla implements Runnable {
         this.columna = columna;
         this.hiloPatrulla = new Thread(this);
         this.imagen = new Image[][]{
-            {new ImageIcon(getClass().getResource("src/imagenes/Policia/11.png")).getImage(), new ImageIcon(getClass().getResource("src/imagenes/Policia/12.png")).getImage(), new ImageIcon(getClass().getResource("src/imagenes/Policia/13.png")).getImage()},
-            {new ImageIcon(getClass().getResource("src/imagenes/Policia/21.png")).getImage(), new ImageIcon(getClass().getResource("src/imagenes/Policia/22.png")).getImage(), new ImageIcon(getClass().getResource("src/imagenes/Policia/23.png")).getImage()},
-            {new ImageIcon(getClass().getResource("src/imagenes/Policia/31.png")).getImage(), new ImageIcon(getClass().getResource("src/imagenes/Policia/32.png")).getImage(), new ImageIcon(getClass().getResource("src/imagenes/Policia/33.png")).getImage()},
-            {new ImageIcon(getClass().getResource("src/imagenes/Policia/41.png")).getImage(), new ImageIcon(getClass().getResource("src/imagenes/Policia/42.png")).getImage(), new ImageIcon(getClass().getResource("src/imagenes/Policia/43.png")).getImage()}
+            {new ImageIcon(getClass().getResource("../imagenes/Policia/11.png")).getImage(), new ImageIcon(getClass().getResource("../imagenes/Policia/12.png")).getImage(), new ImageIcon(getClass().getResource("../imagenes/Policia/13.png")).getImage()},
+            {new ImageIcon(getClass().getResource("../imagenes/Policia/21.png")).getImage(), new ImageIcon(getClass().getResource("../imagenes/Policia/22.png")).getImage(), new ImageIcon(getClass().getResource("../imagenes/Policia/23.png")).getImage()},
+            {new ImageIcon(getClass().getResource("../imagenes/Policia/31.png")).getImage(), new ImageIcon(getClass().getResource("../imagenes/Policia/32.png")).getImage(), new ImageIcon(getClass().getResource("../imagenes/Policia/33.png")).getImage()},
+            {new ImageIcon(getClass().getResource("../imagenes/Policia/41.png")).getImage(), new ImageIcon(getClass().getResource("../imagenes/Policia/42.png")).getImage(), new ImageIcon(getClass().getResource("../imagenes/Policia/43.png")).getImage()}
         };
+        this.movSirena=0;
+        this.sentidoImagen=0;
+        this.hiloPatrulla.start();
+        this.xObjeto=posInicialX+(proporcion*this.columna);
+        this.xDestino=this.xObjeto;
+        this.yObjeto=posInicialY+(proporcion*this.fila);
+        this.yDestino=this.yObjeto;
+        
     }
-//"src/imagenes/Policia/13.png"
+//"../imagenes/Policia/13.png"
     public Patrulla(String idPatrulla, int fila, int columna, Rectangle areaDisparo, Rectangle areaoAvistamientoAdelante, Rectangle areaoAvistamientoAtras, int indiceInfluencia, Image[][] imagen) {
         this.idPatrulla = idPatrulla;
         this.fila = fila;
@@ -66,7 +81,9 @@ public class Patrulla implements Runnable {
         this.indiceInfluencia = indiceInfluencia;
         this.imagen = imagen;
     }
-
+public Image getImagenes(){
+    return this.imagen[sentidoImagen][movSirena];
+}
     /**
      * @return the idPatrulla
      */
@@ -119,41 +136,233 @@ public class Patrulla implements Runnable {
     public void run() {
         // int[] posAnterior = new int[2];
         while (true) {
+            if(this.getxObjeto()==this.getxDestino()&&this.getyObjeto()==this.getyDestino()){
             List<Integer[]> dirList = new LinkedList<>();
 
-            if (this.fila >= 0 && this.fila < matrizMapa.length && this.columna - 1 >= 0 && this.columna - 1 < matrizMapa.length && matrizMapa[this.fila][this.columna - 1] == 1) {
-                if (indiceInfluencia == matrizInfluencia[this.fila][this.columna - 1]) {
-                    dirList.add(new Integer[]{this.fila, this.columna - 1});//Izq
+            if (this.getFila() >= 0 && this.getFila() < matrizMapa.length && this.getColumna() - 1 >= 0 && this.getColumna() - 1 < matrizMapa.length && matrizMapa[this.getFila()][this.getColumna() - 1] == 1) {
+                if (getIndiceInfluencia() == matrizInfluencia[this.getFila()][this.getColumna() - 1]) {
+                    dirList.add(new Integer[]{this.getFila(), this.getColumna() - 1,3});//Izq
                 }
 
             }
-            if (this.fila - 1 >= 0 && this.fila - 1 < matrizMapa.length && this.columna >= 0 && this.columna < matrizMapa.length && matrizMapa[this.fila - 1][this.columna] == 1) {
-                if (indiceInfluencia == matrizInfluencia[this.fila - 1][this.columna]) {
-                    dirList.add(new Integer[]{this.fila - 1, this.columna});//Arriba
+            if (this.getFila() - 1 >= 0 && this.getFila() - 1 < matrizMapa.length && this.getColumna() >= 0 && this.getColumna() < matrizMapa.length && matrizMapa[this.getFila() - 1][this.getColumna()] == 1) {
+                if (getIndiceInfluencia() == matrizInfluencia[this.getFila() - 1][this.getColumna()]) {
+                    dirList.add(new Integer[]{this.getFila() - 1, this.getColumna(),0});//Arriba
                 }
             }
-            if (this.fila >= 0 && this.fila < matrizMapa.length && this.columna + 1 >= 0 && this.columna + 1 < matrizMapa.length && matrizMapa[this.fila][this.columna + 1] == 1) {
-                if (indiceInfluencia == matrizInfluencia[this.fila][this.columna + 1]) {
-                    dirList.add(new Integer[]{this.fila, this.columna + 1});//"Derecha"
+            if (this.getFila() >= 0 && this.getFila() < matrizMapa.length && this.getColumna() + 1 >= 0 && this.getColumna() + 1 < matrizMapa.length && matrizMapa[this.getFila()][this.getColumna() + 1] == 1) {
+                if (getIndiceInfluencia() == matrizInfluencia[this.getFila()][this.getColumna() + 1]) {
+                    dirList.add(new Integer[]{this.getFila(), this.getColumna() + 1,1});//"Derecha"
                 }
             }
-            if (this.fila + 1 >= 0 && this.fila + 1 < matrizMapa.length && this.columna >= 0 && this.columna < matrizMapa.length && matrizMapa[this.fila + 1][this.columna] == 1) {
-                if (indiceInfluencia == matrizInfluencia[this.fila + 1][this.columna]) {
-                    dirList.add(new Integer[]{this.fila + 1, this.columna});//"Abajo"
+            if (this.getFila() + 1 >= 0 && this.getFila() + 1 < matrizMapa.length && this.getColumna() >= 0 && this.getColumna() < matrizMapa.length && matrizMapa[this.getFila() + 1][this.getColumna()] == 1) {
+                if (getIndiceInfluencia() == matrizInfluencia[this.getFila() + 1][this.getColumna()]) {
+                    dirList.add(new Integer[]{this.getFila() + 1, this.getColumna(),2});//"Abajo"
                 }
             }
             int dirRandom = (int) (Math.random() * dirList.size());
             if (!dirList.isEmpty()) {
-                this.fila = dirList.get(dirRandom)[0];
-                this.columna = dirList.get(dirRandom)[1];
+                this.setFila((int) dirList.get(dirRandom)[0]);
+                this.setColumna((int) dirList.get(dirRandom)[1]);
+                this.setyDestino(posInicialY+(proporcion*this.fila));
+                this.setxDestino(posInicialX+(proporcion*this.columna));
+                this.sentidoImagen=dirList.get(dirRandom)[2];
             }
 
             try {
                 Thread.sleep(100);
+                
             } catch (InterruptedException ex) {
                 Logger.getLogger(Patrulla.class.getName()).log(Level.SEVERE, null, ex);
             }
+            }else{
+                if(this.getyObjeto()!=this.getyDestino()){
+                    if (this.getyObjeto()>this.getyDestino()) {
+                        this.setyObjeto(this.getyObjeto() - 1);
+                    }else{
+                        this.setyObjeto(this.getyObjeto() + 1);
+                    }
+                }else if(this.getxObjeto()!=this.getxDestino()){
+                    if (this.getxObjeto()>this.getxDestino()) {
+                        this.setxObjeto(this.getxObjeto() - 1);
+                    }else{
+                        this.setxObjeto(this.getxObjeto() + 1);
+                    }
+                }
+                try {
+                    Thread.sleep(10);
+                } catch (Exception e) {
+                }
+            }
         }
+    }
+
+    /**
+     * @return the areaDisparo
+     */
+    public Rectangle getAreaDisparo() {
+        return areaDisparo;
+    }
+
+    /**
+     * @param areaDisparo the areaDisparo to set
+     */
+    public void setAreaDisparo(Rectangle areaDisparo) {
+        this.areaDisparo = areaDisparo;
+    }
+
+    /**
+     * @return the areaoAvistamientoAdelante
+     */
+    public Rectangle getAreaoAvistamientoAdelante() {
+        return areaoAvistamientoAdelante;
+    }
+
+    /**
+     * @param areaoAvistamientoAdelante the areaoAvistamientoAdelante to set
+     */
+    public void setAreaoAvistamientoAdelante(Rectangle areaoAvistamientoAdelante) {
+        this.areaoAvistamientoAdelante = areaoAvistamientoAdelante;
+    }
+
+    /**
+     * @return the areaoAvistamientoAtras
+     */
+    public Rectangle getAreaoAvistamientoAtras() {
+        return areaoAvistamientoAtras;
+    }
+
+    /**
+     * @param areaoAvistamientoAtras the areaoAvistamientoAtras to set
+     */
+    public void setAreaoAvistamientoAtras(Rectangle areaoAvistamientoAtras) {
+        this.areaoAvistamientoAtras = areaoAvistamientoAtras;
+    }
+
+    /**
+     * @return the indiceInfluencia
+     */
+    public int getIndiceInfluencia() {
+        return indiceInfluencia;
+    }
+
+    /**
+     * @param indiceInfluencia the indiceInfluencia to set
+     */
+    public void setIndiceInfluencia(int indiceInfluencia) {
+        this.indiceInfluencia = indiceInfluencia;
+    }
+
+    /**
+     * @return the imagen
+     */
+    public Image[][] getImagen() {
+        return imagen;
+    }
+
+    /**
+     * @param imagen the imagen to set
+     */
+    public void setImagen(Image[][] imagen) {
+        this.imagen = imagen;
+    }
+
+    /**
+     * @return the hiloPatrulla
+     */
+    public Thread getHiloPatrulla() {
+        return hiloPatrulla;
+    }
+
+    /**
+     * @param hiloPatrulla the hiloPatrulla to set
+     */
+    public void setHiloPatrulla(Thread hiloPatrulla) {
+        this.hiloPatrulla = hiloPatrulla;
+    }
+
+    /**
+     * @return the sentidoImagen
+     */
+    public int getSentidoImagen() {
+        return sentidoImagen;
+    }
+
+    /**
+     * @param sentidoImagen the sentidoImagen to set
+     */
+    public void setSentidoImagen(int sentidoImagen) {
+        this.sentidoImagen = sentidoImagen;
+    }
+
+    /**
+     * @return the movSirena
+     */
+    public int getMovSirena() {
+        return movSirena;
+    }
+
+    /**
+     * @param movSirena the movSirena to set
+     */
+    public void setMovSirena(int movSirena) {
+        this.movSirena = movSirena;
+    }
+
+    /**
+     * @return the xObjeto
+     */
+    public int getxObjeto() {
+        return xObjeto;
+    }
+
+    /**
+     * @param xObjeto the xObjeto to set
+     */
+    public void setxObjeto(int xObjeto) {
+        this.xObjeto = xObjeto;
+    }
+
+    /**
+     * @return the xDestino
+     */
+    public int getxDestino() {
+        return xDestino;
+    }
+
+    /**
+     * @param xDestino the xDestino to set
+     */
+    public void setxDestino(int xDestino) {
+        this.xDestino = xDestino;
+    }
+
+    /**
+     * @return the yObjeto
+     */
+    public int getyObjeto() {
+        return yObjeto;
+    }
+
+    /**
+     * @param yObjeto the yObjeto to set
+     */
+    public void setyObjeto(int yObjeto) {
+        this.yObjeto = yObjeto;
+    }
+
+    /**
+     * @return the yDestino
+     */
+    public int getyDestino() {
+        return yDestino;
+    }
+
+    /**
+     * @param yDestino the yDestino to set
+     */
+    public void setyDestino(int yDestino) {
+        this.yDestino = yDestino;
     }
 
 }
