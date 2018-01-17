@@ -13,6 +13,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
 
 /**
  *
@@ -47,7 +48,14 @@ public class Patrulla implements Runnable {
         this.fila = fila;
         this.columna = columna;
         this.hiloPatrulla = new Thread(this);
-        this.hiloPatrulla.start();
+        this.imagen = new Image[][]{
+            {new ImageIcon(getClass().getResource("")).getImage(), new ImageIcon(getClass().getResource("")).getImage(), new ImageIcon(getClass().getResource("")).getImage()},
+            {new ImageIcon(getClass().getResource("")).getImage(), new ImageIcon(getClass().getResource("")).getImage(), new ImageIcon(getClass().getResource("")).getImage()},
+            {new ImageIcon(getClass().getResource("")).getImage(), new ImageIcon(getClass().getResource("")).getImage(), new ImageIcon(getClass().getResource("")).getImage()},
+            {new ImageIcon(getClass().getResource("")).getImage(), new ImageIcon(getClass().getResource("")).getImage(), new ImageIcon(getClass().getResource("")).getImage()}
+                
+        };
+        System.out.println("ss");
     }
 
     public Patrulla(String idPatrulla, int fila, int columna, Rectangle areaDisparo, Rectangle areaoAvistamientoAdelante, Rectangle areaoAvistamientoAtras, int indiceInfluencia, Image[][] imagen) {
@@ -102,45 +110,45 @@ public class Patrulla implements Runnable {
     public void setColumna(int columna) {
         this.columna = columna;
     }
-/***
- * Run donde se programa el conportamiendo del hilo que hace mover los coches de
- * policia teniendo en cuenta la influencia de cada estacion sobre ellos.
- */
+
+    /**
+     * *
+     * Run donde se programa el conportamiendo del hilo que hace mover los
+     * coches de policia teniendo en cuenta la influencia de cada estacion sobre
+     * ellos.
+     */
     @Override
     public void run() {
-       // int[] posAnterior = new int[2];
+        // int[] posAnterior = new int[2];
         while (true) {
             List<Integer[]> dirList = new LinkedList<>();
 
             if (this.fila >= 0 && this.fila < matrizMapa.length && this.columna - 1 >= 0 && this.columna - 1 < matrizMapa.length && matrizMapa[this.fila][this.columna - 1] == 1) {
-                if(indiceInfluencia==matrizInfluencia[this.fila][this.columna-1])
+                if (indiceInfluencia == matrizInfluencia[this.fila][this.columna - 1]) {
                     dirList.add(new Integer[]{this.fila, this.columna - 1});//Izq
-                
+                }
 
             }
             if (this.fila - 1 >= 0 && this.fila - 1 < matrizMapa.length && this.columna >= 0 && this.columna < matrizMapa.length && matrizMapa[this.fila - 1][this.columna] == 1) {
-                if(indiceInfluencia==matrizInfluencia[this.fila-1][this.columna])
+                if (indiceInfluencia == matrizInfluencia[this.fila - 1][this.columna]) {
                     dirList.add(new Integer[]{this.fila - 1, this.columna});//Arriba
-                
+                }
             }
             if (this.fila >= 0 && this.fila < matrizMapa.length && this.columna + 1 >= 0 && this.columna + 1 < matrizMapa.length && matrizMapa[this.fila][this.columna + 1] == 1) {
-                if(indiceInfluencia==matrizInfluencia[this.fila][this.columna+1])
+                if (indiceInfluencia == matrizInfluencia[this.fila][this.columna + 1]) {
                     dirList.add(new Integer[]{this.fila, this.columna + 1});//"Derecha"
-                
+                }
             }
             if (this.fila + 1 >= 0 && this.fila + 1 < matrizMapa.length && this.columna >= 0 && this.columna < matrizMapa.length && matrizMapa[this.fila + 1][this.columna] == 1) {
-                if(indiceInfluencia==matrizInfluencia[this.fila+1][this.columna])
+                if (indiceInfluencia == matrizInfluencia[this.fila + 1][this.columna]) {
                     dirList.add(new Integer[]{this.fila + 1, this.columna});//"Abajo"
-                
+                }
             }
-                int dirRandom = (int) (Math.random() * dirList.size());
-                if (!dirList.isEmpty()) {
+            int dirRandom = (int) (Math.random() * dirList.size());
+            if (!dirList.isEmpty()) {
                 this.fila = dirList.get(dirRandom)[0];
                 this.columna = dirList.get(dirRandom)[1];
             }
-                
-           
-
 
             try {
                 Thread.sleep(100);
