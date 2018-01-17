@@ -7,6 +7,8 @@ package Vista;
 
 import static Vista.VistaPrincipal.matrizMapa;
 import static Vista.VistaPrincipal.objetosList;
+import clases.EstacionDePolicia;
+import clases.Vertice;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
@@ -81,9 +83,19 @@ public class PanelVistaPrincipal extends javax.swing.JPanel {
         if (objetosList != null && objetosList.size() > 0) {
             for (int i = 0; i < objetosList.size(); i++) {
                 if (objetosList.get(i).getImagen() != null) {
+                    if (objetosList.get(i).getTipo().equalsIgnoreCase("EstacionP")) {
+                        pintarPatrulla(objetosList.get(i), g);
+                    }
                     g.drawImage(objetosList.get(i).getImagen(), posInicialX + objetosList.get(i).getColumna() * proporcion, posInicialY + objetosList.get(i).getFila() * proporcion, 50, 50, null);
                 }
             }
+        }
+    }
+    private void pintarPatrulla( Vertice vertice, Graphics g){
+        EstacionDePolicia estacionP= (EstacionDePolicia)vertice.getContenedor();
+        for (int i = 0; i < estacionP.getPatrullas().size(); i++) {
+            g.setColor(Color.blue);
+            g.fillRect((estacionP.getPatrullas().get(i).getColumna()*proporcion)+posInicialX, (estacionP.getPatrullas().get(i).getFila()*proporcion)+posInicialY, 20, 20);
         }
     }
 

@@ -459,13 +459,13 @@ public class VistaPrincipal extends javax.swing.JFrame {
             }
         }
 
-        System.err.println("Matriz de influencia:");
-        for (int i = 0; i < matrizInfluencia.length; i++) {
-            for (int j = 0; j < matrizInfluencia[i].length; j++) {
-                System.out.print(matrizInfluencia[i][j] + "|");
-            }
-            System.out.println("");
-        }
+//        System.err.println("Matriz de influencia:");
+//        for (int i = 0; i < matrizInfluencia.length; i++) {
+//            for (int j = 0; j < matrizInfluencia[i].length; j++) {
+//                System.out.print(matrizInfluencia[i][j] + "|");
+//            }
+//            System.out.println("");
+//        }
 
     }
 
