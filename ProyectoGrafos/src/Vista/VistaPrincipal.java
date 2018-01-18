@@ -5,6 +5,7 @@
  */
 package Vista;
 
+import clases.CarroLadron;
 import clases.EscudosRestauradores;
 import clases.EstacionDePolicia;
 import clases.Sounds;
@@ -46,6 +47,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
     public static int cuentaEstacion;
     private boolean guarida;
     private final Gson gson;
+    public static CarroLadron ladronCar;
 
     /**
      * Creates new form VistaPrincipal
@@ -177,6 +179,11 @@ public class VistaPrincipal extends javax.swing.JFrame {
         btnCargarMapa = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                formKeyPressed(evt);
+            }
+        });
 
         panelVistaPrincipal1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -188,7 +195,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
         panelVistaPrincipal1.setLayout(panelVistaPrincipal1Layout);
         panelVistaPrincipal1Layout.setHorizontalGroup(
             panelVistaPrincipal1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 600, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
         panelVistaPrincipal1Layout.setVerticalGroup(
             panelVistaPrincipal1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -236,7 +243,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
                 .addComponent(btnGuarida, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(113, 113, 113)
                 .addComponent(btnEstacion, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 143, Short.MAX_VALUE)
                 .addComponent(btnBanco, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -266,8 +273,8 @@ public class VistaPrincipal extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panelVistaPrincipal1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(panelEdicion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(panelVistaPrincipal1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -323,14 +330,15 @@ public class VistaPrincipal extends javax.swing.JFrame {
         } else if (this.btnEscudo.isSelected()) {
         } else if (this.btnEstacion.isSelected()) {
             objetosList.add(new Vertice("EstacionP", punto.y, punto.x));
-            EstacionDePolicia estacion =(EstacionDePolicia) objetosList.get(objetosList.size()-1).getContenedor();
+            EstacionDePolicia estacion = (EstacionDePolicia) objetosList.get(objetosList.size() - 1).getContenedor();
             int numeroPatrullas = Integer.parseInt(JOptionPane.showInputDialog("Numero de patrullas"));
-            estacion.crearPatrulla(numeroPatrullas,punto.y,punto.x);
+            estacion.crearPatrulla(numeroPatrullas, punto.y, punto.x);
             obtenerMatrizInfluencia();
         } else if (this.btnGuarida.isSelected()) {
             if (!guarida) {
                 objetosList.add(new Vertice("Guarida", punto.y, punto.x));
                 guarida = !guarida;
+                ladronCar = new CarroLadron(punto.y, punto.x, 40);
             }
         }
 
@@ -360,15 +368,42 @@ public class VistaPrincipal extends javax.swing.JFrame {
         this.btnEscudo.setSelected(false);
         this.btnEstacion.setSelected(false);
     }//GEN-LAST:event_btnBancoActionPerformed
-/***
- * Metodo para evitar el uso de botones de seleccion desopues de uniciada la simulacion.
- */
-     private void desactivarBotones() {
+
+    private void formKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyPressed
+        System.err.println("" + evt.getKeyCode());
+        if (ladronCar != null) {
+            switch (evt.getKeyCode()) {
+                case 87://Arriba
+                    System.err.println("ar");
+                    ladronCar.setDireccionLadron("Arriba");
+                    break;
+                case 83://Abajo
+                    System.err.println("ab");
+                    ladronCar.setDireccionLadron("Abajo");
+                    break;
+                case 68://Derecha
+                    System.err.println("de");
+                    ladronCar.setDireccionLadron("Derecha");
+                    break;
+                case 65://Izquierda
+                    System.err.println("iz");
+                    ladronCar.setDireccionLadron("Izquierda");
+                    break;
+            }
+        }
+    }//GEN-LAST:event_formKeyPressed
+    /**
+     * *
+     * Metodo para evitar el uso de botones de seleccion desopues de uniciada la
+     * simulacion.
+     */
+    private void desactivarBotones() {
         this.btnGuarida.setVisible(false);
         this.btnEscudo.setVisible(false);
         this.btnEstacion.setVisible(false);
         this.btnBanco.setVisible(false);
     }
+
     public void recorreCreaObj() {
         for (int i = 0; i < matrizMapa.length; i++) {
             for (int j = 0; j < matrizMapa[i].length; j++) {

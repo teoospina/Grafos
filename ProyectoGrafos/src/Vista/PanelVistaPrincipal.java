@@ -7,6 +7,9 @@ package Vista;
 
 import static Vista.VistaPrincipal.matrizMapa;
 import static Vista.VistaPrincipal.objetosList;
+import static Vista.VistaPrincipal.ladronCar;
+
+import clases.CarroLadron;
 import clases.EstacionDePolicia;
 import clases.Vertice;
 import java.awt.Color;
@@ -38,6 +41,10 @@ public class PanelVistaPrincipal extends javax.swing.JPanel {
     protected void paintComponent(Graphics g) {
         pintarMapa(g);
         pintarObjetos(g);
+        if (ladronCar!=null) {
+          pintarLadron(g);  
+        }
+        
         repaint();
     }
 
@@ -98,6 +105,9 @@ public class PanelVistaPrincipal extends javax.swing.JPanel {
             //g.fillRect((estacionP.getPatrullas().get(i).getColumna()*proporcion)+posInicialX, (estacionP.getPatrullas().get(i).getFila()*proporcion)+posInicialY, 20, 20);
             g.drawImage(estacionP.getPatrullas().get(i).getImagenes(),estacionP.getPatrullas().get(i).getxObjeto(), estacionP.getPatrullas().get(i).getyObjeto(), 40, 40, this);
         }
+    }
+    private void pintarLadron(Graphics g){
+        g.drawImage(ladronCar.getImagenes(),ladronCar.getxObjeto(),ladronCar.getyObjeto(), 40, 40, this);
     }
 
     /**
