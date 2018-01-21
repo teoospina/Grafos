@@ -341,8 +341,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
                 ladronCar = new CarroLadron(punto.y, punto.x, 40);
             }
         }
-
-
+        this.requestFocus();
     }//GEN-LAST:event_panelVistaPrincipal1MouseClicked
 
     private void btnEscudoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEscudoActionPerformed
