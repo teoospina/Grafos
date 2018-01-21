@@ -9,7 +9,6 @@ import clases.CarroLadron;
 import clases.EscudosRestauradores;
 import clases.EstacionDePolicia;
 import clases.Sounds;
-import static clases.Sounds.rep;
 import clases.Vertice;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -41,13 +40,12 @@ public class VistaPrincipal extends javax.swing.JFrame {
     public static int[][] matrizMapa;
     public static int[][] matrizAdyacen;
     public static int[][] matrizInfluencia;
-    public static List<Vertice> objetosList;
-    public LinkedList<EscudosRestauradores> listaEscudos;
     public static int cuentaBanco;
     public static int cuentaEstacion;
-    private boolean guarida;
-    private final Gson gson;
+    public static List<Vertice> objetosList;
+    public static List<EscudosRestauradores> listaEscudos;
     public static CarroLadron ladronCar;
+    private boolean guarida;
 
     /**
      * Creates new form VistaPrincipal
@@ -59,13 +57,13 @@ public class VistaPrincipal extends javax.swing.JFrame {
         listaEscudos = new LinkedList<>();
         cuentaBanco = 0;
         cuentaEstacion = 1;
-        gson = new Gson();
+        objetosList = new LinkedList<>();
+        sonido();
+
         this.panelEdicion.setVisible(false);
         this.setSize(600, 600);
         this.setLocationRelativeTo(null);
         this.setResizable(false);
-        objetosList = new LinkedList<Vertice>();
-        sonido("src/Sonido/fondo.wav");
     }
 
     /**
@@ -112,6 +110,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
      * @param infoJSON informacion recuperada del archivo JSON
      */
     public void cargarEnMatrizJSON(String infoJSON) {
+        Gson gson = new Gson();
         LinkedList<LinkedList<Integer>> matriz;
         matriz = gson.fromJson(infoJSON, new TypeToken<LinkedList<LinkedList<Integer>>>() {
         }.getType());
@@ -177,6 +176,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         btnCargarMapa = new javax.swing.JMenuItem();
+        btnIniciarJuego = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addKeyListener(new java.awt.event.KeyAdapter() {
@@ -265,6 +265,9 @@ public class VistaPrincipal extends javax.swing.JFrame {
         });
         jMenu1.add(btnCargarMapa);
 
+        btnIniciarJuego.setText("Iniciar juego");
+        jMenu1.add(btnIniciarJuego);
+
         jMenuBar1.add(jMenu1);
 
         setJMenuBar(jMenuBar1);
@@ -282,7 +285,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
                 .addComponent(panelVistaPrincipal1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(panelEdicion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 84, Short.MAX_VALUE))
+                .addGap(0, 9, Short.MAX_VALUE))
         );
 
         pack();
@@ -355,13 +358,19 @@ public class VistaPrincipal extends javax.swing.JFrame {
         this.btnEscudo.setSelected(false);
         this.btnEstacion.setSelected(false);
     }//GEN-LAST:event_btnGuaridaActionPerformed
-
+    /***
+     * Evento que se ejecuta al oprimir btnEstacionP con el fin de desactivar los otros botones
+     * @param evt 
+     */
     private void btnEstacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEstacionActionPerformed
         this.btnBanco.setSelected(false);
         this.btnEscudo.setSelected(false);
         this.btnGuarida.setSelected(false);
     }//GEN-LAST:event_btnEstacionActionPerformed
-
+    /***
+     * Evento que se ejecuta al oprimir btnBanco con el fin de desactivar los otros botones
+     * @param evt 
+     */
     private void btnBancoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBancoActionPerformed
         this.btnGuarida.setSelected(false);
         this.btnEscudo.setSelected(false);
@@ -369,23 +378,22 @@ public class VistaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnBancoActionPerformed
 
     private void formKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyPressed
-        System.err.println("" + evt.getKeyCode());
+        /***
+         * Evento del teclado utilizado para dirigir el vehiculo de los ladrones
+         * a partir de la tecla que se oprima
+         */
         if (ladronCar != null) {
             switch (evt.getKeyCode()) {
                 case 87://Arriba
-                    System.err.println("ar");
                     ladronCar.setDireccionLadron("Arriba");
                     break;
                 case 83://Abajo
-                    System.err.println("ab");
                     ladronCar.setDireccionLadron("Abajo");
                     break;
                 case 68://Derecha
-                    System.err.println("de");
                     ladronCar.setDireccionLadron("Derecha");
                     break;
                 case 65://Izquierda
-                    System.err.println("iz");
                     ladronCar.setDireccionLadron("Izquierda");
                     break;
             }
@@ -402,7 +410,11 @@ public class VistaPrincipal extends javax.swing.JFrame {
         this.btnEstacion.setVisible(false);
         this.btnBanco.setVisible(false);
     }
-
+    /***
+     * Metodo recorreCreaObj se encarga de recorrer la matrizMapa, que es la estructura
+     * donde se almacena el mapa cargado a travez del archivo XML o JSON y llena una lista
+     * de objetos, dependiendo del identificador que encuentra en dicha posicion.
+     */
     public void recorreCreaObj() {
         for (int i = 0; i < matrizMapa.length; i++) {
             for (int j = 0; j < matrizMapa[i].length; j++) {
@@ -416,29 +428,6 @@ public class VistaPrincipal extends javax.swing.JFrame {
                     if (matrizMapa[i][j] == 7) {
                         objetosList.add(new Vertice("Guarida", i, j));
                     }
-//                    if (matrizMapa[i][j]==18) {
-//                        Patrulla patrulla=new Patrulla();
-//                        objetosList.add(patrulla);
-//                    }
-//                    if (matrizMapa[i][j]==12) {
-//                        CarroLadron carroLadron=new CarroLadron();
-//                        objetosList.add(carroLadron);
-//                    }
-//                    if (matrizMapa[i][j]==1817) {
-//                        Vertice verticeBala= new Vertice();
-//                        verticeBala.setTipo("proyectil");
-//                        objetosList.add(verticeBala);
-//                    }
-//                    if (matrizMapa[i][j]==20) {
-//                        Vertice verticeEscudo= new Vertice();
-//                        verticeEscudo.setTipo("escudo");
-//                        objetosList.add(verticeEscudo);
-//                    }
-//                    if (matrizMapa[i][j]==2120) {
-//                        Vertice verticebarrera= new Vertice();
-//                        verticebarrera.setTipo("barrera");
-//                        objetosList.add(verticebarrera);
-//                    }
                     if (matrizMapa[i][j] == 1) {
                         objetosList.add(new Vertice("Calle", i, j));
                     }
@@ -446,7 +435,12 @@ public class VistaPrincipal extends javax.swing.JFrame {
             }
         }
     }
-
+    
+    /***
+     * Metodo esAdyacente se encarga de calcular la matriz de adyacencia a partir
+     * de la lista de objetos vertice que se identifican al cargar la estructura (JSON ó XML)
+     * o en su defecto las estructuras que se agregan en el mapa antes de iniciar el juego.
+     */
     public void esAdyacente() {
         matrizAdyacen = new int[objetosList.size()][objetosList.size()];
         for (int i = 0; i < objetosList.size(); i++) {
@@ -610,18 +604,23 @@ public class VistaPrincipal extends javax.swing.JFrame {
      * false.
      */
     private boolean validarExistenciaEscudo(int fila, int columna) {
-        for (EscudosRestauradores escudo : this.listaEscudos) {
+        for (EscudosRestauradores escudo : listaEscudos) {
             if (escudo.getFila() == fila && escudo.getColumna() == columna) {
                 return true;
             }
         }
         return false;
     }
-
-    private void sonido(String ruta) {
+    
+    /***
+     * Metodo sonido se encarga de iniciar el sonido de fondo del juego, llamando
+     * al metodo fondoSound definido estaticamente desde la clase Sounds
+     */
+    private void sonido() {
         try {
-            Sounds.fondoSound(ruta);
+            Sounds.fondoSound("src/Sonido/fondo.wav");
         } catch (Exception e) {
+            System.err.println("Error al cargar sonido de fondo");
         }
     }
 
@@ -674,6 +673,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
     private javax.swing.JToggleButton btnEscudo;
     private javax.swing.JToggleButton btnEstacion;
     private javax.swing.JToggleButton btnGuarida;
+    private javax.swing.JMenuItem btnIniciarJuego;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel panelEdicion;
