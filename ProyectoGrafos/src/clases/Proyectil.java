@@ -9,11 +9,24 @@ package clases;
  *
  * @author Mateo
  */
-public class Proyectil {
+public class Proyectil implements Runnable{
 
     private int fila;
     private int columna;
     private int idBala;
+    private Thread hilo;
+
+    public Proyectil() {
+    }
+
+    public Proyectil(int fila, int columna, int idBala) {
+        this.fila = fila;
+        this.columna = columna;
+        this.idBala = idBala;
+        this.hilo = new Thread(this);
+    }
+    
+    
 
     /**
      * @return the fila
@@ -55,6 +68,11 @@ public class Proyectil {
      */
     public void setIdBala(int idBala) {
         this.idBala = idBala;
+    }
+
+    @Override
+    public void run() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 

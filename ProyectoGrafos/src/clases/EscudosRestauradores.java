@@ -5,6 +5,9 @@
  */
 package clases;
 
+import java.awt.Image;
+import javax.swing.ImageIcon;
+
 /**
  *
  * @author Mateo
@@ -13,6 +16,7 @@ public class EscudosRestauradores {
     private int fila;
     private int columna;
     private int idEscudo;
+    private Image imagen;
 
     public EscudosRestauradores() {
     }
@@ -21,6 +25,7 @@ public class EscudosRestauradores {
         this.fila = fila;
         this.columna = columna;
         this.idEscudo = idEscudo;
+        this.imagen = new ImageIcon(getClass().getResource("../imagenes/Escudo/escudo.png")).getImage();
     }
     
     /**
@@ -63,6 +68,20 @@ public class EscudosRestauradores {
      */
     public void setIdEscudo(int idEscudo) {
         this.idEscudo = idEscudo;
+    }
+
+    /**
+     * @return the imagen
+     */
+    public Image getImagen() {
+        return imagen;
+    }
+
+    /**
+     * @param imagen the imagen to set
+     */
+    public void setImagen(Image imagen) {
+        this.imagen = imagen;
     }
     
 }

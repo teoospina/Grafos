@@ -33,7 +33,7 @@ public class CarroLadron implements Runnable {
     private int xDestino;
     private int yObjeto;
     private int yDestino;
-    Thread hiloLadron;
+    private Thread hiloLadron;
 
     public CarroLadron() {
     }
@@ -49,14 +49,12 @@ public class CarroLadron implements Runnable {
         for (int i = 1; i <= ladronImg.length; i++) {
             this.ladronImg[i - 1] = new ImageIcon(getClass().getResource(dirObtenida + "/" + i + ".png")).getImage();
         }
-        this.ladronImg = ladronImg;
         this.direccionLadron = "Abajo";
         this.xObjeto = posInicialX + (proporcion * this.columna);
         this.xDestino = this.xObjeto;
         this.yObjeto = posInicialY + (proporcion * this.fila);
         this.yDestino = this.yObjeto;
         this.hiloLadron= new Thread(this);
-        this.hiloLadron.start();
     }
 
     /**
@@ -144,23 +142,15 @@ public class CarroLadron implements Runnable {
     }
 
     public Image getImagenes() {
-        switch (direccionLadron) {
+        switch (getDireccionLadron()) {
             case "Arriba":
-                return ladronImg[0];
-
-             
+                return getLadronImg()[0];
             case "Izquierda":
-                return ladronImg[3];
-
-              
+                return getLadronImg()[3];
             case "Derecha":
-                return ladronImg[1];
-
-             
+                return getLadronImg()[1];
             case "Abajo":
-                return ladronImg[2];
-
-         
+                return getLadronImg()[2];
         }
         return null;
     }
@@ -169,32 +159,32 @@ public class CarroLadron implements Runnable {
     public void run() {
         while (true) {
             if (this.getxObjeto() == this.getxDestino() && this.getyObjeto() == this.getyDestino()) {
-                switch (direccionLadron) {
+                switch (getDireccionLadron()) {
                     case "Arriba":
                         if (this.getFila() - 1 >= 0 && this.getFila() - 1 < matrizMapa.length && this.getColumna() >= 0 && this.getColumna() < matrizMapa.length && matrizMapa[this.getFila() - 1][this.getColumna()] == 1) {
-                            this.fila -= 1;
+                            this.setFila(this.getFila() - 1);
                         }
 
                         break;
                     case "Izquierda":
                         if (this.getFila() >= 0 && this.getFila() < matrizMapa.length && this.getColumna() - 1 >= 0 && this.getColumna() - 1 < matrizMapa.length && matrizMapa[this.getFila()][this.getColumna() - 1] == 1) {
-                            this.columna -= 1;
+                            this.setColumna(this.getColumna() - 1);
                         }
                         break;
                     case "Derecha":
                         if (this.getFila() >= 0 && this.getFila() < matrizMapa.length && this.getColumna() + 1 >= 0 && this.getColumna() + 1 < matrizMapa.length && matrizMapa[this.getFila()][this.getColumna() + 1] == 1) {
-                            this.columna += 1;
+                            this.setColumna(this.getColumna() + 1);
                         }
                         break;
                     case "Abajo":
                         if (this.getFila() + 1 >= 0 && this.getFila() + 1 < matrizMapa.length && this.getColumna() >= 0 && this.getColumna() < matrizMapa.length && matrizMapa[this.getFila() + 1][this.getColumna()] == 1) {
-                            this.fila += 1;
+                            this.setFila(this.getFila() + 1);
                         }
                         break;
                 }
 
-                this.setyDestino(posInicialY + (proporcion * this.fila));
-                this.setxDestino(posInicialX + (proporcion * this.columna));
+                this.setyDestino(posInicialY + (proporcion * this.getFila()));
+                this.setxDestino(posInicialX + (proporcion * this.getColumna()));
 
                 try {
                     Thread.sleep(100);
@@ -217,7 +207,7 @@ public class CarroLadron implements Runnable {
                     }
                 }
                 try {
-                    Thread.sleep(10);
+                    Thread.sleep(8);
                 } catch (Exception e) {
                 }
             }
@@ -278,6 +268,20 @@ public class CarroLadron implements Runnable {
      */
     public void setyDestino(int yDestino) {
         this.yDestino = yDestino;
+    }
+
+    /**
+     * @return the hiloLadron
+     */
+    public Thread getHiloLadron() {
+        return hiloLadron;
+    }
+
+    /**
+     * @param hiloLadron the hiloLadron to set
+     */
+    public void setHiloLadron(Thread hiloLadron) {
+        this.hiloLadron = hiloLadron;
     }
 
 }

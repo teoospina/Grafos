@@ -5,11 +5,8 @@
  */
 package Vista;
 
-import static Vista.VistaPrincipal.matrizMapa;
-import static Vista.VistaPrincipal.objetosList;
-import static Vista.VistaPrincipal.ladronCar;
+import static Vista.VistaPrincipal.*;
 
-import clases.CarroLadron;
 import clases.EstacionDePolicia;
 import clases.Vertice;
 import java.awt.Color;
@@ -22,29 +19,50 @@ import java.awt.Point;
  */
 public class PanelVistaPrincipal extends javax.swing.JPanel {
 
-    public static  int posInicialX;
-    public static  int posInicialY;
-    public static  int proporcion;
+    public static int posInicialX;
+    public static int posInicialY;
+    public static int proporcion;
+    public Color[] listaColor;
 
     /**
      * Creates new form PanelVistaPrincipal
      */
     public PanelVistaPrincipal() {
         initComponents();
-        this.setSize(600, 600);
-        posInicialX = 100;
-        posInicialY = 10;
         proporcion = 40;
+        this.setSize(600, 500);
+        posInicialX = (600 - (10 * proporcion)) / 2;
+        posInicialY = 10;
+
+        listaColor = new Color[]{
+            Color.black,
+            Color.yellow,
+            Color.lightGray,
+            Color.red,
+            Color.gray,
+            Color.pink,
+            Color.magenta,
+            Color.darkGray,
+            Color.orange,
+            Color.cyan,
+            Color.blue,
+            Color.green,
+            Color.white
+        };
     }
 
     @Override
     protected void paintComponent(Graphics g) {
         pintarMapa(g);
         pintarObjetos(g);
-        if (ladronCar!=null) {
-          pintarLadron(g);  
+        pintarEscudos(g);
+        if (ladronCar != null) {
+            pintarLadron(g);
         }
-        
+        if (pintarInfluencia) {
+            pintarZonaInfluencia(g);
+        }
+
         repaint();
     }
 
@@ -93,21 +111,44 @@ public class PanelVistaPrincipal extends javax.swing.JPanel {
                     if (objetosList.get(i).getTipo().equalsIgnoreCase("EstacionP")) {
                         pintarPatrulla(objetosList.get(i), g);
                     }
-                    g.drawImage(objetosList.get(i).getImagen(), posInicialX + objetosList.get(i).getColumna() * proporcion, posInicialY + objetosList.get(i).getFila() * proporcion, 50, 50, null);
+                    g.drawImage(objetosList.get(i).getImagen(), posInicialX + objetosList.get(i).getColumna() * proporcion, posInicialY + objetosList.get(i).getFila() * proporcion, proporcion + 10, proporcion + 10, null);
                 }
             }
         }
     }
-    private void pintarPatrulla( Vertice vertice, Graphics g){
-        EstacionDePolicia estacionP= (EstacionDePolicia)vertice.getContenedor();
+
+    private void pintarPatrulla(Vertice vertice, Graphics g) {
+        EstacionDePolicia estacionP = (EstacionDePolicia) vertice.getContenedor();
         for (int i = 0; i < estacionP.getPatrullas().size(); i++) {
             //g.setColor(Color.blue);
             //g.fillRect((estacionP.getPatrullas().get(i).getColumna()*proporcion)+posInicialX, (estacionP.getPatrullas().get(i).getFila()*proporcion)+posInicialY, 20, 20);
-            g.drawImage(estacionP.getPatrullas().get(i).getImagenes(),estacionP.getPatrullas().get(i).getxObjeto(), estacionP.getPatrullas().get(i).getyObjeto(), 40, 40, this);
+            g.drawImage(estacionP.getPatrullas().get(i).getImagenes(), estacionP.getPatrullas().get(i).getxObjeto(), estacionP.getPatrullas().get(i).getyObjeto(), proporcion, proporcion, this);
         }
     }
-    private void pintarLadron(Graphics g){
-        g.drawImage(ladronCar.getImagenes(),ladronCar.getxObjeto(),ladronCar.getyObjeto(), 40, 40, this);
+
+    private void pintarLadron(Graphics g) {
+        g.drawImage(ladronCar.getImagenes(), ladronCar.getxObjeto(), ladronCar.getyObjeto(), proporcion, proporcion, this);
+    }
+
+    private void pintarEscudos(Graphics g) {
+        if (!listaEscudos.isEmpty()) {
+            for (int i = 0; i < listaEscudos.size(); i++) {
+                g.drawImage(listaEscudos.get(i).getImagen(), posInicialX + (listaEscudos.get(i).getColumna() * proporcion), posInicialY + (listaEscudos.get(i).getFila() * proporcion), proporcion, proporcion, this);
+            }
+        }
+    }
+
+    private void pintarZonaInfluencia(Graphics g) {
+        if (matrizInfluencia != null) {
+            for (int i = 0; i < matrizMapa.length; i++) {
+                for (int j = 0; j < matrizMapa[i].length; j++) {
+                    if (matrizInfluencia[i][j] != 0) {
+                        g.setColor(listaColor[matrizInfluencia[i][j]-1]);
+                        g.fill3DRect(posInicialX + (j* proporcion), posInicialY + (i * proporcion), 10, 10, true);
+                    }
+                }
+            }
+        }
     }
 
     /**

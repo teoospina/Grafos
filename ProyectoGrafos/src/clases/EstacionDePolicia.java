@@ -62,4 +62,9 @@ public class EstacionDePolicia {
             this.getPatrullas().add(new Patrulla(this.idEstacion+":"+i,idEstacion,fila,columna));
         }
     }
+    public void iniciarHilos(){
+        for(Patrulla patrulla:patrullas){
+            patrulla.getHiloPatrulla().start();
+        }
+    }
 }

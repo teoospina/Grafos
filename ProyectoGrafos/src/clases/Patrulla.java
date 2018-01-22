@@ -63,7 +63,6 @@ public class Patrulla implements Runnable {
         };
         this.movSirena=0;
         this.sentidoImagen=0;
-        this.hiloPatrulla.start();
         this.xObjeto=posInicialX+(proporcion*this.columna);
         this.xDestino=this.xObjeto;
         this.yObjeto=posInicialY+(proporcion*this.fila);
