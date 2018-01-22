@@ -47,6 +47,7 @@ public class MiGrafo {
         graRecoridos.imprimirMatrizAdy();
         graRecoridos.anchura("a");
         graRecoridos.profundidad("a");
+        graRecoridos.fuerteConectado();
     }
     
 }

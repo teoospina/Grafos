@@ -175,7 +175,6 @@ public class Grafo {
         System.out.println("");
         return resultado;
     }
-    
 
     public void profundidad(String vInicio) {
         int inicio = this.idetentificador(vInicio);
@@ -212,4 +211,38 @@ public class Grafo {
         }
         return false;
     }
+
+    public void fuerteConectado() {
+        for (int j = 0; j < matrizAdy.length; j++) {
+            String vInicial = String.valueOf(traductorVertice(j));
+            for (int i = 0; i < matrizAdy.length; i++) {
+                if (vInicial.equalsIgnoreCase(String.valueOf(traductorVertice(i)))) {
+                    if (!validarAlcanceRecursivo(vInicial, String.valueOf(traductorVertice(i)))) {
+                        System.err.println("No es un grafo fuertemente conectado");
+                        break;
+                    }
+                }
+            }
+        }
+        System.err.println("Es un grafo fuertemente conectado");
+
+    }
+
+    private boolean validarAlcanceRecursivo(String vHost, String vDestino) {
+        if (esAdyacente(vHost, vDestino)) {
+            return true;
+        } else {
+            for (int i = 0; i < matrizAdy.length; i++) {
+                if (vHost.equalsIgnoreCase(String.valueOf(traductorVertice(i)))) {
+                    if (esAdyacente(String.valueOf(traductorVertice(i)), vHost)) {
+                        if (validarAlcanceRecursivo(String.valueOf(traductorVertice(i)), vDestino)) {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
 }
