@@ -138,35 +138,40 @@ public class Grafo {
         }
         return vertice;
     }
-    
-    public String isConexo(){
+
+    public String isConexo() {
         String vertices = "";
         for (int i = 0; i < matrizAdy.length; i++) {
-            if(!validarFila(i))
-                if(!validarColumna(i))
-                    vertices+=traductorVertice(i)+" ";
+            if (!validarFila(i)) {
+                if (!validarColumna(i)) {
+                    vertices += traductorVertice(i) + " ";
+                }
+            }
         }
-        if(vertices.equals(""))
+        if (vertices.equals("")) {
             return "Es conexo";
-        return "No es conexo por:"+vertices;
+        }
+        return "No es conexo por:" + vertices;
     }
-    
-    private boolean validarFila(int fila){
+
+    private boolean validarFila(int fila) {
         for (int i = 0; i < matrizAdy.length; i++) {
-            if(matrizAdy[fila][i]==1)
+            if (matrizAdy[fila][i] == 1) {
                 return true;
+            }
         }
         return false;
     }
-    
-    private boolean validarColumna(int columna){
+
+    private boolean validarColumna(int columna) {
         for (int i = 0; i < matrizAdy.length; i++) {
-            if(matrizAdy[i][columna]==1)
+            if (matrizAdy[i][columna] == 1) {
                 return true;
+            }
         }
         return false;
     }
-    
+
     public void Grado() {
         int[] grado = new int[matrizAdy.length];
         for (int i = 0; i < matrizAdy.length; i++) {
@@ -292,4 +297,32 @@ public class Grafo {
         return false;
     }
 
+    public boolean esCompleto() {
+        int[] grado = new int[matrizAdy.length];
+        if (!esGrafoDirigido) {
+            for (int i = 0; i < matrizAdy.length; i++) {
+                for (int j = 0; j < matrizAdy[i].length; j++) {
+                    grado[i] += matrizAdy[i][j];
+                }
+            }
+            for (int i = 0; i < matrizAdy.length; i++) {
+                if (grado[i] != (matrizAdy.length - 1)) {
+                    return false;
+                }
+            }
+        } else {
+            for (int i = 0; i < matrizAdy.length; i++) {
+                for (int j = 0; j < matrizAdy[i].length; j++) {
+                    grado[i] += matrizAdy[i][j] + matrizAdy[j][i];
+                }
+            }
+            for (int i = 0; i < matrizAdy.length; i++) {
+                if (grado[i] != ((2 * matrizAdy.length) - 2)) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+    
 }
