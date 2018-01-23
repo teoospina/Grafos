@@ -19,6 +19,7 @@ public class Grafo {
     int[][] matrizAdy;
     int[][] matrizPesos;
     boolean[] marcasProf;
+    boolean esGrafoDirigido;
 
     public void preLLenado(int nVertices) {
         this.matrizAdy = new int[nVertices][nVertices];
@@ -31,6 +32,7 @@ public class Grafo {
             }
         }
         this.marcasProf = new boolean[matrizAdy.length];
+
     }
 
     public int idetentificador(String vertice) {
@@ -74,6 +76,9 @@ public class Grafo {
     }
 
     public void llenadoMatrices(String vinicial, String vFinal, int peso, boolean esDirigido) {
+        if (esDirigido && !this.esGrafoDirigido) {
+            this.esGrafoDirigido = true;
+        }
         int inicial = this.idetentificador(vinicial);
         int vfinal = this.idetentificador(vFinal);
         if (esDirigido) {
@@ -133,7 +138,35 @@ public class Grafo {
         }
         return vertice;
     }
-
+    
+    public String isConexo(){
+        String vertices = "";
+        for (int i = 0; i < matrizAdy.length; i++) {
+            if(!validarFila(i))
+                if(!validarColumna(i))
+                    vertices+=traductorVertice(i)+" ";
+        }
+        if(vertices.equals(""))
+            return "Es conexo";
+        return "No es conexo por:"+vertices;
+    }
+    
+    private boolean validarFila(int fila){
+        for (int i = 0; i < matrizAdy.length; i++) {
+            if(matrizAdy[fila][i]==1)
+                return true;
+        }
+        return false;
+    }
+    
+    private boolean validarColumna(int columna){
+        for (int i = 0; i < matrizAdy.length; i++) {
+            if(matrizAdy[i][columna]==1)
+                return true;
+        }
+        return false;
+    }
+    
     public void Grado() {
         int[] grado = new int[matrizAdy.length];
         for (int i = 0; i < matrizAdy.length; i++) {
@@ -206,26 +239,40 @@ public class Grafo {
     public boolean esAdyacente(String vInicial, String vFinal) {
         int inicial = this.idetentificador(vInicial);
         int vfinal = this.idetentificador(vFinal);
-        if (matrizAdy[inicial][vfinal] == 1 || matrizAdy[vfinal][inicial] == 1) {
-            return true;
+        if (this.esGrafoDirigido) {
+            if (matrizAdy[inicial][vfinal] == 1) {
+                return true;
+            }
+        } else {
+            if (matrizAdy[inicial][vfinal] == 1 || matrizAdy[vfinal][inicial] == 1) {
+                return true;
+            }
         }
+
         return false;
     }
 
-    public void fuerteConectado() {
+    public void validarFC() {
+        if (esGrafoDirigido && !fuerteConectado()) {
+            System.err.println("No es un grafo fuertemente conectado");
+
+        } else {
+            System.err.println("Es un grafo fuertemente conectado");
+        }
+    }
+
+    private boolean fuerteConectado() {
         for (int j = 0; j < matrizAdy.length; j++) {
             String vInicial = String.valueOf(traductorVertice(j));
             for (int i = 0; i < matrizAdy.length; i++) {
-                if (vInicial.equalsIgnoreCase(String.valueOf(traductorVertice(i)))) {
+                if (!vInicial.equalsIgnoreCase(String.valueOf(traductorVertice(i)))) {
                     if (!validarAlcanceRecursivo(vInicial, String.valueOf(traductorVertice(i)))) {
-                        System.err.println("No es un grafo fuertemente conectado");
-                        break;
+                        return false;
                     }
                 }
             }
         }
-        System.err.println("Es un grafo fuertemente conectado");
-
+        return true;
     }
 
     private boolean validarAlcanceRecursivo(String vHost, String vDestino) {
@@ -233,7 +280,7 @@ public class Grafo {
             return true;
         } else {
             for (int i = 0; i < matrizAdy.length; i++) {
-                if (vHost.equalsIgnoreCase(String.valueOf(traductorVertice(i)))) {
+                if (!vHost.equalsIgnoreCase(String.valueOf(traductorVertice(i)))) {
                     if (esAdyacente(String.valueOf(traductorVertice(i)), vHost)) {
                         if (validarAlcanceRecursivo(String.valueOf(traductorVertice(i)), vDestino)) {
                             return true;
@@ -244,7 +291,5 @@ public class Grafo {
         }
         return false;
     }
-    
-    
 
 }
