@@ -20,6 +20,7 @@ public class Grafo {
     int[][] matrizPesos;
     boolean[] marcasProf;
     boolean esGrafoDirigido;
+    LinkedList<LinkedList<String>> listaCaminos = new LinkedList<>();
 
     public void preLLenado(int nVertices) {
         this.matrizAdy = new int[nVertices][nVertices];
@@ -297,32 +298,55 @@ public class Grafo {
         return false;
     }
 
-    public boolean esCompleto() {
-        int[] grado = new int[matrizAdy.length];
-        if (!esGrafoDirigido) {
-            for (int i = 0; i < matrizAdy.length; i++) {
-                for (int j = 0; j < matrizAdy[i].length; j++) {
-                    grado[i] += matrizAdy[i][j];
-                }
-            }
-            for (int i = 0; i < matrizAdy.length; i++) {
-                if (grado[i] != (matrizAdy.length - 1)) {
-                    return false;
-                }
-            }
+    public void caminoSimples(String vHost, String vDestino) {
+        LinkedList<String> ruta = new LinkedList<>();
+        LinkedList<Integer> visitados = new LinkedList<>();
+
+        ruta.add(vHost);
+        visitados.add(idetentificador(vHost));
+        camino(vHost, vDestino, ruta, visitados);
+        for (LinkedList<String> rutas : listaCaminos) {
+            System.out.println(rutas.toString());
+        }
+
+    }
+
+    private void camino(String vHost, String vDestino, LinkedList<String> ruta, LinkedList<Integer> visitados) {
+        if (vHost.equalsIgnoreCase(vDestino)) {
+            this.listaCaminos.add(ruta);
         } else {
+            int idFila = idetentificador(vHost);
             for (int i = 0; i < matrizAdy.length; i++) {
-                for (int j = 0; j < matrizAdy[i].length; j++) {
-                    grado[i] += matrizAdy[i][j] + matrizAdy[j][i];
-                }
-            }
-            for (int i = 0; i < matrizAdy.length; i++) {
-                if (grado[i] != ((2 * matrizAdy.length) - 2)) {
-                    return false;
+                if (matrizAdy[idFila][i] == 1 && !visitados.contains(i)) {
+                    LinkedList<String> rutaN = (LinkedList<String>) ruta.clone();
+                    LinkedList<Integer> visitN = (LinkedList<Integer>) visitados.clone();
+
+                    rutaN.add(String.valueOf(traductorVertice(i)));
+                    visitN.add(i);
+                    camino(String.valueOf(traductorVertice(i)), vDestino, rutaN, visitN);
                 }
             }
         }
-        return true;
     }
-    
+
+    public void caminoMasVertices() {
+        LinkedList<String> mayor = new LinkedList<>();
+        for (LinkedList<String> rutas : this.listaCaminos) {
+            if (rutas.size() > mayor.size()) {
+                mayor = rutas;
+            }
+        }
+        System.out.println(mayor.toString());
+    }
+
+    public void caminoMenosVertices() {
+        LinkedList<String> menor = listaCaminos.get(0);
+        for (LinkedList<String> rutas : this.listaCaminos) {
+            if (rutas.size() < menor.size()) {
+                menor = rutas;
+            }
+        }
+        System.out.println(menor.toString());
+    }
+
 }

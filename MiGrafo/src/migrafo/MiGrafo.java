@@ -75,7 +75,6 @@ public class MiGrafo {
         }
         grafoConex.validarFC();
         System.out.println(grafoConex.isConexo());
-        System.out.println(grafoConex.esCompleto());
         
     }
 
