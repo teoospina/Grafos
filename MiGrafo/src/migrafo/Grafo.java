@@ -349,4 +349,40 @@ public class Grafo {
         System.out.println(menor.toString());
     }
 
+    public void validarMatrizBinaria(int[][] matriz) {
+        if (esBinaria(matriz)) {
+            if (esMatrizGrafoConexoValida(matriz)) {
+                System.out.println("La matriz ingresada corresponde a un grafo conexo");
+            } else {
+                System.out.println("La matriz ingresada no corresponde a un grafo conexo");
+            }
+        } else {
+            System.out.println("La matriz ingresada no es binaria");
+        }
+    }
+
+    private boolean esMatrizGrafoConexoValida(int[][] matriz) {
+        for (int i = 0; i < matriz.length; i++) {
+            int validacion = 0;
+            for (int j = 0; j < matriz[i].length; j++) {
+                validacion += matriz[i][j];
+            }
+            if (validacion == 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean esBinaria(int[][] matriz) {
+        for (int i = 0; i < matriz.length; i++) {
+            for (int j = 0; j < matriz[i].length; j++) {
+                if (matriz[i][j] != 0 && matriz[i][j] != 1) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
 }
