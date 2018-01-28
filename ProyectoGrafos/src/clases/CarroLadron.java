@@ -8,8 +8,11 @@ package clases;
 import static Vista.PanelVistaPrincipal.posInicialX;
 import static Vista.PanelVistaPrincipal.posInicialY;
 import static Vista.PanelVistaPrincipal.proporcion;
+import Vista.VistaPrincipal;
 import static Vista.VistaPrincipal.matrizMapa;
+import static Vista.VistaPrincipal.objetosList;
 import java.awt.Image;
+import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
@@ -32,6 +35,7 @@ public class CarroLadron implements Runnable {
     private int yDestino;
     private Thread hiloLadron;
     private int dineroRobado;
+    LinkedList<LinkedList<Vertice>> listaCaminos;
 
     public CarroLadron() {
     }
@@ -60,6 +64,7 @@ public class CarroLadron implements Runnable {
         this.yDestino = this.yObjeto;
         this.dineroRobado = 0;
         this.hiloLadron = new Thread(this);
+        this.listaCaminos=new LinkedList<>();
     }
 
     /**
@@ -288,5 +293,42 @@ public class CarroLadron implements Runnable {
     public void setHiloLadron(Thread hiloLadron) {
         this.hiloLadron = hiloLadron;
     }
+public void caminoSimples(Vertice vHost) {
+        LinkedList<Vertice> ruta = new LinkedList<>();
+        LinkedList<Vertice> visitados = new LinkedList<>();
 
+        ruta.add(vHost);
+        visitados.add(vHost);
+        camino(vHost, ruta, visitados);
+       
+
+    }
+
+    private void camino(Vertice vHost, LinkedList<Vertice> ruta, LinkedList<Vertice> visitados) {
+        if (vHost.getTipo().equalsIgnoreCase("Guarida")) {
+            this.listaCaminos.add(ruta);
+        } else {
+            int idFila = vHost.getFila();
+            for (int i = 0; i < VistaPrincipal.matrizAdyacen.length; i++) {
+                if (VistaPrincipal.matrizAdyacen[idFila][i] == 1 && !visitados.contains(i)) {
+                    LinkedList<Vertice> rutaN = (LinkedList<Vertice>) ruta.clone();
+                    LinkedList<Vertice> visitN = (LinkedList<Vertice>) visitados.clone();
+
+                    rutaN.add(objetosList.get(i));
+                    visitN.add(objetosList.get(i));
+                    camino(objetosList.get(i), rutaN, visitN);
+                }
+            }
+        }
+    }
+
+    public LinkedList<Vertice> caminoMenosVertices() {
+        LinkedList<Vertice> menor = listaCaminos.get(0);
+        for (LinkedList<Vertice> rutas : this.listaCaminos) {
+            if (rutas.size() < menor.size()) {
+                menor = rutas;
+            }
+        }
+        return menor;
+    }
 }
