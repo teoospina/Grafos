@@ -8,11 +8,8 @@ package clases;
 import static Vista.PanelVistaPrincipal.posInicialX;
 import static Vista.PanelVistaPrincipal.posInicialY;
 import static Vista.PanelVistaPrincipal.proporcion;
-import static Vista.VistaPrincipal.matrizInfluencia;
 import static Vista.VistaPrincipal.matrizMapa;
 import java.awt.Image;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
@@ -34,6 +31,7 @@ public class CarroLadron implements Runnable {
     private int yObjeto;
     private int yDestino;
     private Thread hiloLadron;
+    private int dineroRobado;
 
     public CarroLadron() {
     }
@@ -42,7 +40,13 @@ public class CarroLadron implements Runnable {
         this.fila = fila;
         this.columna = columna;
         this.areaContacto = areaContacto;
-        this.direccionesImgLadron = new String[]{"../imagenes/Ladrones/Audi", "../imagenes/Ladrones/Black viper", "../imagenes/Ladrones/Car O", "../imagenes/Ladrones/Mini Truck", "../imagenes/Ladrones/Mini van", "../imagenes/Ladrones/Taxi"};
+        this.direccionesImgLadron = new String[]{"../imagenes/Ladrones/Audi",
+                                                 "../imagenes/Ladrones/Black viper", 
+                                                 "../imagenes/Ladrones/Car O", 
+                                                 "../imagenes/Ladrones/Mini Truck", 
+                                                 "../imagenes/Ladrones/Mini van", 
+                                                 "../imagenes/Ladrones/Taxi"
+                                                };
         int dirRandom = (int) (Math.random() * 3);
         String dirObtenida = this.direccionesImgLadron[dirRandom];
         this.ladronImg = new Image[4];
@@ -54,7 +58,8 @@ public class CarroLadron implements Runnable {
         this.xDestino = this.xObjeto;
         this.yObjeto = posInicialY + (proporcion * this.fila);
         this.yDestino = this.yObjeto;
-        this.hiloLadron= new Thread(this);
+        this.dineroRobado = 0;
+        this.hiloLadron = new Thread(this);
     }
 
     /**
