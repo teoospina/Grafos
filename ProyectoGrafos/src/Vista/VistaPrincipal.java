@@ -83,6 +83,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
         btnGuarida = new javax.swing.JToggleButton();
         btnEstacion = new javax.swing.JToggleButton();
         zonaInfluencia = new javax.swing.JCheckBox();
+        btnEstacion1 = new javax.swing.JToggleButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         btnCargarMapa = new javax.swing.JMenuItem();
@@ -181,6 +182,13 @@ public class VistaPrincipal extends javax.swing.JFrame {
                 .addComponent(zonaInfluencia))
         );
 
+        btnEstacion1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Policia/icoec.png"))); // NOI18N
+        btnEstacion1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEstacion1ActionPerformed(evt);
+            }
+        });
+
         jMenu1.setText("Archivo");
 
         btnCargarMapa.setText("Cargar mapa");
@@ -212,6 +220,10 @@ public class VistaPrincipal extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(panelEdicion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGap(245, 245, 245)
+                .addComponent(btnEstacion1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -219,7 +231,9 @@ public class VistaPrincipal extends javax.swing.JFrame {
                 .addComponent(panelVistaPrincipal1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(panelEdicion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(109, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnEstacion1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(53, Short.MAX_VALUE))
         );
 
         pack();
@@ -390,6 +404,29 @@ public class VistaPrincipal extends javax.swing.JFrame {
         iniciarSimulacion();
     }//GEN-LAST:event_btnIniciarJuegoActionPerformed
 
+    private void btnEstacion1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEstacion1ActionPerformed
+        esAdyacente();
+        Vertice vInicio = obtenerVertice(ladronCar.getFila(), ladronCar.getColumna());
+        if (vInicio != null) {
+            ladronCar.caminoSimples(vInicio);
+            LinkedList<Vertice> lista = ladronCar.caminoMenosVertices();
+            for (Vertice vertice : lista) {
+                System.out.println(vertice.getFila() + "-" + vertice.getColumna());
+            }
+        }
+        this.requestFocus();
+
+    }//GEN-LAST:event_btnEstacion1ActionPerformed
+
+    private Vertice obtenerVertice(int fila, int columna) {
+        for (Vertice vertice : objetosList) {
+            if (vertice.getFila() == fila && vertice.getColumna() == columna) {
+                return vertice;
+            }
+        }
+        return null;
+    }
+
     private void iniciarSimulacion() {
         ladronCar.getHiloLadron().start();
         for (Vertice vertice : objetosList) {
@@ -543,8 +580,15 @@ public class VistaPrincipal extends javax.swing.JFrame {
         for (int i = 0; i < objetosList.size(); i++) {
             for (int j = 0; j < objetosList.size(); j++) {
                 if (!objetosList.get(i).equals(objetosList.get(j))) {
-                    if (abs(objetosList.get(i).getFila() - objetosList.get(j).getFila()) < 2 && abs(objetosList.get(i).getColumna() - objetosList.get(j).getColumna()) < 2) {
-                        matrizAdyacen[i][j] = 1;
+                    if (abs(objetosList.get(i).getFila() - objetosList.get(j).getFila()) < 2) {
+                        if (abs(objetosList.get(i).getColumna() - objetosList.get(j).getColumna()) == 0) {
+                            matrizAdyacen[i][j] = 1;
+                        }
+                    }
+                    if (abs(objetosList.get(i).getColumna() - objetosList.get(j).getColumna()) < 2) {
+                        if (abs(objetosList.get(i).getFila() - objetosList.get(j).getFila()) == 0) {
+                            matrizAdyacen[i][j] = 1;
+                        }
                     }
                 }
             }
@@ -771,6 +815,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem btnCargarMapa;
     private javax.swing.JToggleButton btnEscudo;
     private javax.swing.JToggleButton btnEstacion;
+    private javax.swing.JToggleButton btnEstacion1;
     private javax.swing.JToggleButton btnGuarida;
     private javax.swing.JMenuItem btnIniciarJuego;
     private javax.swing.JMenu jMenu1;

@@ -45,12 +45,12 @@ public class CarroLadron implements Runnable {
         this.columna = columna;
         this.areaContacto = areaContacto;
         this.direccionesImgLadron = new String[]{"../imagenes/Ladrones/Audi",
-                                                 "../imagenes/Ladrones/Black viper", 
-                                                 "../imagenes/Ladrones/Car O", 
-                                                 "../imagenes/Ladrones/Mini Truck", 
-                                                 "../imagenes/Ladrones/Mini van", 
-                                                 "../imagenes/Ladrones/Taxi"
-                                                };
+            "../imagenes/Ladrones/Black viper",
+            "../imagenes/Ladrones/Car O",
+            "../imagenes/Ladrones/Mini Truck",
+            "../imagenes/Ladrones/Mini van",
+            "../imagenes/Ladrones/Taxi"
+        };
         int dirRandom = (int) (Math.random() * 3);
         String dirObtenida = this.direccionesImgLadron[dirRandom];
         this.ladronImg = new Image[4];
@@ -64,7 +64,7 @@ public class CarroLadron implements Runnable {
         this.yDestino = this.yObjeto;
         this.dineroRobado = 0;
         this.hiloLadron = new Thread(this);
-        this.listaCaminos=new LinkedList<>();
+        this.listaCaminos = new LinkedList<>();
     }
 
     /**
@@ -293,14 +293,15 @@ public class CarroLadron implements Runnable {
     public void setHiloLadron(Thread hiloLadron) {
         this.hiloLadron = hiloLadron;
     }
-public void caminoSimples(Vertice vHost) {
+
+    public void caminoSimples(Vertice vHost) {
+        listaCaminos = new LinkedList<>();
         LinkedList<Vertice> ruta = new LinkedList<>();
         LinkedList<Vertice> visitados = new LinkedList<>();
 
         ruta.add(vHost);
         visitados.add(vHost);
         camino(vHost, ruta, visitados);
-       
 
     }
 
@@ -308,9 +309,9 @@ public void caminoSimples(Vertice vHost) {
         if (vHost.getTipo().equalsIgnoreCase("Guarida")) {
             this.listaCaminos.add(ruta);
         } else {
-            int idFila = vHost.getFila();
+            int idFila = objetosList.indexOf(vHost);
             for (int i = 0; i < VistaPrincipal.matrizAdyacen.length; i++) {
-                if (VistaPrincipal.matrizAdyacen[idFila][i] == 1 && !visitados.contains(i)) {
+                if (VistaPrincipal.matrizAdyacen[idFila][i] == 1 && !visitados.contains(objetosList.get(i))) {
                     LinkedList<Vertice> rutaN = (LinkedList<Vertice>) ruta.clone();
                     LinkedList<Vertice> visitN = (LinkedList<Vertice>) visitados.clone();
 
