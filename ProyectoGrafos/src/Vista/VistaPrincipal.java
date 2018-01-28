@@ -47,7 +47,6 @@ public class VistaPrincipal extends javax.swing.JFrame {
     public static CarroLadron ladronCar;
     public static boolean pintarInfluencia;
     private boolean guarida;
-    
 
     /**
      * Creates new form VistaPrincipal
@@ -225,10 +224,12 @@ public class VistaPrincipal extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-   
-    /***
+
+    /**
+     * *
      * Metodo encargado de cargar el mapa desde un archivo XML o JSON
-     * @param evt 
+     *
+     * @param evt
      */
     private void btnCargarMapaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCargarMapaActionPerformed
         JFileChooser abrirArchivo = new JFileChooser();
@@ -263,10 +264,12 @@ public class VistaPrincipal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnCargarMapaActionPerformed
 
-    /***
-     * Evento que escucha en el momento que se da un clic en pantalla, con el fin de
-     * poder crear y parametrizar el mapa antes de iniciar el juego.
-     * @param evt 
+    /**
+     * *
+     * Evento que escucha en el momento que se da un clic en pantalla, con el
+     * fin de poder crear y parametrizar el mapa antes de iniciar el juego.
+     *
+     * @param evt
      */
     private void panelVistaPrincipal1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelVistaPrincipal1MouseClicked
         int x = evt.getX();
@@ -274,10 +277,14 @@ public class VistaPrincipal extends javax.swing.JFrame {
         Point punto = this.panelVistaPrincipal1.obtenerMouse(x, y);
         if (this.btnBanco.isSelected()) {
             objetosList.add(new Vertice("Banco", punto.y, punto.x));
+            matrizMapa[punto.y][punto.x] = 2;
         } else if (this.btnEscudo.isSelected()) {
             agregarEscudoManual(punto.y, punto.x);
+            matrizMapa[punto.y][punto.x] = 8;
         } else if (this.btnEstacion.isSelected()) {
             objetosList.add(new Vertice("EstacionP", punto.y, punto.x));
+            matrizMapa[punto.y][punto.x] = 5;
+
             EstacionDePolicia estacion = (EstacionDePolicia) objetosList.get(objetosList.size() - 1).getContenedor();
             int numeroPatrullas = Integer.parseInt(JOptionPane.showInputDialog("Numero de patrullas"));
             estacion.crearPatrulla(numeroPatrullas, punto.y, punto.x);
@@ -285,46 +292,59 @@ public class VistaPrincipal extends javax.swing.JFrame {
         } else if (this.btnGuarida.isSelected()) {
             if (!guarida) {
                 objetosList.add(new Vertice("Guarida", punto.y, punto.x));
+                matrizMapa[punto.y][punto.x] = 7;
                 guarida = !guarida;
                 ladronCar = new CarroLadron(punto.y, punto.x, 40);
             }
         }
         this.requestFocus();
     }//GEN-LAST:event_panelVistaPrincipal1MouseClicked
-    
-    /***
-     * Evento que se ejecuta al oprimir btnEscudo con el fin de desactivar los otros botones
-     * @param evt 
+
+    /**
+     * *
+     * Evento que se ejecuta al oprimir btnEscudo con el fin de desactivar los
+     * otros botones
+     *
+     * @param evt
      */
     private void btnEscudoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEscudoActionPerformed
         this.btnBanco.setSelected(false);
         this.btnGuarida.setSelected(false);
         this.btnEstacion.setSelected(false);
     }//GEN-LAST:event_btnEscudoActionPerformed
-    
-    /***
-     * Evento que se ejecuta al oprimir btnGuarida con el fin de desactivar los otros botones
-     * @param evt 
+
+    /**
+     * *
+     * Evento que se ejecuta al oprimir btnGuarida con el fin de desactivar los
+     * otros botones
+     *
+     * @param evt
      */
     private void btnGuaridaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuaridaActionPerformed
         this.btnBanco.setSelected(false);
         this.btnEscudo.setSelected(false);
         this.btnEstacion.setSelected(false);
     }//GEN-LAST:event_btnGuaridaActionPerformed
-    
-    /***
-     * Evento que se ejecuta al oprimir btnEstacionP con el fin de desactivar los otros botones
-     * @param evt 
+
+    /**
+     * *
+     * Evento que se ejecuta al oprimir btnEstacionP con el fin de desactivar
+     * los otros botones
+     *
+     * @param evt
      */
     private void btnEstacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEstacionActionPerformed
         this.btnBanco.setSelected(false);
         this.btnEscudo.setSelected(false);
         this.btnGuarida.setSelected(false);
     }//GEN-LAST:event_btnEstacionActionPerformed
-    
-    /***
-     * Evento que se ejecuta al oprimir btnBanco con el fin de desactivar los otros botones
-     * @param evt 
+
+    /**
+     * *
+     * Evento que se ejecuta al oprimir btnBanco con el fin de desactivar los
+     * otros botones
+     *
+     * @param evt
      */
     private void btnBancoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBancoActionPerformed
         this.btnGuarida.setSelected(false);
@@ -334,10 +354,12 @@ public class VistaPrincipal extends javax.swing.JFrame {
 
     /**
      * Eventos controlados por teclado
-     * @param evt 
+     *
+     * @param evt
      */
     private void formKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyPressed
-        /***
+        /**
+         * *
          * Evento del teclado utilizado para dirigir el vehiculo de los ladrones
          * a partir de la tecla que se oprima
          */
@@ -368,15 +390,15 @@ public class VistaPrincipal extends javax.swing.JFrame {
         iniciarSimulacion();
     }//GEN-LAST:event_btnIniciarJuegoActionPerformed
 
-    private void iniciarSimulacion(){
+    private void iniciarSimulacion() {
         ladronCar.getHiloLadron().start();
-        for(Vertice vertice:objetosList){
-            if(vertice.getTipo().equalsIgnoreCase("EstacionP")){
-                ((EstacionDePolicia)vertice.getContenedor()).iniciarHilos();
+        for (Vertice vertice : objetosList) {
+            if (vertice.getTipo().equalsIgnoreCase("EstacionP")) {
+                ((EstacionDePolicia) vertice.getContenedor()).iniciarHilos();
             }
         }
     }
-    
+
     /**
      * *
      * Metodo cargarDatos se encarga de llamar al respectivo metodo para obtener
@@ -480,11 +502,13 @@ public class VistaPrincipal extends javax.swing.JFrame {
         this.btnEstacion.setVisible(false);
         this.btnBanco.setVisible(false);
     }
-    
-    /***
-     * Metodo recorreCreaObj se encarga de recorrer la matrizMapa, que es la estructura
-     * donde se almacena el mapa cargado a travez del archivo XML o JSON y llena una lista
-     * de objetos, dependiendo del identificador que encuentra en dicha posicion.
+
+    /**
+     * *
+     * Metodo recorreCreaObj se encarga de recorrer la matrizMapa, que es la
+     * estructura donde se almacena el mapa cargado a travez del archivo XML o
+     * JSON y llena una lista de objetos, dependiendo del identificador que
+     * encuentra en dicha posicion.
      */
     public void recorreCreaObj() {
         for (int i = 0; i < matrizMapa.length; i++) {
@@ -506,11 +530,13 @@ public class VistaPrincipal extends javax.swing.JFrame {
             }
         }
     }
-    
-    /***
-     * Metodo esAdyacente se encarga de calcular la matriz de adyacencia a partir
-     * de la lista de objetos vertice que se identifican al cargar la estructura (JSON ó XML)
-     * o en su defecto las estructuras que se agregan en el mapa antes de iniciar el juego.
+
+    /**
+     * *
+     * Metodo esAdyacente se encarga de calcular la matriz de adyacencia a
+     * partir de la lista de objetos vertice que se identifican al cargar la
+     * estructura (JSON ó XML) o en su defecto las estructuras que se agregan en
+     * el mapa antes de iniciar el juego.
      */
     public void esAdyacente() {
         matrizAdyacen = new int[objetosList.size()][objetosList.size()];
@@ -682,10 +708,12 @@ public class VistaPrincipal extends javax.swing.JFrame {
         }
         return false;
     }
-    
-    /***
-     * Metodo sonido se encarga de iniciar el sonido de fondo del juego, llamando
-     * al metodo fondoSound definido estaticamente desde la clase Sounds
+
+    /**
+     * *
+     * Metodo sonido se encarga de iniciar el sonido de fondo del juego,
+     * llamando al metodo fondoSound definido estaticamente desde la clase
+     * Sounds
      */
     private void sonido() {
         try {
