@@ -37,6 +37,7 @@ public class CarroLadron implements Runnable {
     private int dineroRobado;
     LinkedList<LinkedList<Vertice>> listaCaminos;
     private String modo;
+    private Banco bancoRobar;
 
     public CarroLadron() {
     }
@@ -44,6 +45,7 @@ public class CarroLadron implements Runnable {
     public CarroLadron(int fila, int columna, int areaContacto) {
         this.fila = fila;
         this.columna = columna;
+        this.dineroRobado = 0;
         this.areaContacto = areaContacto;
         this.direccionesImgLadron = new String[]{"../imagenes/Ladrones/Audi",
             "../imagenes/Ladrones/Black viper",
@@ -64,7 +66,6 @@ public class CarroLadron implements Runnable {
         this.xDestino = this.xObjeto;
         this.yObjeto = posInicialY + (proporcion * this.fila);
         this.yDestino = this.yObjeto;
-        this.dineroRobado = 0;
         this.hiloLadron = new Thread(this);
         this.listaCaminos = new LinkedList<>();
     }
@@ -183,6 +184,7 @@ public class CarroLadron implements Runnable {
                                 }
                                 if (this.getFila() - 1 >= 0 && this.getFila() - 1 < matrizMapa.length && this.getColumna() >= 0 && this.getColumna() < matrizMapa.length && matrizMapa[this.getFila() - 1][this.getColumna()] == 2) {
                                     this.modo = "robar";
+                                    this.bancoRobar = obtenerBanco(fila - 1, columna);
                                 }
                                 break;
                             case "Izquierda":
@@ -191,6 +193,7 @@ public class CarroLadron implements Runnable {
                                 }
                                 if (this.getFila() >= 0 && this.getFila() < matrizMapa.length && this.getColumna() - 1 >= 0 && this.getColumna() - 1 < matrizMapa.length && matrizMapa[this.getFila()][this.getColumna() - 1] == 2) {
                                     this.modo = "robar";
+                                    this.bancoRobar = obtenerBanco(fila, columna - 1);
                                 }
                                 break;
                             case "Derecha":
@@ -199,6 +202,7 @@ public class CarroLadron implements Runnable {
                                 }
                                 if (this.getFila() >= 0 && this.getFila() < matrizMapa.length && this.getColumna() + 1 >= 0 && this.getColumna() + 1 < matrizMapa.length && matrizMapa[this.getFila()][this.getColumna() + 1] == 2) {
                                     this.modo = "robar";
+                                    this.bancoRobar = obtenerBanco(fila, columna + 1);
                                 }
                                 break;
                             case "Abajo":
@@ -207,6 +211,7 @@ public class CarroLadron implements Runnable {
                                 }
                                 if (this.getFila() + 1 >= 0 && this.getFila() + 1 < matrizMapa.length && this.getColumna() >= 0 && this.getColumna() < matrizMapa.length && matrizMapa[this.getFila() + 1][this.getColumna()] == 2) {
                                     this.modo = "robar";
+                                    this.bancoRobar = obtenerBanco(fila + 1, columna);
                                 }
                                 break;
                         }
@@ -241,10 +246,16 @@ public class CarroLadron implements Runnable {
                     }
                     break;
                 case "robar":
-                    Banco banco = obtenerBanco(this.getFila(), this.getColumna());
-                    this.dineroRobado += (int)banco.getDinero();
+                    int monto = bancoRobar.obtenerDinero();
+                    if (monto > 0) {
+                        System.out.println("Se obtuvo " + monto);
+                        this.dineroRobado += monto;
+                        if (bancoRobar.getDinero() == 0) {
+                            this.modo = "conducir";
+                        }
+                    }
                     try {
-                        Thread.sleep(8);
+                        Thread.sleep(1000);
                     } catch (Exception e) {
                     }
                     break;
@@ -254,17 +265,17 @@ public class CarroLadron implements Runnable {
 
         }
     }
-    
-    public Banco obtenerBanco(int fila, int columna){
-        for(Vertice vertice:objetosList){
-            if(vertice.getFila() == fila && vertice.getColumna() == columna){
-                if(vertice.getTipo().equalsIgnoreCase("banco"))
-                    return (Banco)vertice.getContenedor();
+
+    public Banco obtenerBanco(int fila, int columna) {
+        for (Vertice vertice : objetosList) {
+            if (vertice.getFila() == fila && vertice.getColumna() == columna) {
+                if (vertice.getTipo().equalsIgnoreCase("banco")) {
+                    return (Banco) vertice.getContenedor();
+                }
             }
         }
         return null;
     }
-            
 
     /**
      * @return the xObjeto

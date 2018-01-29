@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package clases;
+
 import static Vista.VistaPrincipal.cuentaBanco;
 
 /**
@@ -11,29 +12,38 @@ import static Vista.VistaPrincipal.cuentaBanco;
  * @author Mateo
  */
 public class Banco {
-  
-    private float dinero;
+
+    private int dinero;
     private int idBanco;
 
-    public Banco(int dinero ) {
+    public Banco(int dinero) {
         this.dinero = dinero;
         this.idBanco = cuentaBanco;
-        cuentaBanco+=1;
+        cuentaBanco += 1;
     }
- 
-    
 
     /**
      * @return the dinero
      */
-    public float getDinero() {
+    public int obtenerDinero() {
+        int monto = (int) (Math.random() * dinero);
+        dinero -= monto;
+        System.err.println("dinero " + dinero);
+        if (dinero == 1 && monto == 0) {
+            dinero = 0;
+            return 1;
+        }
+        return monto;
+    }
+
+    public int getDinero() {
         return dinero;
     }
 
     /**
      * @param dinero the dinero to set
      */
-    public void setDinero(float dinero) {
+    public void setDinero(int dinero) {
         this.dinero = dinero;
     }
 
@@ -50,5 +60,5 @@ public class Banco {
     public void setIdBanco(int idBanco) {
         this.idBanco = idBanco;
     }
-    
+
 }

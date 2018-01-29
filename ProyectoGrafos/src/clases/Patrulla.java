@@ -142,17 +142,10 @@ public class Patrulla implements Runnable {
 
             if (this.getxObjeto() == this.getxDestino() && this.getyObjeto() == this.getyDestino()) {
                 List<Integer[]> dirList = new LinkedList<>();
-                int barreraRandom = (int) (Math.random() * 4);
-                switch(barreraRandom)  {
-                    case 0:
-                        bloquearCamino();
-                    case 1:
-                        bloquearCamino();
-                    case 2:
-                        bloquearCamino();
-                    case 3:
-                        bloquearCamino();
-                }
+                int barreraRandom = (int) (Math.random() * 100);
+                if(barreraRandom == 4 && listaBarreras.size()<8)
+                    bloquearCamino();
+                
                 if (this.getFila() >= 0 && this.getFila() < matrizMapa.length && this.getColumna() - 1 >= 0 && this.getColumna() - 1 < matrizMapa.length && matrizMapa[this.getFila()][this.getColumna() - 1] == 1) {
                     if (getIndiceInfluencia() == matrizInfluencia[this.getFila()][this.getColumna() - 1]) {
                         dirList.add(new Integer[]{this.getFila(), this.getColumna() - 1, 3});//Izq

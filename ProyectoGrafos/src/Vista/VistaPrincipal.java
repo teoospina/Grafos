@@ -61,6 +61,8 @@ public class VistaPrincipal extends javax.swing.JFrame {
         cuentaBanco = 0;
         cuentaEstacion = 1;
         objetosList = new LinkedList<>();
+        listaBarreras = new LinkedList<>();
+
         sonido();
 
         this.panelEdicion.setVisible(false);

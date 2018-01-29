@@ -6,6 +6,7 @@
 package Vista;
 
 import static Vista.VistaPrincipal.*;
+import clases.Banco;
 
 import clases.EstacionDePolicia;
 import clases.Vertice;
@@ -54,12 +55,12 @@ public class PanelVistaPrincipal extends javax.swing.JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         pintarMapa(g);
-        pintarObjetos(g);
-        pintarEscudos(g);
-        pintarBarrera(g);
         if (ladronCar != null) {
             pintarLadron(g);
         }
+        pintarObjetos(g);
+        pintarEscudos(g);
+        pintarBarrera(g);
         if (pintarInfluencia) {
             pintarZonaInfluencia(g);
         }
@@ -113,6 +114,14 @@ public class PanelVistaPrincipal extends javax.swing.JPanel {
                         pintarPatrulla(objetosList.get(i), g);
                     }
                     g.drawImage(objetosList.get(i).getImagen(), posInicialX + objetosList.get(i).getColumna() * proporcion, posInicialY + objetosList.get(i).getFila() * proporcion, proporcion + 10, proporcion + 10, null);
+
+                    if (objetosList.get(i).getTipo().equalsIgnoreCase("Banco")) {
+                        if (objetosList.get(i).getContenedor()!= null &&((Banco) objetosList.get(i).getContenedor()).getDinero() == 0) {
+                            g.setColor(Color.red);
+                            g.fillRect((posInicialX + objetosList.get(i).getColumna() * proporcion) + proporcion / 2, posInicialY + objetosList.get(i).getFila() * proporcion, 5, proporcion);
+                            g.fillRect((posInicialX + objetosList.get(i).getColumna() * proporcion), (posInicialY + objetosList.get(i).getFila() * proporcion) + proporcion / 2, proporcion, 5);
+                        }
+                    }
                 }
             }
         }
@@ -144,17 +153,18 @@ public class PanelVistaPrincipal extends javax.swing.JPanel {
             for (int i = 0; i < matrizMapa.length; i++) {
                 for (int j = 0; j < matrizMapa[i].length; j++) {
                     if (matrizInfluencia[i][j] != 0) {
-                        g.setColor(listaColor[matrizInfluencia[i][j]-1]);
-                        g.fill3DRect(posInicialX + (j* proporcion), posInicialY + (i * proporcion), 10, 10, true);
+                        g.setColor(listaColor[matrizInfluencia[i][j] - 1]);
+                        g.fill3DRect(posInicialX + (j * proporcion), posInicialY + (i * proporcion), 10, 10, true);
                     }
                 }
             }
         }
     }
-    private void pintarBarrera(Graphics g){
-        if(listaBarreras!=null){
+
+    private void pintarBarrera(Graphics g) {
+        if (listaBarreras != null) {
             for (int i = 0; i < listaBarreras.size(); i++) {
-                  g.drawImage(listaBarreras.get(i).getImagen(), posInicialX + (listaBarreras.get(i).getColumna() * proporcion), posInicialY + (listaBarreras.get(i).getFila() * proporcion), proporcion, proporcion, this);
+                g.drawImage(listaBarreras.get(i).getImagen(), posInicialX + (listaBarreras.get(i).getColumna() * proporcion), posInicialY + (listaBarreras.get(i).getFila() * proporcion), proporcion, proporcion, this);
 
             }
         }
