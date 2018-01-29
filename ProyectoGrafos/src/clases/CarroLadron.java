@@ -55,7 +55,7 @@ public class CarroLadron implements Runnable {
             "../imagenes/Ladrones/Taxi"
         };
         this.modo = "conducir";
-        int dirRandom = (int) (Math.random() * 3);
+        int dirRandom = (int) (Math.random() * direccionesImgLadron.length);
         String dirObtenida = this.direccionesImgLadron[dirRandom];
         this.ladronImg = new Image[4];
         for (int i = 1; i <= ladronImg.length; i++) {
