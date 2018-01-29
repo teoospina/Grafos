@@ -9,6 +9,7 @@ import java.awt.Image;
 import java.awt.Rectangle;
 import static Vista.VistaPrincipal.matrizMapa;
 import static Vista.VistaPrincipal.matrizInfluencia;
+import static Vista.VistaPrincipal.listaBarreras;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
@@ -22,7 +23,7 @@ import static Vista.PanelVistaPrincipal.*;
  */
 public class Patrulla implements Runnable {
 
-    private String idPatrulla;
+    private int idPatrulla;
     private int fila;
     private int columna;
     private Rectangle areaDisparo;
@@ -49,7 +50,7 @@ public class Patrulla implements Runnable {
     public Patrulla() {
     }
 
-    public Patrulla(String id, int indiceInfluencia, int fila, int columna) {
+    public Patrulla(int id, int indiceInfluencia, int fila, int columna) {
         this.idPatrulla = id;
         this.indiceInfluencia = indiceInfluencia;
         this.fila = fila;
@@ -61,16 +62,17 @@ public class Patrulla implements Runnable {
             {new ImageIcon(getClass().getResource("../imagenes/Policia/31.png")).getImage(), new ImageIcon(getClass().getResource("../imagenes/Policia/32.png")).getImage(), new ImageIcon(getClass().getResource("../imagenes/Policia/33.png")).getImage()},
             {new ImageIcon(getClass().getResource("../imagenes/Policia/41.png")).getImage(), new ImageIcon(getClass().getResource("../imagenes/Policia/42.png")).getImage(), new ImageIcon(getClass().getResource("../imagenes/Policia/43.png")).getImage()}
         };
-        this.movSirena=0;
-        this.sentidoImagen=0;
-        this.xObjeto=posInicialX+(proporcion*this.columna);
-        this.xDestino=this.xObjeto;
-        this.yObjeto=posInicialY+(proporcion*this.fila);
-        this.yDestino=this.yObjeto;
-        
+        this.movSirena = 0;
+        this.sentidoImagen = 0;
+        this.xObjeto = posInicialX + (proporcion * this.columna);
+        this.xDestino = this.xObjeto;
+        this.yObjeto = posInicialY + (proporcion * this.fila);
+        this.yDestino = this.yObjeto;
+
     }
 //"../imagenes/Policia/13.png"
-    public Patrulla(String idPatrulla, int fila, int columna, Rectangle areaDisparo, Rectangle areaoAvistamientoAdelante, Rectangle areaoAvistamientoAtras, int indiceInfluencia, Image[][] imagen) {
+
+    public Patrulla(int idPatrulla, int fila, int columna, Rectangle areaDisparo, Rectangle areaoAvistamientoAdelante, Rectangle areaoAvistamientoAtras, int indiceInfluencia, Image[][] imagen) {
         this.idPatrulla = idPatrulla;
         this.fila = fila;
         this.columna = columna;
@@ -80,20 +82,22 @@ public class Patrulla implements Runnable {
         this.indiceInfluencia = indiceInfluencia;
         this.imagen = imagen;
     }
-public Image getImagenes(){
-    return this.imagen[sentidoImagen][movSirena];
-}
+
+    public Image getImagenes() {
+        return this.imagen[sentidoImagen][movSirena];
+    }
+
     /**
      * @return the idPatrulla
      */
-    public String getIdPatrulla() {
+    public int getIdPatrulla() {
         return idPatrulla;
     }
 
     /**
      * @param idPatrulla the idPatrulla to set
      */
-    public void setIdPatrulla(String idPatrulla) {
+    public void setIdPatrulla(int idPatrulla) {
         this.idPatrulla = idPatrulla;
     }
 
@@ -135,56 +139,67 @@ public Image getImagenes(){
     public void run() {
         // int[] posAnterior = new int[2];
         while (true) {
-            if(this.getxObjeto()==this.getxDestino()&&this.getyObjeto()==this.getyDestino()){
-            List<Integer[]> dirList = new LinkedList<>();
 
-            if (this.getFila() >= 0 && this.getFila() < matrizMapa.length && this.getColumna() - 1 >= 0 && this.getColumna() - 1 < matrizMapa.length && matrizMapa[this.getFila()][this.getColumna() - 1] == 1) {
-                if (getIndiceInfluencia() == matrizInfluencia[this.getFila()][this.getColumna() - 1]) {
-                    dirList.add(new Integer[]{this.getFila(), this.getColumna() - 1,3});//Izq
+            if (this.getxObjeto() == this.getxDestino() && this.getyObjeto() == this.getyDestino()) {
+                List<Integer[]> dirList = new LinkedList<>();
+                int barreraRandom = (int) (Math.random() * 4);
+                switch(barreraRandom)  {
+                    case 0:
+                        bloquearCamino();
+                    case 1:
+                        bloquearCamino();
+                    case 2:
+                        bloquearCamino();
+                    case 3:
+                        bloquearCamino();
+                }
+                if (this.getFila() >= 0 && this.getFila() < matrizMapa.length && this.getColumna() - 1 >= 0 && this.getColumna() - 1 < matrizMapa.length && matrizMapa[this.getFila()][this.getColumna() - 1] == 1) {
+                    if (getIndiceInfluencia() == matrizInfluencia[this.getFila()][this.getColumna() - 1]) {
+                        dirList.add(new Integer[]{this.getFila(), this.getColumna() - 1, 3});//Izq
+                    }
+
+                }
+                if (this.getFila() - 1 >= 0 && this.getFila() - 1 < matrizMapa.length && this.getColumna() >= 0 && this.getColumna() < matrizMapa.length && matrizMapa[this.getFila() - 1][this.getColumna()] == 1) {
+                    if (getIndiceInfluencia() == matrizInfluencia[this.getFila() - 1][this.getColumna()]) {
+                        dirList.add(new Integer[]{this.getFila() - 1, this.getColumna(), 0});//Arriba
+                    }
+                }
+                if (this.getFila() >= 0 && this.getFila() < matrizMapa.length && this.getColumna() + 1 >= 0 && this.getColumna() + 1 < matrizMapa.length && matrizMapa[this.getFila()][this.getColumna() + 1] == 1) {
+                    if (getIndiceInfluencia() == matrizInfluencia[this.getFila()][this.getColumna() + 1]) {
+                        dirList.add(new Integer[]{this.getFila(), this.getColumna() + 1, 1});//"Derecha"
+                    }
+                }
+                if (this.getFila() + 1 >= 0 && this.getFila() + 1 < matrizMapa.length && this.getColumna() >= 0 && this.getColumna() < matrizMapa.length && matrizMapa[this.getFila() + 1][this.getColumna()] == 1) {
+                    if (getIndiceInfluencia() == matrizInfluencia[this.getFila() + 1][this.getColumna()]) {
+                        dirList.add(new Integer[]{this.getFila() + 1, this.getColumna(), 2});//"Abajo"
+                    }
+                }
+                int dirRandom = (int) (Math.random() * dirList.size());
+                if (!dirList.isEmpty()) {
+                    this.setFila((int) dirList.get(dirRandom)[0]);
+                    this.setColumna((int) dirList.get(dirRandom)[1]);
+                    this.setyDestino(posInicialY + (proporcion * this.fila));
+                    this.setxDestino(posInicialX + (proporcion * this.columna));
+                    this.sentidoImagen = dirList.get(dirRandom)[2];
                 }
 
-            }
-            if (this.getFila() - 1 >= 0 && this.getFila() - 1 < matrizMapa.length && this.getColumna() >= 0 && this.getColumna() < matrizMapa.length && matrizMapa[this.getFila() - 1][this.getColumna()] == 1) {
-                if (getIndiceInfluencia() == matrizInfluencia[this.getFila() - 1][this.getColumna()]) {
-                    dirList.add(new Integer[]{this.getFila() - 1, this.getColumna(),0});//Arriba
-                }
-            }
-            if (this.getFila() >= 0 && this.getFila() < matrizMapa.length && this.getColumna() + 1 >= 0 && this.getColumna() + 1 < matrizMapa.length && matrizMapa[this.getFila()][this.getColumna() + 1] == 1) {
-                if (getIndiceInfluencia() == matrizInfluencia[this.getFila()][this.getColumna() + 1]) {
-                    dirList.add(new Integer[]{this.getFila(), this.getColumna() + 1,1});//"Derecha"
-                }
-            }
-            if (this.getFila() + 1 >= 0 && this.getFila() + 1 < matrizMapa.length && this.getColumna() >= 0 && this.getColumna() < matrizMapa.length && matrizMapa[this.getFila() + 1][this.getColumna()] == 1) {
-                if (getIndiceInfluencia() == matrizInfluencia[this.getFila() + 1][this.getColumna()]) {
-                    dirList.add(new Integer[]{this.getFila() + 1, this.getColumna(),2});//"Abajo"
-                }
-            }
-            int dirRandom = (int) (Math.random() * dirList.size());
-            if (!dirList.isEmpty()) {
-                this.setFila((int) dirList.get(dirRandom)[0]);
-                this.setColumna((int) dirList.get(dirRandom)[1]);
-                this.setyDestino(posInicialY+(proporcion*this.fila));
-                this.setxDestino(posInicialX+(proporcion*this.columna));
-                this.sentidoImagen=dirList.get(dirRandom)[2];
-            }
+                try {
+                    Thread.sleep(100);
 
-            try {
-                Thread.sleep(100);
-                
-            } catch (InterruptedException ex) {
-                Logger.getLogger(Patrulla.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            }else{
-                if(this.getyObjeto()!=this.getyDestino()){
-                    if (this.getyObjeto()>this.getyDestino()) {
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(Patrulla.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else {
+                if (this.getyObjeto() != this.getyDestino()) {
+                    if (this.getyObjeto() > this.getyDestino()) {
                         this.setyObjeto(this.getyObjeto() - 1);
-                    }else{
+                    } else {
                         this.setyObjeto(this.getyObjeto() + 1);
                     }
-                }else if(this.getxObjeto()!=this.getxDestino()){
-                    if (this.getxObjeto()>this.getxDestino()) {
+                } else if (this.getxObjeto() != this.getxDestino()) {
+                    if (this.getxObjeto() > this.getxDestino()) {
                         this.setxObjeto(this.getxObjeto() - 1);
-                    }else{
+                    } else {
                         this.setxObjeto(this.getxObjeto() + 1);
                     }
                 }
@@ -364,4 +379,7 @@ public Image getImagenes(){
         this.yDestino = yDestino;
     }
 
+    public void bloquearCamino() {
+        listaBarreras.add(new Barrera(this.fila, this.columna, this.idPatrulla));
+    }
 }

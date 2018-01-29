@@ -56,6 +56,7 @@ public class PanelVistaPrincipal extends javax.swing.JPanel {
         pintarMapa(g);
         pintarObjetos(g);
         pintarEscudos(g);
+        pintarBarrera(g);
         if (ladronCar != null) {
             pintarLadron(g);
         }
@@ -147,6 +148,14 @@ public class PanelVistaPrincipal extends javax.swing.JPanel {
                         g.fill3DRect(posInicialX + (j* proporcion), posInicialY + (i * proporcion), 10, 10, true);
                     }
                 }
+            }
+        }
+    }
+    private void pintarBarrera(Graphics g){
+        if(listaBarreras!=null){
+            for (int i = 0; i < listaBarreras.size(); i++) {
+                  g.drawImage(listaBarreras.get(i).getImagen(), posInicialX + (listaBarreras.get(i).getColumna() * proporcion), posInicialY + (listaBarreras.get(i).getFila() * proporcion), proporcion, proporcion, this);
+
             }
         }
     }

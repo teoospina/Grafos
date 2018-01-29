@@ -5,6 +5,9 @@
  */
 package clases;
 
+import java.awt.Image;
+import javax.swing.ImageIcon;
+
 /**
  *
  * @author Mateo
@@ -13,6 +16,18 @@ public class Barrera {
     private int fila;
     private int columna;
     private int idBarrera;
+    private Image imagen;
+
+    public Barrera() {
+    }
+
+    public Barrera(int fila, int columna, int idBarrera) {
+        this.fila = fila;
+        this.columna = columna;
+        this.idBarrera = idBarrera;
+        this.imagen = new ImageIcon(getClass().getResource("../imagenes/Barrera/barrera.png")).getImage();
+    }
+    
     /**
      * @return the fila
      */
@@ -53,6 +68,20 @@ public class Barrera {
      */
     public void setIdBarrera(int idBarrera) {
         this.idBarrera = idBarrera;
+    }
+
+    /**
+     * @return the imagen
+     */
+    public Image getImagen() {
+        return imagen;
+    }
+
+    /**
+     * @param imagen the imagen to set
+     */
+    public void setImagen(Image imagen) {
+        this.imagen = imagen;
     }
 
     

@@ -5,6 +5,7 @@
  */
 package Vista;
 
+import clases.Barrera;
 import clases.CarroLadron;
 import clases.EscudosRestauradores;
 import clases.EstacionDePolicia;
@@ -44,6 +45,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
     public static int cuentaEstacion;
     public static List<Vertice> objetosList;
     public static List<EscudosRestauradores> listaEscudos;
+    public static List<Barrera> listaBarreras;
     public static CarroLadron ladronCar;
     public static boolean pintarInfluencia;
     private boolean guarida;
