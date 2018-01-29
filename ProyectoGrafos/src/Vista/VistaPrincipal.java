@@ -298,7 +298,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
             matrizMapa[punto.y][punto.x] = 2;
         } else if (this.btnEscudo.isSelected()) {
             agregarEscudoManual(punto.y, punto.x);
-            matrizMapa[punto.y][punto.x] = 8;
+            matrizMapa[punto.y][punto.x] = 9;
         } else if (this.btnEstacion.isSelected()) {
             objetosList.add(new Vertice("EstacionP", punto.y, punto.x));
             matrizMapa[punto.y][punto.x] = 5;

@@ -80,7 +80,7 @@ public class PanelVistaPrincipal extends javax.swing.JPanel {
         if (matrizMapa != null && matrizMapa.length > 0) {
             for (int i = 0; i < matrizMapa.length; i++) {
                 for (int j = 0; j < matrizMapa[i].length; j++) {
-                    if (matrizMapa[i][j] == 1) {
+                    if (matrizMapa[i][j] == 1||matrizMapa[i][j] == 8||matrizMapa[i][j] == 9) {
                         g.setColor(Color.white);
                     } else {
                         g.setColor(Color.green);

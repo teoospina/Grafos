@@ -374,5 +374,6 @@ public class Patrulla implements Runnable {
 
     public void bloquearCamino() {
         listaBarreras.add(new Barrera(this.fila, this.columna, this.idPatrulla));
+        matrizMapa[this.fila][this.columna]=8;
     }
 }
