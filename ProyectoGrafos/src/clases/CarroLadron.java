@@ -36,6 +36,7 @@ public class CarroLadron implements Runnable {
     private Thread hiloLadron;
     private int dineroRobado;
     LinkedList<LinkedList<Vertice>> listaCaminos;
+    private String modo;
 
     public CarroLadron() {
     }
@@ -51,6 +52,7 @@ public class CarroLadron implements Runnable {
             "../imagenes/Ladrones/Mini van",
             "../imagenes/Ladrones/Taxi"
         };
+        this.modo = "conducir";
         int dirRandom = (int) (Math.random() * 3);
         String dirObtenida = this.direccionesImgLadron[dirRandom];
         this.ladronImg = new Image[4];
@@ -149,6 +151,9 @@ public class CarroLadron implements Runnable {
      */
     public void setDireccionLadron(String direccionLadron) {
         this.direccionLadron = direccionLadron;
+        if (!this.modo.equalsIgnoreCase("conducir")) {
+            this.modo = "conducir";
+        }
     }
 
     public Image getImagenes() {
@@ -168,61 +173,98 @@ public class CarroLadron implements Runnable {
     @Override
     public void run() {
         while (true) {
-            if (this.getxObjeto() == this.getxDestino() && this.getyObjeto() == this.getyDestino()) {
-                switch (getDireccionLadron()) {
-                    case "Arriba":
-                        if (this.getFila() - 1 >= 0 && this.getFila() - 1 < matrizMapa.length && this.getColumna() >= 0 && this.getColumna() < matrizMapa.length && matrizMapa[this.getFila() - 1][this.getColumna()] == 1) {
-                            this.setFila(this.getFila() - 1);
+            switch (this.modo.toLowerCase()) {
+                case "conducir":
+                    if (this.getxObjeto() == this.getxDestino() && this.getyObjeto() == this.getyDestino()) {
+                        switch (getDireccionLadron()) {
+                            case "Arriba":
+                                if (this.getFila() - 1 >= 0 && this.getFila() - 1 < matrizMapa.length && this.getColumna() >= 0 && this.getColumna() < matrizMapa.length && matrizMapa[this.getFila() - 1][this.getColumna()] == 1) {
+                                    this.setFila(this.getFila() - 1);
+                                }
+                                if (this.getFila() - 1 >= 0 && this.getFila() - 1 < matrizMapa.length && this.getColumna() >= 0 && this.getColumna() < matrizMapa.length && matrizMapa[this.getFila() - 1][this.getColumna()] == 2) {
+                                    this.modo = "robar";
+                                }
+                                break;
+                            case "Izquierda":
+                                if (this.getFila() >= 0 && this.getFila() < matrizMapa.length && this.getColumna() - 1 >= 0 && this.getColumna() - 1 < matrizMapa.length && matrizMapa[this.getFila()][this.getColumna() - 1] == 1) {
+                                    this.setColumna(this.getColumna() - 1);
+                                }
+                                if (this.getFila() >= 0 && this.getFila() < matrizMapa.length && this.getColumna() - 1 >= 0 && this.getColumna() - 1 < matrizMapa.length && matrizMapa[this.getFila()][this.getColumna() - 1] == 2) {
+                                    this.modo = "robar";
+                                }
+                                break;
+                            case "Derecha":
+                                if (this.getFila() >= 0 && this.getFila() < matrizMapa.length && this.getColumna() + 1 >= 0 && this.getColumna() + 1 < matrizMapa.length && matrizMapa[this.getFila()][this.getColumna() + 1] == 1) {
+                                    this.setColumna(this.getColumna() + 1);
+                                }
+                                if (this.getFila() >= 0 && this.getFila() < matrizMapa.length && this.getColumna() + 1 >= 0 && this.getColumna() + 1 < matrizMapa.length && matrizMapa[this.getFila()][this.getColumna() + 1] == 2) {
+                                    this.modo = "robar";
+                                }
+                                break;
+                            case "Abajo":
+                                if (this.getFila() + 1 >= 0 && this.getFila() + 1 < matrizMapa.length && this.getColumna() >= 0 && this.getColumna() < matrizMapa.length && matrizMapa[this.getFila() + 1][this.getColumna()] == 1) {
+                                    this.setFila(this.getFila() + 1);
+                                }
+                                if (this.getFila() + 1 >= 0 && this.getFila() + 1 < matrizMapa.length && this.getColumna() >= 0 && this.getColumna() < matrizMapa.length && matrizMapa[this.getFila() + 1][this.getColumna()] == 2) {
+                                    this.modo = "robar";
+                                }
+                                break;
                         }
 
-                        break;
-                    case "Izquierda":
-                        if (this.getFila() >= 0 && this.getFila() < matrizMapa.length && this.getColumna() - 1 >= 0 && this.getColumna() - 1 < matrizMapa.length && matrizMapa[this.getFila()][this.getColumna() - 1] == 1) {
-                            this.setColumna(this.getColumna() - 1);
-                        }
-                        break;
-                    case "Derecha":
-                        if (this.getFila() >= 0 && this.getFila() < matrizMapa.length && this.getColumna() + 1 >= 0 && this.getColumna() + 1 < matrizMapa.length && matrizMapa[this.getFila()][this.getColumna() + 1] == 1) {
-                            this.setColumna(this.getColumna() + 1);
-                        }
-                        break;
-                    case "Abajo":
-                        if (this.getFila() + 1 >= 0 && this.getFila() + 1 < matrizMapa.length && this.getColumna() >= 0 && this.getColumna() < matrizMapa.length && matrizMapa[this.getFila() + 1][this.getColumna()] == 1) {
-                            this.setFila(this.getFila() + 1);
-                        }
-                        break;
-                }
+                        this.setyDestino(posInicialY + (proporcion * this.getFila()));
+                        this.setxDestino(posInicialX + (proporcion * this.getColumna()));
 
-                this.setyDestino(posInicialY + (proporcion * this.getFila()));
-                this.setxDestino(posInicialX + (proporcion * this.getColumna()));
+                        try {
+                            Thread.sleep(100);
 
-                try {
-                    Thread.sleep(100);
-
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(Patrulla.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            } else {
-                if (this.getyObjeto() != this.getyDestino()) {
-                    if (this.getyObjeto() > this.getyDestino()) {
-                        this.setyObjeto(this.getyObjeto() - 1);
+                        } catch (InterruptedException ex) {
+                            Logger.getLogger(Patrulla.class.getName()).log(Level.SEVERE, null, ex);
+                        }
                     } else {
-                        this.setyObjeto(this.getyObjeto() + 1);
+                        if (this.getyObjeto() != this.getyDestino()) {
+                            if (this.getyObjeto() > this.getyDestino()) {
+                                this.setyObjeto(this.getyObjeto() - 1);
+                            } else {
+                                this.setyObjeto(this.getyObjeto() + 1);
+                            }
+                        } else if (this.getxObjeto() != this.getxDestino()) {
+                            if (this.getxObjeto() > this.getxDestino()) {
+                                this.setxObjeto(this.getxObjeto() - 1);
+                            } else {
+                                this.setxObjeto(this.getxObjeto() + 1);
+                            }
+                        }
+                        try {
+                            Thread.sleep(8);
+                        } catch (Exception e) {
+                        }
                     }
-                } else if (this.getxObjeto() != this.getxDestino()) {
-                    if (this.getxObjeto() > this.getxDestino()) {
-                        this.setxObjeto(this.getxObjeto() - 1);
-                    } else {
-                        this.setxObjeto(this.getxObjeto() + 1);
+                    break;
+                case "robar":
+                    Banco banco = obtenerBanco(this.getFila(), this.getColumna());
+                    this.dineroRobado += (int)banco.getDinero();
+                    try {
+                        Thread.sleep(8);
+                    } catch (Exception e) {
                     }
-                }
-                try {
-                    Thread.sleep(8);
-                } catch (Exception e) {
-                }
+                    break;
+                case "huir":
+                    break;
             }
+
         }
     }
+    
+    public Banco obtenerBanco(int fila, int columna){
+        for(Vertice vertice:objetosList){
+            if(vertice.getFila() == fila && vertice.getColumna() == columna){
+                if(vertice.getTipo().equalsIgnoreCase("banco"))
+                    return (Banco)vertice.getContenedor();
+            }
+        }
+        return null;
+    }
+            
 
     /**
      * @return the xObjeto
