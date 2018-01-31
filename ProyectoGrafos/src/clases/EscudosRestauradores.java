@@ -6,7 +6,9 @@
 package clases;
 
 import java.awt.Image;
+import java.awt.Rectangle;
 import javax.swing.ImageIcon;
+import static Vista.PanelVistaPrincipal.*;
 
 /**
  *
@@ -82,6 +84,10 @@ public class EscudosRestauradores {
      */
     public void setImagen(Image imagen) {
         this.imagen = imagen;
+    }
+    public Rectangle areaImpacto() {
+        Rectangle recImpacto = new Rectangle((this.columna*proporcion)+posInicialX, (this.fila*proporcion)+posInicialY, 40, 40);
+        return recImpacto;
     }
     
 }

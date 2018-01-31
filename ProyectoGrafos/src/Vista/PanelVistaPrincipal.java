@@ -184,6 +184,8 @@ public class PanelVistaPrincipal extends javax.swing.JPanel {
         if (listaEscudos != null && !listaEscudos.isEmpty()) {
             for (int i = 0; i < listaEscudos.size(); i++) {
                 g.drawImage(listaEscudos.get(i).getImagen(), posInicialX + (listaEscudos.get(i).getColumna() * proporcion), posInicialY + (listaEscudos.get(i).getFila() * proporcion), proporcion, proporcion, this);
+                g.setColor(Color.ORANGE);
+                g.drawRect(listaEscudos.get(i).areaImpacto().x, listaEscudos.get(i).areaImpacto().y, listaEscudos.get(i).areaImpacto().width, listaEscudos.get(i).areaImpacto().height);
             }
         }
     }

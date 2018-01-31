@@ -52,6 +52,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
     public static CarroLadron ladronCar;
     public static boolean pintarInfluencia;
     private boolean guarida;
+    public static boolean salioLadron;
 
     /**
      * Creates new form VistaPrincipal
@@ -302,7 +303,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
             matrizMapa[punto.y][punto.x] = 2;
         } else if (this.btnEscudo.isSelected()) {
             agregarEscudoManual(punto.y, punto.x);
-            matrizMapa[punto.y][punto.x] = 9;
+            //matrizMapa[punto.y][punto.x] = 9;
         } else if (this.btnEstacion.isSelected()) {
             objetosList.add(new Vertice("EstacionP", punto.y, punto.x));
             matrizMapa[punto.y][punto.x] = 5;
@@ -317,6 +318,8 @@ public class VistaPrincipal extends javax.swing.JFrame {
                 matrizMapa[punto.y][punto.x] = 7;
                 guarida = !guarida;
                 ladronCar = new CarroLadron(punto.y, punto.x, 40);
+               
+                
             }
         }
          esAdyacente();
@@ -414,15 +417,16 @@ public class VistaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnIniciarJuegoActionPerformed
 
     private void btnEstacion1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEstacion1ActionPerformed
-        esAdyacente();
-        Vertice vInicio = obtenerVertice(ladronCar.getFila(), ladronCar.getColumna());
-        if (vInicio != null) {
-            ladronCar.caminoSimples(vInicio);
-            LinkedList<Vertice> lista = ladronCar.caminoMenosVertices();
-            for (Vertice vertice : lista) {
-                System.out.println(vertice.getFila() + "-" + vertice.getColumna());
-            }
-        }
+//        esAdyacente();
+//        Vertice vInicio = obtenerVertice(ladronCar.getFila(), ladronCar.getColumna());
+//        if (vInicio != null) {
+//            ladronCar.caminoSimples(vInicio);
+//            LinkedList<Vertice> lista = ladronCar.caminoMenosVertices();
+//            for (Vertice vertice : lista) {
+//                System.out.println(vertice.getFila() + "-" + vertice.getColumna());
+//            }
+//        }
+ladronCar.setAbaricia(this.btnEstacion1.isSelected());
         this.requestFocus();
 
     }//GEN-LAST:event_btnEstacion1ActionPerformed
