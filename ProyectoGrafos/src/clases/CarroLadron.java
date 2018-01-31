@@ -12,6 +12,7 @@ import Vista.VistaPrincipal;
 import static Vista.VistaPrincipal.matrizMapa;
 import static Vista.VistaPrincipal.objetosList;
 import java.awt.Image;
+import java.awt.Rectangle;
 import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -475,5 +476,9 @@ public class CarroLadron implements Runnable {
      */
     public void setVidaCarro(int vidaCarro) {
         this.vidaCarro = vidaCarro;
+    }
+    public Rectangle areaImpacto(){
+        Rectangle recImpacto= new Rectangle(this.xObjeto, this.yObjeto, 40, 40);
+        return recImpacto;
     }
 }

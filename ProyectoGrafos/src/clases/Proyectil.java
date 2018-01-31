@@ -6,6 +6,7 @@
 package clases;
 
 import static clases.Sounds.proyectilSound;
+import java.awt.Rectangle;
 import javax.swing.ImageIcon;
 
 /**
@@ -146,5 +147,8 @@ public class Proyectil implements Runnable {
     public void setImagen(ImageIcon[] imagen) {
         this.imagen = imagen;
     }
-
+    public Rectangle areaImpacto(){
+        Rectangle recImpacto= new Rectangle(this.x, this.y, 13, 10);
+        return recImpacto;
+    }
 }
