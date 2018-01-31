@@ -44,6 +44,7 @@ public class Patrulla implements Runnable {
     private int yDestino;
     private boolean alerta;
     private boolean disparo;
+    private String dirDisparo;
     LinkedList<LinkedList<Vertice>> listaCaminos;
     LinkedList<Vertice> rutasIr;
     String modo;
@@ -99,12 +100,16 @@ public class Patrulla implements Runnable {
         */
         switch (sentidoImagen) {
             case 0://arr
+                dirDisparo = "Arriba";
                 return new Rectangle(posInicialX + (this.columna * proporcion), ((posInicialY + (this.fila * proporcion)) - (areaDisparoG)+proporcion/2), proporcion, areaDisparoG);
             case 1://der
+                dirDisparo = "Derecha";
                 return new Rectangle(posInicialX + (this.columna * proporcion) + ((areaDisparoG)-proporcion/2), (posInicialY + (this.fila * proporcion)) , areaDisparoG, proporcion);
             case 2://aba
+                dirDisparo = "Abajo";
                 return new Rectangle(posInicialX + (this.columna * proporcion), ((posInicialY + (this.fila * proporcion)) + (areaDisparoG))-(proporcion/2), proporcion, areaDisparoG);
             case 3://izq
+                dirDisparo = "Izquierda";
                 return new Rectangle(posInicialX + (this.columna * proporcion) - ((areaDisparoG)-(proporcion)), (posInicialY + (this.fila * proporcion)) , areaDisparoG, proporcion);
         }
         return null;
@@ -275,16 +280,19 @@ public class Patrulla implements Runnable {
                     break;
 
             }
-            if(validarColicionVistaDisparoConLadron(obtenerAreaDisparo(), ladronCar.areaImpacto()) && !disparo){
-                new Proyectil(0, 0, 0, "Izquierda");
+            if(validarColicionDisparoConLadron(obtenerAreaDisparo(), ladronCar.areaImpacto()) && !disparo){
+                new Proyectil(obtenerAreaDisparo().x, obtenerAreaDisparo().y, 0, dirDisparo);
                 disparo=true;
             }else{
-                disparo = validarColicionVistaDisparoConLadron(obtenerAreaDisparo(), ladronCar.areaImpacto());
+                disparo = validarColicionDisparoConLadron(obtenerAreaDisparo(), ladronCar.areaImpacto());
             }
         }
     }
+    private boolean validarColicionVistaConLadron(Rectangle a, Rectangle b){
+        return  a.intersects(b);
+    }
     
-    private boolean validarColicionVistaDisparoConLadron(Rectangle a, Rectangle b){
+    private boolean validarColicionDisparoConLadron(Rectangle a, Rectangle b){
         return a.intersects(b);
     }
 

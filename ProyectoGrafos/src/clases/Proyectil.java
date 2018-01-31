@@ -6,6 +6,8 @@
 package clases;
 
 import static clases.Sounds.proyectilSound;
+import static Vista.VistaPrincipal.*;
+
 import java.awt.Rectangle;
 import javax.swing.ImageIcon;
 
@@ -21,6 +23,7 @@ public class Proyectil implements Runnable {
     private Thread hilo;
     private String sentido;
     private ImageIcon[] imagen;
+    private boolean impacto;
 
     public Proyectil() {
     }
@@ -34,14 +37,14 @@ public class Proyectil implements Runnable {
         proyectilSound();
         iniciarHilo();
     }
-    
-    private void iniciarHilo(){
+
+    private void iniciarHilo() {
         this.hilo.start();
     }
 
     @Override
     public void run() {
-        while (getX()>-5 && getX() <1000 && getY()>-5 && getY() < 1000) {
+        while (getX() > -5 && getX() < 1000 && getY() > -5 && getY() < 1000) {
             switch (getSentido().toLowerCase()) {
                 case "arriba":
                     setY(getY() - 5);
@@ -59,9 +62,32 @@ public class Proyectil implements Runnable {
             try {
                 Thread.sleep(10);
             } catch (Exception e) {
-                System.err.println("Error "+e);
+                System.err.println("Error " + e);
+            }
+            if(validarImpacto(getArea(), ladronCar.areaImpacto()) && !impacto){
+                impacto = true;
+                System.out.println("Ouh!!");
+                ladronCar.setVidaCarro(ladronCar.getVidaCarro()-15);
             }
         }
+    }
+
+    private Rectangle getArea() {
+        switch (getSentido().toLowerCase()) {
+            case "arriba":
+                return new Rectangle(x, y, 5, 15);
+            case "abajo":
+                return new Rectangle(x, y, 5, 15);
+            case "izquierda":
+                return new Rectangle(x, y, 15, 5);
+            case "derecha":
+                return new Rectangle(x, y, 15, 5);
+        }
+        return null;
+    }
+    
+    public boolean validarImpacto(Rectangle a, Rectangle b){
+        return a.intersects(b);
     }
 
     /**
@@ -147,8 +173,9 @@ public class Proyectil implements Runnable {
     public void setImagen(ImageIcon[] imagen) {
         this.imagen = imagen;
     }
-    public Rectangle areaImpacto(){
-        Rectangle recImpacto= new Rectangle(this.x, this.y, 13, 10);
+
+    public Rectangle areaImpacto() {
+        Rectangle recImpacto = new Rectangle(this.x, this.y, 13, 10);
         return recImpacto;
     }
 }
