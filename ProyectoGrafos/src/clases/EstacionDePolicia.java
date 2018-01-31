@@ -65,7 +65,7 @@ public class EstacionDePolicia {
     }
     public void iniciarHilos(){
         for(Patrulla patrulla:patrullas){
-            patrulla.modo ="";
+            //patrulla.modo ="";
             patrulla.getHiloPatrulla().start();
         }
     }

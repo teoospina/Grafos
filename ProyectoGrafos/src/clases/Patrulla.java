@@ -17,6 +17,7 @@ import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import static Vista.PanelVistaPrincipal.*;
 import Vista.VistaPrincipal;
+import static Vista.VistaPrincipal.areaAvistamiento;
 import static Vista.VistaPrincipal.objetosList;
 import static clases.Sounds.sirenaSound;
 
@@ -78,10 +79,19 @@ public class Patrulla implements Runnable {
         this.listaCaminos = new LinkedList<>();
         this.rutasIr = new LinkedList<>();
         this.modo = "patrullaje";
+        
 
     }
 //"../imagenes/Policia/13.png"
-
+    public Rectangle obtenerAreaAvistamiento(){
+        /*
+        Rectangle rec = estacionP.getPatrullas().get(i).obtenerAreaAvistamiento();
+            g.setColor(Color.red);
+            g.drawRect(rec.x, rec.y, rec.width, rec.height);
+        */
+        return new Rectangle(posInicialX+((this.columna*proporcion)+proporcion/2)-(areaAvistamiento/2),posInicialY+((this.fila*proporcion)+proporcion/2)-(areaAvistamiento/2), areaAvistamiento, areaAvistamiento);
+    }
+    
     public Patrulla(int idPatrulla, int fila, int columna, Rectangle areaDisparo, Rectangle areaoAvistamientoAdelante, Rectangle areaoAvistamientoAtras, int indiceInfluencia, Image[][] imagen) {
         this.idPatrulla = idPatrulla;
         this.fila = fila;
