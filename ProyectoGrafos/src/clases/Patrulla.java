@@ -237,6 +237,13 @@ public class Patrulla implements Runnable {
                     }
 
                     break;
+                case "":
+                    try {
+                        Thread.sleep(500);
+                    } catch (Exception e) {
+                    }
+                    break;
+
             }
         }
     }
@@ -464,7 +471,7 @@ public class Patrulla implements Runnable {
 
     public void AtenderRobo(int idBanco) {
         this.modo = "";
-        
+
         for (int i = 0; i < objetosList.size(); i++) {
             if (objetosList.get(i).getFila() == this.getFila() && objetosList.get(i).getColumna() == this.columna) {
                 caminoSimples(objetosList.get(i), idBanco);
