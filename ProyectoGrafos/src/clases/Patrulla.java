@@ -18,6 +18,7 @@ import javax.swing.ImageIcon;
 import static Vista.PanelVistaPrincipal.*;
 import Vista.VistaPrincipal;
 import static Vista.VistaPrincipal.objetosList;
+import static clases.Sounds.sirenaSound;
 
 /**
  *
@@ -218,6 +219,7 @@ public class Patrulla implements Runnable {
                     }
                     break;
                 case "movimiento":
+                    
                     if (!rutasIr.isEmpty()) {
                         Vertice verticeGuardAIr = rutasIr.removeFirst();
                         if (verticeGuardAIr.getFila() - this.getFila() == -1) {//arriba
@@ -441,6 +443,7 @@ public class Patrulla implements Runnable {
     private void camino(Vertice vHost, int vDestino, LinkedList<Vertice> ruta, LinkedList<Vertice> visitados) {
         if (vHost.getTipo().equalsIgnoreCase("Banco")) {
             if (((Banco) vHost.getContenedor()).getIdBanco() == vDestino) {
+                ruta.removeLast();
                 this.listaCaminos.add(ruta);
             }
 
@@ -471,7 +474,7 @@ public class Patrulla implements Runnable {
 
     public void AtenderRobo(int idBanco) {
         this.modo = "";
-
+        sirenaSound();
         for (int i = 0; i < objetosList.size(); i++) {
             if (objetosList.get(i).getFila() == this.getFila() && objetosList.get(i).getColumna() == this.columna) {
                 caminoSimples(objetosList.get(i), idBanco);

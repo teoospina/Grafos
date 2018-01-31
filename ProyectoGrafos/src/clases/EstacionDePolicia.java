@@ -7,6 +7,7 @@ package clases;
 
 import java.util.LinkedList;
 import static Vista.VistaPrincipal.cuentaEstacion;
+import static clases.Sounds.radioSound;
 
 /**
  *
@@ -70,6 +71,7 @@ public class EstacionDePolicia {
     }
     
     public void reportarRobo(int idBanco){
+        radioSound();
         for (int i = 0; i < patrullas.size(); i++) {
             patrullas.get(i).AtenderRobo(idBanco);
         }

@@ -25,7 +25,7 @@ public class Sounds{
     public static void fondoSound(String ruta) {
         try {
 
-            AudioInputStream inputStream = AudioSystem.getAudioInputStream(new File(ruta));
+            AudioInputStream inputStream = AudioSystem.getAudioInputStream(new File("src/Sonido/fondo.wav"));
             Clip clip = AudioSystem.getClip();
             clip.open(inputStream);
             clip.loop(Clip.LOOP_CONTINUOUSLY);
@@ -33,7 +33,7 @@ public class Sounds{
         } catch (Exception e) {
         }
     }
-    public static void radioSound(String ruta) {
+    public static void radioSound() {
         try {
 
             AudioInputStream inputStream = AudioSystem.getAudioInputStream(new File("src/Sonido/radio.wav"));
@@ -54,6 +54,17 @@ public class Sounds{
         } catch (Exception e) {
         }
     }
+    
+    public static void sirenaSound(){
+        try {
+            AudioInputStream inputStream = AudioSystem.getAudioInputStream(new File("src/Sonido/POLICE.wav"));
+            Clip clip = AudioSystem.getClip();
+            clip.open(inputStream);
+            clip.start();
+        } catch (Exception e) {
+        }
+    }
+    
 
 
     /**
