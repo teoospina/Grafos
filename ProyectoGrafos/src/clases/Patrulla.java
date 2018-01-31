@@ -44,6 +44,7 @@ public class Patrulla implements Runnable {
     private int yDestino;
     private boolean alerta;
     private boolean disparo;
+    private boolean reporteRobo;
     private String dirDisparo;
     LinkedList<LinkedList<Vertice>> listaCaminos;
     LinkedList<Vertice> rutasIr;
@@ -283,12 +284,27 @@ public class Patrulla implements Runnable {
                     }
                     break;
             }
-            if (validarColicionDisparoConLadron(obtenerAreaDisparo(), ladronCar.areaImpacto()) && !disparo) {
-                getListaProyectil().add(new Proyectil(obtenerAreaDisparo().x, obtenerAreaDisparo().y, 0, dirDisparo));
-                disparo = true;
-            } else {
-                disparo = validarColicionDisparoConLadron(obtenerAreaDisparo(), ladronCar.areaImpacto());
+            if (reporteRobo) {
+                if (validarColicionVistaConLadron(obtenerAreaAvistamiento(), ladronCar.areaImpacto())) {
+                    System.err.println("lo vi en " + ladronCar.getFila() + "-" + ladronCar.getColumna());
+                    for (int i = 0; i < objetosList.size(); i++) {
+                        if (objetosList.get(i).getFila() == this.getFila() && objetosList.get(i).getColumna() == this.columna) {
+                            caminoSimpleLadron(objetosList.get(i), new int[]{ladronCar.getFila(), ladronCar.getColumna()});
+                            rutasIr = caminoMenosVertices();
+                            this.modo = "movimiento";
+
+                            break;
+                        }
+                    }
+                }
+                if (validarColicionDisparoConLadron(obtenerAreaDisparo(), ladronCar.areaImpacto()) && !disparo) {
+                    getListaProyectil().add(new Proyectil(obtenerAreaDisparo().x, obtenerAreaDisparo().y, 0, dirDisparo));
+                    disparo = true;
+                } else {
+                    disparo = validarColicionDisparoConLadron(obtenerAreaDisparo(), ladronCar.areaImpacto());
+                }
             }
+
         }
     }
 
@@ -524,6 +540,7 @@ public class Patrulla implements Runnable {
 
     public void AtenderRobo(int idBanco) {
         this.modo = "";
+        this.reporteRobo = true;
         sirenaSound();
         for (int i = 0; i < objetosList.size(); i++) {
             if (objetosList.get(i).getFila() == this.getFila() && objetosList.get(i).getColumna() == this.columna) {
@@ -535,6 +552,35 @@ public class Patrulla implements Runnable {
             }
         }
 
+    }
+
+    public void caminoSimpleLadron(Vertice vHost, int[] vDestino) {
+        listaCaminos = new LinkedList<>();
+        LinkedList<Vertice> ruta = new LinkedList<>();
+        LinkedList<Vertice> visitados = new LinkedList<>();
+
+        ruta.add(vHost);
+        visitados.add(vHost);
+        caminoLadron(vHost, vDestino, ruta, visitados);
+
+    }
+
+    private void caminoLadron(Vertice vHost, int[] vDestino, LinkedList<Vertice> ruta, LinkedList<Vertice> visitados) {
+        if (vHost.getFila() == vDestino[0] && vHost.getColumna() == vDestino[1]) {
+            this.listaCaminos.add(ruta);
+        } else {
+            int idFila = VistaPrincipal.objetosList.indexOf(vHost);
+            for (int i = 0; i < VistaPrincipal.matrizAdyacen.length; i++) {
+                if (VistaPrincipal.matrizAdyacen[idFila][i] == 1 && !visitados.contains(objetosList.get(i))) {
+                    LinkedList<Vertice> rutaN = (LinkedList<Vertice>) ruta.clone();
+                    LinkedList<Vertice> visitN = (LinkedList<Vertice>) visitados.clone();
+
+                    rutaN.add(objetosList.get(i));
+                    visitN.add(objetosList.get(i));
+                    caminoLadron(objetosList.get(i), vDestino, rutaN, visitN);
+                }
+            }
+        }
     }
 
     /**
