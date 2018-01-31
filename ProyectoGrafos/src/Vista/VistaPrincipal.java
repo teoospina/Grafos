@@ -5,6 +5,7 @@
  */
 package Vista;
 
+import clases.Banco;
 import clases.Barrera;
 import clases.CarroLadron;
 import clases.EscudosRestauradores;
@@ -315,6 +316,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
                 ladronCar = new CarroLadron(punto.y, punto.x, 40);
             }
         }
+         esAdyacente();
         this.requestFocus();
     }//GEN-LAST:event_panelVistaPrincipal1MouseClicked
 
@@ -765,9 +767,31 @@ public class VistaPrincipal extends javax.swing.JFrame {
      */
     private void sonido() {
         try {
-            Sounds.fondoSound("src/Sonido/fondo.wav");
+           // Sounds.fondoSound("src/Sonido/fondo.wav");
         } catch (Exception e) {
             System.err.println("Error al cargar sonido de fondo");
+        }
+    }
+/***
+ * Este metodo usa el numero dentro de la matris de influencia para identificar
+ * que estacion de policia es la mas cercana.
+ * @param bank Identifica que banco esta siendo robado.
+ */
+    public static void reportarRobo(Banco bank) {
+        for (int i = 0; i < objetosList.size(); i++) {
+            if (objetosList.get(i).getTipo().equalsIgnoreCase("Banco")) {
+                if (objetosList.get(i).getContenedor().equals(bank)) {
+                    int idEstacion= matrizInfluencia[objetosList.get(i).getFila()][objetosList.get(i).getColumna()];
+                    for (int j = 0; j < objetosList.size(); j++) {
+                        if(objetosList.get(j).getTipo().equalsIgnoreCase("EstacionP")){
+                            if(((EstacionDePolicia)objetosList.get(j).getContenedor()).getIdEstacion()==idEstacion){
+                                ((EstacionDePolicia)objetosList.get(j).getContenedor()).reportarRobo(bank.getIdBanco());
+                                return;
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -812,6 +836,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
                 new VistaPrincipal().setVisible(true);
             }
         });
+
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

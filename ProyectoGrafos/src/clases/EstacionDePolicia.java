@@ -67,4 +67,10 @@ public class EstacionDePolicia {
             patrulla.getHiloPatrulla().start();
         }
     }
+    
+    public void reportarRobo(int idBanco){
+        for (int i = 0; i < patrullas.size(); i++) {
+            patrullas.get(i).AtenderRobo(idBanco);
+        }
+    }
 }
