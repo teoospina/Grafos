@@ -17,7 +17,7 @@ import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import static Vista.PanelVistaPrincipal.*;
 import Vista.VistaPrincipal;
-import static Vista.VistaPrincipal.areaAvistamiento;
+import static Vista.VistaPrincipal.*;
 import static Vista.VistaPrincipal.objetosList;
 import static clases.Sounds.sirenaSound;
 
@@ -79,19 +79,36 @@ public class Patrulla implements Runnable {
         this.listaCaminos = new LinkedList<>();
         this.rutasIr = new LinkedList<>();
         this.modo = "patrullaje";
-        
 
     }
 //"../imagenes/Policia/13.png"
-    public Rectangle obtenerAreaAvistamiento(){
-        /*
-        Rectangle rec = estacionP.getPatrullas().get(i).obtenerAreaAvistamiento();
+
+    public Rectangle obtenerAreaAvistamiento() {
+        return new Rectangle(posInicialX + ((this.columna * proporcion) + proporcion / 2) - (areaAvistamiento / 2), posInicialY + ((this.fila * proporcion) + proporcion / 2) - (areaAvistamiento / 2), areaAvistamiento, areaAvistamiento);
+    }
+
+    public Rectangle obtenerAreaDisparo() {
+        /*Rectangle rec = estacionP.getPatrullas().get(i).obtenerAreaAvistamiento();
+            Rectangle recDis = estacionP.getPatrullas().get(i).obtenerAreaDisparo();
+
             g.setColor(Color.red);
             g.drawRect(rec.x, rec.y, rec.width, rec.height);
+            g.setColor(Color.MAGENTA);
+            g.drawRect(recDis.x, recDis.y, recDis.width, recDis.height);
         */
-        return new Rectangle(posInicialX+((this.columna*proporcion)+proporcion/2)-(areaAvistamiento/2),posInicialY+((this.fila*proporcion)+proporcion/2)-(areaAvistamiento/2), areaAvistamiento, areaAvistamiento);
+        switch (sentidoImagen) {
+            case 0://arr
+                return new Rectangle(posInicialX + (this.columna * proporcion), ((posInicialY + (this.fila * proporcion)) - (areaDisparoG)+proporcion/2), proporcion, areaDisparoG);
+            case 1://der
+                return new Rectangle(posInicialX + (this.columna * proporcion) + ((areaDisparoG)-proporcion/2), (posInicialY + (this.fila * proporcion)) , areaDisparoG, proporcion);
+            case 2://aba
+                return new Rectangle(posInicialX + (this.columna * proporcion), ((posInicialY + (this.fila * proporcion)) + (areaDisparoG)), proporcion, areaDisparoG);
+            case 3://izq
+                return new Rectangle(posInicialX + (this.columna * proporcion) - ((areaDisparoG)-(proporcion)), (posInicialY + (this.fila * proporcion)) , areaDisparoG, proporcion);
+        }
+        return null;
     }
-    
+
     public Patrulla(int idPatrulla, int fila, int columna, Rectangle areaDisparo, Rectangle areaoAvistamientoAdelante, Rectangle areaoAvistamientoAtras, int indiceInfluencia, Image[][] imagen) {
         this.idPatrulla = idPatrulla;
         this.fila = fila;
@@ -229,7 +246,7 @@ public class Patrulla implements Runnable {
                     }
                     break;
                 case "movimiento":
-                    
+
                     if (!rutasIr.isEmpty()) {
                         Vertice verticeGuardAIr = rutasIr.removeFirst();
                         if (verticeGuardAIr.getFila() - this.getFila() == -1) {//arriba
