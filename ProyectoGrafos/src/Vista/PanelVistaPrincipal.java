@@ -16,6 +16,7 @@ import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.LinkedList;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -27,6 +28,7 @@ public class PanelVistaPrincipal extends javax.swing.JPanel {
     public static int posInicialY;
     public static int proporcion;
     public Color[] listaColor;
+    VistaPrincipal vistacerrar;
 
     /**
      * Creates new form PanelVistaPrincipal
@@ -167,6 +169,13 @@ public class PanelVistaPrincipal extends javax.swing.JPanel {
         if (ladronCar != null) {
             g.setColor(Color.RED);
             g.fillRect(0, 1, ladronCar.getVidaCarro(), 15);
+            g.setColor(Color.WHITE);
+            g.drawString(("Dinero= "+String.valueOf(ladronCar.getDineroRobado())), 1, 30);
+            if(ladronCar.getVidaCarro()<=0){
+                 JOptionPane.showMessageDialog(null, "Finaliza el juego su puntaje es: "+ladronCar.getDineroRobado(), "Fin del juego", JOptionPane.ERROR_MESSAGE);
+               // vistacerrar.dispose();
+                System.exit(0);
+            }
         }
 
     }

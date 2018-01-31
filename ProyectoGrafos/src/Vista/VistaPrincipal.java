@@ -72,6 +72,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
         this.setSize(600, 768);
         this.setLocationRelativeTo(null);
         this.setResizable(false);
+        this.panelVistaPrincipal1.vistacerrar= this;
     }
 
     /**
@@ -797,7 +798,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
             }
         }
     }
-
+ 
     /**
      * @param args the command line arguments
      */
