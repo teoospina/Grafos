@@ -185,6 +185,7 @@ public class CarroLadron implements Runnable {
         salioLadron = false;
         while (true) {
             llegarGuarida();
+            
             colisionEscudo();
             switch (this.getModo().toLowerCase()) {
                 case "conducir":

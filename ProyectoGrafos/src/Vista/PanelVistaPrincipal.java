@@ -156,26 +156,30 @@ public class PanelVistaPrincipal extends javax.swing.JPanel {
         for (int i = 0; i < lista2.size(); i++) {
             g.setColor(Color.GRAY);
             g.fillRect(lista2.get(i).getX(), lista2.get(i).getY(), 13, 10);
-            g.setColor(Color.GREEN);
-            g.drawRect(lista2.get(i).areaImpacto().x, lista2.get(i).areaImpacto().y, lista2.get(i).areaImpacto().height, lista2.get(i).areaImpacto().width);
+            //g.setColor(Color.GREEN);
+            //g.drawRect(lista2.get(i).areaImpacto().x, lista2.get(i).areaImpacto().y, lista2.get(i).areaImpacto().height, lista2.get(i).areaImpacto().width);
         }
     }
 
     private void pintarLadron(Graphics g) {
         g.drawImage(ladronCar.getImagenes(), ladronCar.getxObjeto(), ladronCar.getyObjeto(), proporcion, proporcion, this);
-        g.setColor(Color.yellow);
-        g.drawRect(ladronCar.areaImpacto().x, ladronCar.areaImpacto().y, ladronCar.areaImpacto().width, ladronCar.areaImpacto().height);
+       // g.setColor(Color.yellow);
+       // g.drawRect(ladronCar.areaImpacto().x, ladronCar.areaImpacto().y, ladronCar.areaImpacto().width, ladronCar.areaImpacto().height);
 
         if (ladronCar != null) {
             g.setColor(Color.RED);
             g.fillRect(0, 1, ladronCar.getVidaCarro(), 15);
             g.setColor(Color.WHITE);
             g.drawString(("Dinero= "+String.valueOf(ladronCar.getDineroRobado())), 1, 30);
+            if (ladronCar.getVidaCarro()<=50) {
+                agregarEscudoAleatorio();
+            }
             if(ladronCar.getVidaCarro()<=0){
                  JOptionPane.showMessageDialog(null, "Finaliza el juego su puntaje es: "+ladronCar.getDineroRobado(), "Fin del juego", JOptionPane.ERROR_MESSAGE);
                // vistacerrar.dispose();
                 System.exit(0);
             }
+            
         }
 
     }
@@ -184,8 +188,8 @@ public class PanelVistaPrincipal extends javax.swing.JPanel {
         if (listaEscudos != null && !listaEscudos.isEmpty()) {
             for (int i = 0; i < listaEscudos.size(); i++) {
                 g.drawImage(listaEscudos.get(i).getImagen(), posInicialX + (listaEscudos.get(i).getColumna() * proporcion), posInicialY + (listaEscudos.get(i).getFila() * proporcion), proporcion, proporcion, this);
-                g.setColor(Color.ORANGE);
-                g.drawRect(listaEscudos.get(i).areaImpacto().x, listaEscudos.get(i).areaImpacto().y, listaEscudos.get(i).areaImpacto().width, listaEscudos.get(i).areaImpacto().height);
+               // g.setColor(Color.ORANGE);
+               // g.drawRect(listaEscudos.get(i).areaImpacto().x, listaEscudos.get(i).areaImpacto().y, listaEscudos.get(i).areaImpacto().width, listaEscudos.get(i).areaImpacto().height);
             }
         }
     }
@@ -232,6 +236,10 @@ public class PanelVistaPrincipal extends javax.swing.JPanel {
             .addGap(0, 600, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void agregarEscudoAleatorio() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

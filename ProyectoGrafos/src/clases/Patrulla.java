@@ -540,6 +540,7 @@ public class Patrulla implements Runnable {
 
     public void AtenderRobo(int idBanco) {
         this.modo = "";
+        alerta=true;
         this.reporteRobo = true;
         sirenaSound();
         for (int i = 0; i < objetosList.size(); i++) {

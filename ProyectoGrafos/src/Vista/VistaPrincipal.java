@@ -693,7 +693,7 @@ ladronCar.setAbaricia(this.btnEstacion1.isSelected());
      * enlistar todas las posiciones en las calles disponibles, donde aun no
      * exista un escudo anteriormente.
      */
-    private void agregarEscudoAleatorio() {
+    public void agregarEscudoAleatorio() {
         LinkedList<Vertice> listaCalles = new LinkedList<>();
         for (int i = 0; i < objetosList.size(); i++) {
             if (objetosList.get(i).getTipo().equalsIgnoreCase("Calle")
@@ -758,7 +758,7 @@ ladronCar.setAbaricia(this.btnEstacion1.isSelected());
      * @return retorna true si la posicion ya existe, de lo contrario retorna
      * false.
      */
-    private boolean validarExistenciaEscudo(int fila, int columna) {
+    private static boolean validarExistenciaEscudo(int fila, int columna) {
         for (EscudosRestauradores escudo : listaEscudos) {
             if (escudo.getFila() == fila && escudo.getColumna() == columna) {
                 return true;
@@ -801,6 +801,25 @@ ladronCar.setAbaricia(this.btnEstacion1.isSelected());
                 }
             }
         }
+    }
+    public static boolean esabaro(){
+        int cont=0, cont2=0;
+        for (int i = 0; i < objetosList.size(); i++) {
+            if (objetosList.get(i).getTipo().equalsIgnoreCase("Banco")) {
+                cont++;
+            }
+            
+
+        }
+        for (int i = 0; i < objetosList.size(); i++) {
+            if (((Banco)objetosList.get(i).getContenedor()).getDinero()==0) {
+                cont2++;
+            }
+        }
+        if (cont==cont2) {
+            return true;
+        }
+        return false;
     }
  
     /**
