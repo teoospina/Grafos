@@ -41,6 +41,7 @@ public class CarroLadron implements Runnable {
     private Thread hiloLadron;
     private int dineroRobado;
     private LinkedList<LinkedList<Vertice>> listaCaminos;
+    LinkedList<Vertice> rutasIr;
     private String modo;
     private Banco bancoRobar;
     private int vidaCarro;
@@ -75,6 +76,7 @@ public class CarroLadron implements Runnable {
         this.yDestino = this.yObjeto;
         this.hiloLadron = new Thread(this);
         this.listaCaminos = new LinkedList<>();
+        this.rutasIr = new LinkedList<>();
         this.vidaCarro = 100;
         this.abaricia = false;
     }
@@ -185,83 +187,87 @@ public class CarroLadron implements Runnable {
         salioLadron = false;
         while (true) {
             llegarGuarida();
-            
+
             colisionEscudo();
             switch (this.getModo().toLowerCase()) {
                 case "conducir":
                     if (this.getxObjeto() == this.getxDestino() && this.getyObjeto() == this.getyDestino()) {
-                        switch (getDireccionLadron()) {
-                            case "Arriba":
-                                if (this.getFila() - 1 >= 0 && this.getFila() - 1 < matrizMapa.length && this.getColumna() >= 0 && this.getColumna() < matrizMapa.length && matrizMapa[this.getFila() - 1][this.getColumna()] == 1) {
-                                    this.setFila(this.getFila() - 1);
-                                }
-                                if (this.getFila() - 1 >= 0 && this.getFila() - 1 < matrizMapa.length && this.getColumna() >= 0 && this.getColumna() < matrizMapa.length && matrizMapa[this.getFila() - 1][this.getColumna()] == 2) {
-                                    this.setModo("robar");
-                                    this.setBancoRobar(obtenerBanco(getFila() - 1, getColumna()));
-                                    if (getBancoRobar().getDinero() <= 0) {
-                                        this.setModo("conducir");
+                        if (rutasIr.isEmpty()) {
+                            switch (getDireccionLadron()) {
+                                case "Arriba":
+                                    if (this.getFila() - 1 >= 0 && this.getFila() - 1 < matrizMapa.length && this.getColumna() >= 0 && this.getColumna() < matrizMapa.length && matrizMapa[this.getFila() - 1][this.getColumna()] == 1) {
+                                        this.setFila(this.getFila() - 1);
                                     }
-                                }
-                                if (this.getFila() - 1 >= 0 && this.getFila() - 1 < matrizMapa.length && this.getColumna() >= 0 && this.getColumna() < matrizMapa.length && matrizMapa[this.getFila() - 1][this.getColumna()] == 7) {
-                                    salioLadron = true;
-                                    this.setFila(this.getFila() - 1);
-
-                                    System.out.println("entra guarida");
-
-                                }
-                                break;
-                            case "Izquierda":
-                                if (this.getFila() >= 0 && this.getFila() < matrizMapa.length && this.getColumna() - 1 >= 0 && this.getColumna() - 1 < matrizMapa.length && matrizMapa[this.getFila()][this.getColumna() - 1] == 1) {
-                                    this.setColumna(this.getColumna() - 1);
-                                }
-                                if (this.getFila() >= 0 && this.getFila() < matrizMapa.length && this.getColumna() - 1 >= 0 && this.getColumna() - 1 < matrizMapa.length && matrizMapa[this.getFila()][this.getColumna() - 1] == 2) {
-                                    this.setModo("robar");
-                                    this.setBancoRobar(obtenerBanco(getFila(), getColumna() - 1));
-                                    if (getBancoRobar().getDinero() <= 0) {
-                                        this.setModo("conducir");
+                                    if (this.getFila() - 1 >= 0 && this.getFila() - 1 < matrizMapa.length && this.getColumna() >= 0 && this.getColumna() < matrizMapa.length && matrizMapa[this.getFila() - 1][this.getColumna()] == 2) {
+                                        this.setModo("robar");
+                                        this.setBancoRobar(obtenerBanco(getFila() - 1, getColumna()));
+                                        if (getBancoRobar().getDinero() <= 0) {
+                                            this.setModo("conducir");
+                                        }
                                     }
-                                }
-                                if (this.getFila() >= 0 && this.getFila() < matrizMapa.length && this.getColumna() - 1 >= 0 && this.getColumna() - 1 < matrizMapa.length && matrizMapa[this.getFila()][this.getColumna() - 1] == 7) {
-                                    salioLadron = true;
-                                    this.setColumna(this.getColumna() - 1);
+                                    if (this.getFila() - 1 >= 0 && this.getFila() - 1 < matrizMapa.length && this.getColumna() >= 0 && this.getColumna() < matrizMapa.length && matrizMapa[this.getFila() - 1][this.getColumna()] == 7) {
+                                        salioLadron = true;
+                                        this.setFila(this.getFila() - 1);
 
-                                }
-                                break;
-                            case "Derecha":
-                                if (this.getFila() >= 0 && this.getFila() < matrizMapa.length && this.getColumna() + 1 >= 0 && this.getColumna() + 1 < matrizMapa.length && matrizMapa[this.getFila()][this.getColumna() + 1] == 1) {
-                                    this.setColumna(this.getColumna() + 1);
-                                }
-                                if (this.getFila() >= 0 && this.getFila() < matrizMapa.length && this.getColumna() + 1 >= 0 && this.getColumna() + 1 < matrizMapa.length && matrizMapa[this.getFila()][this.getColumna() + 1] == 2) {
-                                    this.setModo("robar");
-                                    this.setBancoRobar(obtenerBanco(getFila(), getColumna() + 1));
-                                    if (getBancoRobar().getDinero() <= 0) {
-                                        this.setModo("conducir");
+                                        System.out.println("entra guarida");
+
                                     }
-                                }
-                                if (this.getFila() >= 0 && this.getFila() < matrizMapa.length && this.getColumna() + 1 >= 0 && this.getColumna() + 1 < matrizMapa.length && matrizMapa[this.getFila()][this.getColumna() + 1] == 7) {
-                                    salioLadron = true;
-                                    this.setColumna(this.getColumna() + 1);
-
-                                }
-                                break;
-                            case "Abajo":
-                                if (this.getFila() + 1 >= 0 && this.getFila() + 1 < matrizMapa.length && this.getColumna() >= 0 && this.getColumna() < matrizMapa.length && matrizMapa[this.getFila() + 1][this.getColumna()] == 1) {
-                                    this.setFila(this.getFila() + 1);
-                                }
-                                if (this.getFila() + 1 >= 0 && this.getFila() + 1 < matrizMapa.length && this.getColumna() >= 0 && this.getColumna() < matrizMapa.length && matrizMapa[this.getFila() + 1][this.getColumna()] == 2) {
-                                    this.setModo("robar");
-                                    this.setBancoRobar(obtenerBanco(getFila() + 1, getColumna()));
-                                    if (getBancoRobar().getDinero() <= 0) {
-                                        this.setModo("conducir");
+                                    break;
+                                case "Izquierda":
+                                    if (this.getFila() >= 0 && this.getFila() < matrizMapa.length && this.getColumna() - 1 >= 0 && this.getColumna() - 1 < matrizMapa.length && matrizMapa[this.getFila()][this.getColumna() - 1] == 1) {
+                                        this.setColumna(this.getColumna() - 1);
                                     }
-                                }
-                                if (this.getFila() + 1 >= 0 && this.getFila() + 1 < matrizMapa.length && this.getColumna() >= 0 && this.getColumna() < matrizMapa.length && matrizMapa[this.getFila() + 1][this.getColumna()] == 7) {
-                                    salioLadron = true;
-                                    this.setFila(this.getFila() + 1);
+                                    if (this.getFila() >= 0 && this.getFila() < matrizMapa.length && this.getColumna() - 1 >= 0 && this.getColumna() - 1 < matrizMapa.length && matrizMapa[this.getFila()][this.getColumna() - 1] == 2) {
+                                        this.setModo("robar");
+                                        this.setBancoRobar(obtenerBanco(getFila(), getColumna() - 1));
+                                        if (getBancoRobar().getDinero() <= 0) {
+                                            this.setModo("conducir");
+                                        }
+                                    }
+                                    if (this.getFila() >= 0 && this.getFila() < matrizMapa.length && this.getColumna() - 1 >= 0 && this.getColumna() - 1 < matrizMapa.length && matrizMapa[this.getFila()][this.getColumna() - 1] == 7) {
+                                        salioLadron = true;
+                                        this.setColumna(this.getColumna() - 1);
 
-                                    System.out.println("entra guarida");
-                                }
-                                break;
+                                    }
+                                    break;
+                                case "Derecha":
+                                    if (this.getFila() >= 0 && this.getFila() < matrizMapa.length && this.getColumna() + 1 >= 0 && this.getColumna() + 1 < matrizMapa.length && matrizMapa[this.getFila()][this.getColumna() + 1] == 1) {
+                                        this.setColumna(this.getColumna() + 1);
+                                    }
+                                    if (this.getFila() >= 0 && this.getFila() < matrizMapa.length && this.getColumna() + 1 >= 0 && this.getColumna() + 1 < matrizMapa.length && matrizMapa[this.getFila()][this.getColumna() + 1] == 2) {
+                                        this.setModo("robar");
+                                        this.setBancoRobar(obtenerBanco(getFila(), getColumna() + 1));
+                                        if (getBancoRobar().getDinero() <= 0) {
+                                            this.setModo("conducir");
+                                        }
+                                    }
+                                    if (this.getFila() >= 0 && this.getFila() < matrizMapa.length && this.getColumna() + 1 >= 0 && this.getColumna() + 1 < matrizMapa.length && matrizMapa[this.getFila()][this.getColumna() + 1] == 7) {
+                                        salioLadron = true;
+                                        this.setColumna(this.getColumna() + 1);
+
+                                    }
+                                    break;
+                                case "Abajo":
+                                    if (this.getFila() + 1 >= 0 && this.getFila() + 1 < matrizMapa.length && this.getColumna() >= 0 && this.getColumna() < matrizMapa.length && matrizMapa[this.getFila() + 1][this.getColumna()] == 1) {
+                                        this.setFila(this.getFila() + 1);
+                                    }
+                                    if (this.getFila() + 1 >= 0 && this.getFila() + 1 < matrizMapa.length && this.getColumna() >= 0 && this.getColumna() < matrizMapa.length && matrizMapa[this.getFila() + 1][this.getColumna()] == 2) {
+                                        this.setModo("robar");
+                                        this.setBancoRobar(obtenerBanco(getFila() + 1, getColumna()));
+                                        if (getBancoRobar().getDinero() <= 0) {
+                                            this.setModo("conducir");
+                                        }
+                                    }
+                                    if (this.getFila() + 1 >= 0 && this.getFila() + 1 < matrizMapa.length && this.getColumna() >= 0 && this.getColumna() < matrizMapa.length && matrizMapa[this.getFila() + 1][this.getColumna()] == 7) {
+                                        salioLadron = true;
+                                        this.setFila(this.getFila() + 1);
+
+                                        System.out.println("entra guarida");
+                                    }
+                                    break;
+                            }
+                        } else {
+                            this.modo = "huir";
                         }
 
                         this.setyDestino(posInicialY + (proporcion * this.getFila()));
@@ -308,9 +314,43 @@ public class CarroLadron implements Runnable {
                     }
                     break;
                 case "huir":
+                    if (!rutasIr.isEmpty()) {
+                        Vertice verticeGuardAIr = rutasIr.removeFirst();
+                        if (verticeGuardAIr.getFila() - this.getFila() == -1) {//arriba
+                            this.direccionLadron = "Arriba";
+                        } else if (verticeGuardAIr.getFila() - this.getFila() == 1) {//abaj0
+                            this.direccionLadron = "Abajo";
+                        } else if (verticeGuardAIr.getColumna() - this.getColumna() == -1) {//izq
+                            this.direccionLadron = "Izquierda";
+                        } else if (verticeGuardAIr.getColumna() - this.getColumna() == 1) {//der
+                            this.direccionLadron = "Derecha";
+                        }
+                        this.setFila(verticeGuardAIr.getFila());
+                        this.setColumna(verticeGuardAIr.getColumna());
+                        this.setyDestino(posInicialY + (proporcion * this.fila));
+                        this.setxDestino(posInicialX + (proporcion * this.columna));
+                        this.modo = "conducir";
+                        if(rutasIr.isEmpty()){
+                            JOptionPane.showMessageDialog(null, "Finaliza el juego, su puntaje es: "+ladronCar.getDineroRobado(), "Fin del juego", JOptionPane.ERROR_MESSAGE);
+                            // vistacerrar.dispose();
+                            System.exit(0);
+                        }
+                    }
+
                     break;
             }
 
+        }
+    }
+    
+    public void definirRutaHuir(LinkedList<Vertice> ruta){
+        if(ruta != null){
+            this.rutasIr = ruta;
+            this.modo = "huir";
+        }else{
+            JOptionPane.showMessageDialog(null, "Finaliza el juego, no hay ruta, su puntaje es: "+ladronCar.getDineroRobado(), "Fin del juego", JOptionPane.ERROR_MESSAGE);
+               // vistacerrar.dispose();
+                System.exit(0);
         }
     }
 

@@ -529,18 +529,21 @@ public class Patrulla implements Runnable {
     }
 
     public LinkedList<Vertice> caminoMenosVertices() {
-        LinkedList<Vertice> menor = listaCaminos.get(0);
-        for (LinkedList<Vertice> rutas : this.listaCaminos) {
-            if (rutas.size() < menor.size()) {
-                menor = rutas;
+        if (listaCaminos != null && !listaCaminos.isEmpty()) {
+            LinkedList<Vertice> menor = listaCaminos.get(0);
+            for (LinkedList<Vertice> rutas : this.listaCaminos) {
+                if (rutas.size() < menor.size()) {
+                    menor = rutas;
+                }
             }
+            return menor;
         }
-        return menor;
+        return null;
     }
 
     public void AtenderRobo(int idBanco) {
         this.modo = "";
-        alerta=true;
+        alerta = true;
         this.reporteRobo = true;
         sirenaSound();
         for (int i = 0; i < objetosList.size(); i++) {

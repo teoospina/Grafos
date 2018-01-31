@@ -42,8 +42,8 @@ public class VistaPrincipal extends javax.swing.JFrame {
     public static int[][] matrizMapa;
     public static int[][] matrizAdyacen;
     public static int[][] matrizInfluencia;
-    public static int areaAvistamiento = 100; 
-    public static int areaDisparoG = (int)(areaAvistamiento*0.4);
+    public static int areaAvistamiento = 100;
+    public static int areaDisparoG = (int) (areaAvistamiento * 0.4);
     public static int cuentaBanco;
     public static int cuentaEstacion;
     public static List<Vertice> objetosList;
@@ -73,7 +73,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
         this.setSize(600, 768);
         this.setLocationRelativeTo(null);
         this.setResizable(false);
-        this.panelVistaPrincipal1.vistacerrar= this;
+        this.panelVistaPrincipal1.vistacerrar = this;
     }
 
     /**
@@ -92,7 +92,9 @@ public class VistaPrincipal extends javax.swing.JFrame {
         btnGuarida = new javax.swing.JToggleButton();
         btnEstacion = new javax.swing.JToggleButton();
         zonaInfluencia = new javax.swing.JCheckBox();
-        btnEstacion1 = new javax.swing.JToggleButton();
+        btnAvaro = new javax.swing.JToggleButton();
+        btnRutaGuarida = new javax.swing.JToggleButton();
+        zonaInfluencia1 = new javax.swing.JCheckBox();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         btnCargarMapa = new javax.swing.JMenuItem();
@@ -152,10 +154,31 @@ public class VistaPrincipal extends javax.swing.JFrame {
             }
         });
 
-        zonaInfluencia.setText("Mostrar Zonas de influencia");
+        zonaInfluencia.setText("Mostrar zonas de influencia");
         zonaInfluencia.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 zonaInfluenciaActionPerformed(evt);
+            }
+        });
+
+        btnAvaro.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Avaro/avaro.png"))); // NOI18N
+        btnAvaro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAvaroActionPerformed(evt);
+            }
+        });
+
+        btnRutaGuarida.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Calle/ruta.png"))); // NOI18N
+        btnRutaGuarida.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRutaGuaridaActionPerformed(evt);
+            }
+        });
+
+        zonaInfluencia1.setText("Mostrar areas de colision");
+        zonaInfluencia1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                zonaInfluencia1ActionPerformed(evt);
             }
         });
 
@@ -167,16 +190,25 @@ public class VistaPrincipal extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(panelEdicionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelEdicionLayout.createSequentialGroup()
-                        .addComponent(btnEscudo, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(108, 108, 108)
-                        .addComponent(btnGuarida, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(113, 113, 113)
-                        .addComponent(btnEstacion, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 123, Short.MAX_VALUE)
-                        .addComponent(btnBanco, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(159, 159, 159)
+                        .addComponent(btnAvaro, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(panelEdicionLayout.createSequentialGroup()
                         .addComponent(zonaInfluencia)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(18, 18, 18)
+                        .addComponent(zonaInfluencia1))
+                    .addGroup(panelEdicionLayout.createSequentialGroup()
+                        .addComponent(btnEscudo, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(108, 108, 108)
+                        .addComponent(btnGuarida, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(panelEdicionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelEdicionLayout.createSequentialGroup()
+                        .addComponent(btnEstacion, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnBanco, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(panelEdicionLayout.createSequentialGroup()
+                        .addComponent(btnRutaGuarida, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         panelEdicionLayout.setVerticalGroup(
@@ -187,16 +219,19 @@ public class VistaPrincipal extends javax.swing.JFrame {
                     .addComponent(btnBanco, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnGuarida, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnEstacion, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
-                .addComponent(zonaInfluencia))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(panelEdicionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelEdicionLayout.createSequentialGroup()
+                        .addGroup(panelEdicionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(zonaInfluencia)
+                            .addComponent(zonaInfluencia1))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 5, Short.MAX_VALUE)
+                        .addComponent(btnAvaro, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(panelEdicionLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btnRutaGuarida, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
         );
-
-        btnEstacion1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Policia/icoec.png"))); // NOI18N
-        btnEstacion1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEstacion1ActionPerformed(evt);
-            }
-        });
 
         jMenu1.setText("Archivo");
 
@@ -229,10 +264,6 @@ public class VistaPrincipal extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(panelEdicion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addGap(245, 245, 245)
-                .addComponent(btnEstacion1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -240,9 +271,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
                 .addComponent(panelVistaPrincipal1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(panelEdicion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnEstacion1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(53, Short.MAX_VALUE))
+                .addContainerGap(21, Short.MAX_VALUE))
         );
 
         pack();
@@ -318,11 +347,10 @@ public class VistaPrincipal extends javax.swing.JFrame {
                 matrizMapa[punto.y][punto.x] = 7;
                 guarida = !guarida;
                 ladronCar = new CarroLadron(punto.y, punto.x, 40);
-               
-                
+
             }
         }
-         esAdyacente();
+        esAdyacente();
         this.requestFocus();
     }//GEN-LAST:event_panelVistaPrincipal1MouseClicked
 
@@ -416,20 +444,26 @@ public class VistaPrincipal extends javax.swing.JFrame {
         iniciarSimulacion();
     }//GEN-LAST:event_btnIniciarJuegoActionPerformed
 
-    private void btnEstacion1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEstacion1ActionPerformed
-//        esAdyacente();
-//        Vertice vInicio = obtenerVertice(ladronCar.getFila(), ladronCar.getColumna());
-//        if (vInicio != null) {
-//            ladronCar.caminoSimples(vInicio);
-//            LinkedList<Vertice> lista = ladronCar.caminoMenosVertices();
-//            for (Vertice vertice : lista) {
-//                System.out.println(vertice.getFila() + "-" + vertice.getColumna());
-//            }
-//        }
-ladronCar.setAbaricia(this.btnEstacion1.isSelected());
+    private void btnAvaroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAvaroActionPerformed
+        ladronCar.setAbaricia(this.btnAvaro.isSelected());
         this.requestFocus();
 
-    }//GEN-LAST:event_btnEstacion1ActionPerformed
+    }//GEN-LAST:event_btnAvaroActionPerformed
+
+    private void btnRutaGuaridaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRutaGuaridaActionPerformed
+        esAdyacente();
+        Vertice vInicio = obtenerVertice(ladronCar.getFila(), ladronCar.getColumna());
+        if (vInicio != null) {
+            ladronCar.caminoSimples(vInicio);
+            LinkedList<Vertice> lista = ladronCar.caminoMenosVertices();
+            ladronCar.definirRutaHuir(lista);
+        }
+        this.requestFocus();
+    }//GEN-LAST:event_btnRutaGuaridaActionPerformed
+
+    private void zonaInfluencia1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_zonaInfluencia1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_zonaInfluencia1ActionPerformed
 
     private Vertice obtenerVertice(int fila, int columna) {
         for (Vertice vertice : objetosList) {
@@ -441,8 +475,9 @@ ladronCar.setAbaricia(this.btnEstacion1.isSelected());
     }
 
     private void iniciarSimulacion() {
-        if(ladronCar!= null)
+        if (ladronCar != null) {
             ladronCar.getHiloLadron().start();
+        }
         for (Vertice vertice : objetosList) {
             if (vertice.getTipo().equalsIgnoreCase("EstacionP")) {
                 ((EstacionDePolicia) vertice.getContenedor()).iniciarHilos();
@@ -693,7 +728,7 @@ ladronCar.setAbaricia(this.btnEstacion1.isSelected());
      * enlistar todas las posiciones en las calles disponibles, donde aun no
      * exista un escudo anteriormente.
      */
-    public void agregarEscudoAleatorio() {
+    public static void agregarEscudoAleatorio() {
         LinkedList<Vertice> listaCalles = new LinkedList<>();
         for (int i = 0; i < objetosList.size(); i++) {
             if (objetosList.get(i).getTipo().equalsIgnoreCase("Calle")
@@ -701,7 +736,7 @@ ladronCar.setAbaricia(this.btnEstacion1.isSelected());
                 listaCalles.add(objetosList.get(i));
             }
         }
-        int random = (int) Math.random() * (listaCalles.size());
+        int random = (int) (Math.random() * listaCalles.size());
         listaEscudos.add(new EscudosRestauradores(listaCalles.get(random).getFila(),
                 listaCalles.get(random).getColumna(),
                 listaEscudos.size()));
@@ -775,25 +810,28 @@ ladronCar.setAbaricia(this.btnEstacion1.isSelected());
      */
     private void sonido() {
         try {
-           // Sounds.fondoSound("src/Sonido/fondo.wav");
+            Sounds.fondoSound("src/Sonido/fondo.wav");
         } catch (Exception e) {
             System.err.println("Error al cargar sonido de fondo");
         }
     }
-/***
- * Este metodo usa el numero dentro de la matris de influencia para identificar
- * que estacion de policia es la mas cercana.
- * @param bank Identifica que banco esta siendo robado.
- */
+
+    /**
+     * *
+     * Este metodo usa el numero dentro de la matris de influencia para
+     * identificar que estacion de policia es la mas cercana.
+     *
+     * @param bank Identifica que banco esta siendo robado.
+     */
     public static void reportarRobo(Banco bank) {
         for (int i = 0; i < objetosList.size(); i++) {
             if (objetosList.get(i).getTipo().equalsIgnoreCase("Banco")) {
                 if (objetosList.get(i).getContenedor().equals(bank)) {
-                    int idEstacion= matrizInfluencia[objetosList.get(i).getFila()][objetosList.get(i).getColumna()];
+                    int idEstacion = matrizInfluencia[objetosList.get(i).getFila()][objetosList.get(i).getColumna()];
                     for (int j = 0; j < objetosList.size(); j++) {
-                        if(objetosList.get(j).getTipo().equalsIgnoreCase("EstacionP")){
-                            if(((EstacionDePolicia)objetosList.get(j).getContenedor()).getIdEstacion()==idEstacion){
-                                ((EstacionDePolicia)objetosList.get(j).getContenedor()).reportarRobo(bank.getIdBanco());
+                        if (objetosList.get(j).getTipo().equalsIgnoreCase("EstacionP")) {
+                            if (((EstacionDePolicia) objetosList.get(j).getContenedor()).getIdEstacion() == idEstacion) {
+                                ((EstacionDePolicia) objetosList.get(j).getContenedor()).reportarRobo(bank.getIdBanco());
                                 return;
                             }
                         }
@@ -802,26 +840,26 @@ ladronCar.setAbaricia(this.btnEstacion1.isSelected());
             }
         }
     }
-    public static boolean esabaro(){
-        int cont=0, cont2=0;
+
+    public static boolean esabaro() {
+        int cont = 0, cont2 = 0;
         for (int i = 0; i < objetosList.size(); i++) {
             if (objetosList.get(i).getTipo().equalsIgnoreCase("Banco")) {
                 cont++;
             }
-            
 
         }
         for (int i = 0; i < objetosList.size(); i++) {
-            if (((Banco)objetosList.get(i).getContenedor()).getDinero()==0) {
+            if (((Banco) objetosList.get(i).getContenedor()).getDinero() == 0) {
                 cont2++;
             }
         }
-        if (cont==cont2) {
+        if (cont == cont2) {
             return true;
         }
         return false;
     }
- 
+
     /**
      * @param args the command line arguments
      */
@@ -867,17 +905,19 @@ ladronCar.setAbaricia(this.btnEstacion1.isSelected());
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JToggleButton btnAvaro;
     private javax.swing.JToggleButton btnBanco;
     private javax.swing.JMenuItem btnCargarMapa;
     private javax.swing.JToggleButton btnEscudo;
     private javax.swing.JToggleButton btnEstacion;
-    private javax.swing.JToggleButton btnEstacion1;
     private javax.swing.JToggleButton btnGuarida;
     private javax.swing.JMenuItem btnIniciarJuego;
+    private javax.swing.JToggleButton btnRutaGuarida;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel panelEdicion;
     private Vista.PanelVistaPrincipal panelVistaPrincipal1;
     private javax.swing.JCheckBox zonaInfluencia;
+    private javax.swing.JCheckBox zonaInfluencia1;
     // End of variables declaration//GEN-END:variables
 }

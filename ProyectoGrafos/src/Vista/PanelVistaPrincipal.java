@@ -27,6 +27,7 @@ public class PanelVistaPrincipal extends javax.swing.JPanel {
     public static int posInicialX;
     public static int posInicialY;
     public static int proporcion;
+    public int timrerEscudosAutomaticos;
     public Color[] listaColor;
     VistaPrincipal vistacerrar;
 
@@ -171,8 +172,11 @@ public class PanelVistaPrincipal extends javax.swing.JPanel {
             g.fillRect(0, 1, ladronCar.getVidaCarro(), 15);
             g.setColor(Color.WHITE);
             g.drawString(("Dinero= "+String.valueOf(ladronCar.getDineroRobado())), 1, 30);
-            if (ladronCar.getVidaCarro()<=50) {
+            if (ladronCar.getVidaCarro()<=50 && this.timrerEscudosAutomaticos==0) {
                 agregarEscudoAleatorio();
+                this.timrerEscudosAutomaticos = 5000;
+            }else if(ladronCar.getVidaCarro()<=50 && this.timrerEscudosAutomaticos>0){
+                this.timrerEscudosAutomaticos--;
             }
             if(ladronCar.getVidaCarro()<=0){
                  JOptionPane.showMessageDialog(null, "Finaliza el juego su puntaje es: "+ladronCar.getDineroRobado(), "Fin del juego", JOptionPane.ERROR_MESSAGE);
@@ -236,10 +240,6 @@ public class PanelVistaPrincipal extends javax.swing.JPanel {
             .addGap(0, 600, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
-
-    private void agregarEscudoAleatorio() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
