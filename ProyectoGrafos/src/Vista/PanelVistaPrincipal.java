@@ -144,11 +144,17 @@ public class PanelVistaPrincipal extends javax.swing.JPanel {
     }
 
     private void pintarProyectil(LinkedList<Proyectil> lista2, Graphics g) {
-    
+
     }
 
     private void pintarLadron(Graphics g) {
         g.drawImage(ladronCar.getImagenes(), ladronCar.getxObjeto(), ladronCar.getyObjeto(), proporcion, proporcion, this);
+
+        if (ladronCar!=null) {
+            g.setColor(Color.RED);
+            g.fillRect(0, 1, ladronCar.getVidaCarro(), 15);
+        }
+
     }
 
     private void pintarEscudos(Graphics g) {

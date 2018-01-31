@@ -35,9 +35,10 @@ public class CarroLadron implements Runnable {
     private int yDestino;
     private Thread hiloLadron;
     private int dineroRobado;
-    LinkedList<LinkedList<Vertice>> listaCaminos;
+    private LinkedList<LinkedList<Vertice>> listaCaminos;
     private String modo;
     private Banco bancoRobar;
+    private int vidaCarro;
 
     public CarroLadron() {
     }
@@ -68,6 +69,7 @@ public class CarroLadron implements Runnable {
         this.yDestino = this.yObjeto;
         this.hiloLadron = new Thread(this);
         this.listaCaminos = new LinkedList<>();
+        this.vidaCarro=100;
     }
 
     /**
@@ -153,7 +155,7 @@ public class CarroLadron implements Runnable {
     public void setDireccionLadron(String direccionLadron) {
         this.direccionLadron = direccionLadron;
         if (!this.modo.equalsIgnoreCase("conducir")) {
-            this.modo = "conducir";
+            this.setModo("conducir");
         }
     }
 
@@ -174,7 +176,7 @@ public class CarroLadron implements Runnable {
     @Override
     public void run() {
         while (true) {
-            switch (this.modo.toLowerCase()) {
+            switch (this.getModo().toLowerCase()) {
                 case "conducir":
                     if (this.getxObjeto() == this.getxDestino() && this.getyObjeto() == this.getyDestino()) {
                         switch (getDireccionLadron()) {
@@ -183,10 +185,10 @@ public class CarroLadron implements Runnable {
                                     this.setFila(this.getFila() - 1);
                                 }
                                 if (this.getFila() - 1 >= 0 && this.getFila() - 1 < matrizMapa.length && this.getColumna() >= 0 && this.getColumna() < matrizMapa.length && matrizMapa[this.getFila() - 1][this.getColumna()] == 2) {
-                                    this.modo = "robar";
-                                    this.bancoRobar = obtenerBanco(fila - 1, columna);
-                                    if (bancoRobar.getDinero()<=0) {
-                                        this.modo="conducir";
+                                    this.setModo("robar");
+                                    this.setBancoRobar(obtenerBanco(getFila() - 1, getColumna()));
+                                    if (getBancoRobar().getDinero()<=0) {
+                                        this.setModo("conducir");
                                     }
                                 }
                                 break;
@@ -195,10 +197,10 @@ public class CarroLadron implements Runnable {
                                     this.setColumna(this.getColumna() - 1);
                                 }
                                 if (this.getFila() >= 0 && this.getFila() < matrizMapa.length && this.getColumna() - 1 >= 0 && this.getColumna() - 1 < matrizMapa.length && matrizMapa[this.getFila()][this.getColumna() - 1] == 2) {
-                                    this.modo = "robar";
-                                    this.bancoRobar = obtenerBanco(fila, columna - 1);
-                                     if (bancoRobar.getDinero()<=0) {
-                                        this.modo="conducir";
+                                    this.setModo("robar");
+                                    this.setBancoRobar(obtenerBanco(getFila(), getColumna() - 1));
+                                     if (getBancoRobar().getDinero()<=0) {
+                                         this.setModo("conducir");
                                     }
                                 }
                                 break;
@@ -207,10 +209,10 @@ public class CarroLadron implements Runnable {
                                     this.setColumna(this.getColumna() + 1);
                                 }
                                 if (this.getFila() >= 0 && this.getFila() < matrizMapa.length && this.getColumna() + 1 >= 0 && this.getColumna() + 1 < matrizMapa.length && matrizMapa[this.getFila()][this.getColumna() + 1] == 2) {
-                                    this.modo = "robar";
-                                    this.bancoRobar = obtenerBanco(fila, columna + 1);
-                                     if (bancoRobar.getDinero()<=0) {
-                                        this.modo="conducir";
+                                    this.setModo("robar");
+                                    this.setBancoRobar(obtenerBanco(getFila(), getColumna() + 1));
+                                     if (getBancoRobar().getDinero()<=0) {
+                                         this.setModo("conducir");
                                     }
                                 }
                                 break;
@@ -219,10 +221,10 @@ public class CarroLadron implements Runnable {
                                     this.setFila(this.getFila() + 1);
                                 }
                                 if (this.getFila() + 1 >= 0 && this.getFila() + 1 < matrizMapa.length && this.getColumna() >= 0 && this.getColumna() < matrizMapa.length && matrizMapa[this.getFila() + 1][this.getColumna()] == 2) {
-                                    this.modo = "robar";
-                                    this.bancoRobar = obtenerBanco(fila + 1, columna);
-                                     if (bancoRobar.getDinero()<=0) {
-                                        this.modo="conducir";
+                                    this.setModo("robar");
+                                    this.setBancoRobar(obtenerBanco(getFila() + 1, getColumna()));
+                                     if (getBancoRobar().getDinero()<=0) {
+                                         this.setModo("conducir");
                                     }
                                 }
                                 break;
@@ -258,12 +260,12 @@ public class CarroLadron implements Runnable {
                     }
                     break;
                 case "robar":
-                    int monto = bancoRobar.entregarDinero();
+                    int monto = getBancoRobar().entregarDinero();
                     if (monto > 0) {
                         System.out.println("Se obtuvo " + monto);
-                        this.dineroRobado += monto;
-                        if (bancoRobar.getDinero() == 0) {
-                            this.modo = "conducir";
+                        this.setDineroRobado(this.getDineroRobado() + monto);
+                        if (getBancoRobar().getDinero() == 0) {
+                            this.setModo("conducir");
                         }
                     }
                     try {
@@ -365,7 +367,7 @@ public class CarroLadron implements Runnable {
     }
 
     public void caminoSimples(Vertice vHost) {
-        listaCaminos = new LinkedList<>();
+        setListaCaminos(new LinkedList<>());
         LinkedList<Vertice> ruta = new LinkedList<>();
         LinkedList<Vertice> visitados = new LinkedList<>();
 
@@ -377,7 +379,7 @@ public class CarroLadron implements Runnable {
 
     private void camino(Vertice vHost, LinkedList<Vertice> ruta, LinkedList<Vertice> visitados) {
         if (vHost.getTipo().equalsIgnoreCase("Guarida")) {
-            this.listaCaminos.add(ruta);
+            this.getListaCaminos().add(ruta);
         } else {
             int idFila = objetosList.indexOf(vHost);
             for (int i = 0; i < VistaPrincipal.matrizAdyacen.length; i++) {
@@ -394,12 +396,84 @@ public class CarroLadron implements Runnable {
     }
 
     public LinkedList<Vertice> caminoMenosVertices() {
-        LinkedList<Vertice> menor = listaCaminos.get(0);
-        for (LinkedList<Vertice> rutas : this.listaCaminos) {
+        LinkedList<Vertice> menor = getListaCaminos().get(0);
+        for (LinkedList<Vertice> rutas : this.getListaCaminos()) {
             if (rutas.size() < menor.size()) {
                 menor = rutas;
             }
         }
         return menor;
+    }
+
+   
+
+    /**
+     * @return the dineroRobado
+     */
+    public int getDineroRobado() {
+        return dineroRobado;
+    }
+
+    /**
+     * @param dineroRobado the dineroRobado to set
+     */
+    public void setDineroRobado(int dineroRobado) {
+        this.dineroRobado = dineroRobado;
+    }
+
+    /**
+     * @return the listaCaminos
+     */
+    public LinkedList<LinkedList<Vertice>> getListaCaminos() {
+        return listaCaminos;
+    }
+
+    /**
+     * @param listaCaminos the listaCaminos to set
+     */
+    public void setListaCaminos(LinkedList<LinkedList<Vertice>> listaCaminos) {
+        this.listaCaminos = listaCaminos;
+    }
+
+    /**
+     * @return the modo
+     */
+    public String getModo() {
+        return modo;
+    }
+
+    /**
+     * @param modo the modo to set
+     */
+    public void setModo(String modo) {
+        this.modo = modo;
+    }
+
+    /**
+     * @return the bancoRobar
+     */
+    public Banco getBancoRobar() {
+        return bancoRobar;
+    }
+
+    /**
+     * @param bancoRobar the bancoRobar to set
+     */
+    public void setBancoRobar(Banco bancoRobar) {
+        this.bancoRobar = bancoRobar;
+    }
+
+    /**
+     * @return the vidaCarro
+     */
+    public int getVidaCarro() {
+        return vidaCarro;
+    }
+
+    /**
+     * @param vidaCarro the vidaCarro to set
+     */
+    public void setVidaCarro(int vidaCarro) {
+        this.vidaCarro = vidaCarro;
     }
 }
