@@ -47,6 +47,8 @@ public class Patrulla implements Runnable {
     private String dirDisparo;
     LinkedList<LinkedList<Vertice>> listaCaminos;
     LinkedList<Vertice> rutasIr;
+    private LinkedList<Proyectil> listaProyectil;
+
     String modo;
 
     /**
@@ -80,6 +82,8 @@ public class Patrulla implements Runnable {
         this.yDestino = this.yObjeto;
         this.listaCaminos = new LinkedList<>();
         this.rutasIr = new LinkedList<>();
+        this.listaProyectil = new LinkedList<>();
+
         this.modo = "patrullaje";
 
     }
@@ -97,20 +101,20 @@ public class Patrulla implements Runnable {
             g.drawRect(rec.x, rec.y, rec.width, rec.height);
             g.setColor(Color.MAGENTA);
             g.drawRect(recDis.x, recDis.y, recDis.width, recDis.height);
-        */
+         */
         switch (sentidoImagen) {
             case 0://arr
                 dirDisparo = "Arriba";
-                return new Rectangle(posInicialX + (this.columna * proporcion), ((posInicialY + (this.fila * proporcion)) - (areaDisparoG)+proporcion/2), proporcion, areaDisparoG);
+                return new Rectangle(posInicialX + (this.columna * proporcion), ((posInicialY + (this.fila * proporcion)) - (areaDisparoG) + proporcion / 2), proporcion, areaDisparoG);
             case 1://der
                 dirDisparo = "Derecha";
-                return new Rectangle(posInicialX + (this.columna * proporcion) + ((areaDisparoG)-proporcion/2), (posInicialY + (this.fila * proporcion)) , areaDisparoG, proporcion);
+                return new Rectangle(posInicialX + (this.columna * proporcion) + ((areaDisparoG) - proporcion / 2), (posInicialY + (this.fila * proporcion)), areaDisparoG, proporcion);
             case 2://aba
                 dirDisparo = "Abajo";
-                return new Rectangle(posInicialX + (this.columna * proporcion), ((posInicialY + (this.fila * proporcion)) + (areaDisparoG))-(proporcion/2), proporcion, areaDisparoG);
+                return new Rectangle(posInicialX + (this.columna * proporcion), ((posInicialY + (this.fila * proporcion)) + (areaDisparoG)) - (proporcion / 2), proporcion, areaDisparoG);
             case 3://izq
                 dirDisparo = "Izquierda";
-                return new Rectangle(posInicialX + (this.columna * proporcion) - ((areaDisparoG)-(proporcion)), (posInicialY + (this.fila * proporcion)) , areaDisparoG, proporcion);
+                return new Rectangle(posInicialX + (this.columna * proporcion) - ((areaDisparoG) - (proporcion)), (posInicialY + (this.fila * proporcion)), areaDisparoG, proporcion);
         }
         return null;
     }
@@ -278,21 +282,21 @@ public class Patrulla implements Runnable {
                     } catch (Exception e) {
                     }
                     break;
-
             }
-            if(validarColicionDisparoConLadron(obtenerAreaDisparo(), ladronCar.areaImpacto()) && !disparo){
-                new Proyectil(obtenerAreaDisparo().x, obtenerAreaDisparo().y, 0, dirDisparo);
-                disparo=true;
-            }else{
+            if (validarColicionDisparoConLadron(obtenerAreaDisparo(), ladronCar.areaImpacto()) && !disparo) {
+                getListaProyectil().add(new Proyectil(obtenerAreaDisparo().x, obtenerAreaDisparo().y, 0, dirDisparo));
+                disparo = true;
+            } else {
                 disparo = validarColicionDisparoConLadron(obtenerAreaDisparo(), ladronCar.areaImpacto());
             }
         }
     }
-    private boolean validarColicionVistaConLadron(Rectangle a, Rectangle b){
-        return  a.intersects(b);
+
+    private boolean validarColicionVistaConLadron(Rectangle a, Rectangle b) {
+        return a.intersects(b);
     }
-    
-    private boolean validarColicionDisparoConLadron(Rectangle a, Rectangle b){
+
+    private boolean validarColicionDisparoConLadron(Rectangle a, Rectangle b) {
         return a.intersects(b);
     }
 
@@ -531,5 +535,19 @@ public class Patrulla implements Runnable {
             }
         }
 
+    }
+
+    /**
+     * @return the listaProyectil
+     */
+    public LinkedList<Proyectil> getListaProyectil() {
+        return listaProyectil;
+    }
+
+    /**
+     * @param listaProyectil the listaProyectil to set
+     */
+    public void setListaProyectil(LinkedList<Proyectil> listaProyectil) {
+        this.listaProyectil = listaProyectil;
     }
 }
