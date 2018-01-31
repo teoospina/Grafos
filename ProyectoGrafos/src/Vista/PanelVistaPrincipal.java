@@ -67,9 +67,9 @@ public class PanelVistaPrincipal extends javax.swing.JPanel {
         if (pintarInfluencia) {
             pintarZonaInfluencia(g);
         }
-        if(!listaProyectil.isEmpty()){
-            pintarProyectil(null, g);
-        }
+//        if(!listaProyectil.isEmpty()){
+//            pintarProyectil(null, g);
+//        }
 
         repaint();
     }
@@ -144,27 +144,7 @@ public class PanelVistaPrincipal extends javax.swing.JPanel {
     }
 
     private void pintarProyectil(LinkedList<Proyectil> lista2, Graphics g) {
-        if (listaProyectil != null && !listaProyectil.isEmpty()) {
-            List<Proyectil> lista = listaProyectil;
-            //for (int i = 0; i < lista.size(); i++) {
-            for (int i = 0; i < lista.size(); i++) {
-                g.setColor(Color.black);
-                switch (lista.get(i).getSentido().toLowerCase()) {
-                    case "arriba":
-                        g.fillRect(posInicialX+lista.get(i).getX(), posInicialY+ lista.get(i).getY(), 5, 15);
-                        break;
-                    case "abajo":
-                        g.fillRect(posInicialX+lista.get(i).getX(), posInicialY+lista.get(i).getY(), 5, 15);
-                        break;
-                    case "izquierda":
-                        g.fillRect(posInicialX+lista.get(i).getX(),posInicialY+ lista.get(i).getY(), 15, 5);
-                        break;
-                    case "derecha":
-                        g.fillRect(posInicialX+lista.get(i).getX(), posInicialY+lista.get(i).getY(), 15, 5);
-                        break;
-                }
-            }
-        }
+    
     }
 
     private void pintarLadron(Graphics g) {

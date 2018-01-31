@@ -40,6 +40,7 @@ public class Patrulla implements Runnable {
     private int xDestino;
     private int yObjeto;
     private int yDestino;
+    private boolean alerta;
     LinkedList<LinkedList<Vertice>> listaCaminos;
     LinkedList<Vertice> rutasIr;
     String modo;
@@ -413,8 +414,10 @@ public class Patrulla implements Runnable {
      * Metodo para bloquear caminos en ejecucion
      */
     public void bloquearCamino() {
-        listaBarreras.add(new Barrera(this.fila, this.columna, this.idPatrulla));
-        matrizMapa[this.fila][this.columna] = 8;
+        if (alerta) {
+            listaBarreras.add(new Barrera(this.fila, this.columna, this.idPatrulla));
+            matrizMapa[this.fila][this.columna] = 8;
+        }
     }
 
     public void caminoSimples(Vertice vHost, int vDestino) {
@@ -437,7 +440,7 @@ public class Patrulla implements Runnable {
         } else {
             int idFila = VistaPrincipal.objetosList.indexOf(vHost);
             for (int i = 0; i < VistaPrincipal.matrizAdyacen.length; i++) {
-                if (VistaPrincipal.matrizAdyacen[idFila][i] == 1 && !visitados.contains(i)) {
+                if (VistaPrincipal.matrizAdyacen[idFila][i] == 1 && !visitados.contains(objetosList.get(i))) {
                     LinkedList<Vertice> rutaN = (LinkedList<Vertice>) ruta.clone();
                     LinkedList<Vertice> visitN = (LinkedList<Vertice>) visitados.clone();
 
@@ -461,6 +464,7 @@ public class Patrulla implements Runnable {
 
     public void AtenderRobo(int idBanco) {
         this.modo = "";
+        
         for (int i = 0; i < objetosList.size(); i++) {
             if (objetosList.get(i).getFila() == this.getFila() && objetosList.get(i).getColumna() == this.columna) {
                 caminoSimples(objetosList.get(i), idBanco);
