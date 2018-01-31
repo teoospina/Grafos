@@ -5,7 +5,7 @@
  */
 package clases;
 
-import static Vista.VistaPrincipal.cuentaBanco;
+import static Vista.VistaPrincipal.*;
 
 /**
  *
@@ -25,14 +25,10 @@ public class Banco {
     /**
      * @return the dinero
      */
-    public int obtenerDinero() {
-        int monto = (int) (Math.random() * dinero);
+    public int entregarDinero() {
+        int monto =dinero;
         dinero -= monto;
-        System.err.println("dinero " + dinero);
-        if (dinero == 1 && monto == 0) {
-            dinero = 0;
-            return 1;
-        }
+       reportarRobo(this);
         return monto;
     }
 
