@@ -43,6 +43,7 @@ public class Patrulla implements Runnable {
     private int yObjeto;
     private int yDestino;
     private boolean alerta;
+    private boolean disparo;
     LinkedList<LinkedList<Vertice>> listaCaminos;
     LinkedList<Vertice> rutasIr;
     String modo;
@@ -102,7 +103,7 @@ public class Patrulla implements Runnable {
             case 1://der
                 return new Rectangle(posInicialX + (this.columna * proporcion) + ((areaDisparoG)-proporcion/2), (posInicialY + (this.fila * proporcion)) , areaDisparoG, proporcion);
             case 2://aba
-                return new Rectangle(posInicialX + (this.columna * proporcion), ((posInicialY + (this.fila * proporcion)) + (areaDisparoG)), proporcion, areaDisparoG);
+                return new Rectangle(posInicialX + (this.columna * proporcion), ((posInicialY + (this.fila * proporcion)) + (areaDisparoG))-(proporcion/2), proporcion, areaDisparoG);
             case 3://izq
                 return new Rectangle(posInicialX + (this.columna * proporcion) - ((areaDisparoG)-(proporcion)), (posInicialY + (this.fila * proporcion)) , areaDisparoG, proporcion);
         }
@@ -274,7 +275,17 @@ public class Patrulla implements Runnable {
                     break;
 
             }
+            if(validarColicionVistaDisparoConLadron(obtenerAreaDisparo(), ladronCar.areaImpacto()) && !disparo){
+                new Proyectil(0, 0, 0, "Izquierda");
+                disparo=true;
+            }else{
+                disparo = validarColicionVistaDisparoConLadron(obtenerAreaDisparo(), ladronCar.areaImpacto());
+            }
         }
+    }
+    
+    private boolean validarColicionVistaDisparoConLadron(Rectangle a, Rectangle b){
+        return a.intersects(b);
     }
 
     /**

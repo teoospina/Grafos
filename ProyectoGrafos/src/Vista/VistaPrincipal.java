@@ -43,7 +43,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
     public static int[][] matrizAdyacen;
     public static int[][] matrizInfluencia;
     public static int areaAvistamiento = 100; 
-    public static int areaDisparoG = (int)(areaAvistamiento*0.3);
+    public static int areaDisparoG = (int)(areaAvistamiento*0.4);
     public static int cuentaBanco;
     public static int cuentaEstacion;
     public static List<Vertice> objetosList;

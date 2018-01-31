@@ -140,8 +140,12 @@ public class PanelVistaPrincipal extends javax.swing.JPanel {
             //g.fillRect((estacionP.getPatrullas().get(i).getColumna()*proporcion)+posInicialX, (estacionP.getPatrullas().get(i).getFila()*proporcion)+posInicialY, 20, 20);
             g.drawImage(estacionP.getPatrullas().get(i).getImagenes(), estacionP.getPatrullas().get(i).getxObjeto(), estacionP.getPatrullas().get(i).getyObjeto(), proporcion, proporcion, this);
             Rectangle rec = estacionP.getPatrullas().get(i).obtenerAreaAvistamiento();
+            Rectangle recDis = estacionP.getPatrullas().get(i).obtenerAreaDisparo();
+
             g.setColor(Color.red);
             g.drawRect(rec.x, rec.y, rec.width, rec.height);
+            g.setColor(Color.MAGENTA);
+            g.drawRect(recDis.x, recDis.y, recDis.width, recDis.height);
             //pintarProyectil(estacionP.getPatrullas().get(i).getListaProyectiles(), g);
         }
     }
