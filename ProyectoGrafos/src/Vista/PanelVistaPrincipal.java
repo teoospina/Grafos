@@ -14,8 +14,8 @@ import clases.Vertice;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.util.LinkedList;
-import java.util.List;
 
 /**
  *
@@ -139,6 +139,9 @@ public class PanelVistaPrincipal extends javax.swing.JPanel {
             //g.setColor(Color.blue);
             //g.fillRect((estacionP.getPatrullas().get(i).getColumna()*proporcion)+posInicialX, (estacionP.getPatrullas().get(i).getFila()*proporcion)+posInicialY, 20, 20);
             g.drawImage(estacionP.getPatrullas().get(i).getImagenes(), estacionP.getPatrullas().get(i).getxObjeto(), estacionP.getPatrullas().get(i).getyObjeto(), proporcion, proporcion, this);
+            Rectangle rec = estacionP.getPatrullas().get(i).obtenerAreaAvistamiento();
+            g.setColor(Color.red);
+            g.drawRect(rec.x, rec.y, rec.width, rec.height);
             //pintarProyectil(estacionP.getPatrullas().get(i).getListaProyectiles(), g);
         }
     }
@@ -150,7 +153,7 @@ public class PanelVistaPrincipal extends javax.swing.JPanel {
     private void pintarLadron(Graphics g) {
         g.drawImage(ladronCar.getImagenes(), ladronCar.getxObjeto(), ladronCar.getyObjeto(), proporcion, proporcion, this);
 
-        if (ladronCar!=null) {
+        if (ladronCar != null) {
             g.setColor(Color.RED);
             g.fillRect(0, 1, ladronCar.getVidaCarro(), 15);
         }
