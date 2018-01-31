@@ -36,11 +36,21 @@ public class Sounds{
     public static void radioSound(String ruta) {
         try {
 
-            AudioInputStream inputStream = AudioSystem.getAudioInputStream(new File(ruta));
+            AudioInputStream inputStream = AudioSystem.getAudioInputStream(new File("src/Sonido/radio.wav"));
             Clip clip = AudioSystem.getClip();
             clip.open(inputStream);
             clip.start();
             //Thread.sleep(5000);
+        } catch (Exception e) {
+        }
+    }
+    
+    public static void proyectilSound(){
+        try {
+            AudioInputStream inputStream = AudioSystem.getAudioInputStream(new File("src/Sonido/disparo.wav"));
+            Clip clip = AudioSystem.getClip();
+            clip.open(inputStream);
+            clip.start();
         } catch (Exception e) {
         }
     }

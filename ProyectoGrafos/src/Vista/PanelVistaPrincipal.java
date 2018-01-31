@@ -9,10 +9,13 @@ import static Vista.VistaPrincipal.*;
 import clases.Banco;
 
 import clases.EstacionDePolicia;
+import clases.Proyectil;
 import clases.Vertice;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  *
@@ -64,6 +67,9 @@ public class PanelVistaPrincipal extends javax.swing.JPanel {
         if (pintarInfluencia) {
             pintarZonaInfluencia(g);
         }
+        if(!listaProyectil.isEmpty()){
+            pintarProyectil(null, g);
+        }
 
         repaint();
     }
@@ -80,7 +86,7 @@ public class PanelVistaPrincipal extends javax.swing.JPanel {
         if (matrizMapa != null && matrizMapa.length > 0) {
             for (int i = 0; i < matrizMapa.length; i++) {
                 for (int j = 0; j < matrizMapa[i].length; j++) {
-                    if (matrizMapa[i][j] == 1||matrizMapa[i][j] == 8||matrizMapa[i][j] == 9) {
+                    if (matrizMapa[i][j] == 1 || matrizMapa[i][j] == 8 || matrizMapa[i][j] == 9) {
                         g.setColor(Color.white);
                     } else {
                         g.setColor(Color.green);
@@ -116,7 +122,7 @@ public class PanelVistaPrincipal extends javax.swing.JPanel {
                     g.drawImage(objetosList.get(i).getImagen(), posInicialX + objetosList.get(i).getColumna() * proporcion, posInicialY + objetosList.get(i).getFila() * proporcion, proporcion + 10, proporcion + 10, null);
 
                     if (objetosList.get(i).getTipo().equalsIgnoreCase("Banco")) {
-                        if (objetosList.get(i).getContenedor()!= null &&((Banco) objetosList.get(i).getContenedor()).getDinero() == 0) {
+                        if (objetosList.get(i).getContenedor() != null && ((Banco) objetosList.get(i).getContenedor()).getDinero() == 0) {
                             g.setColor(Color.red);
                             g.fillRect((posInicialX + objetosList.get(i).getColumna() * proporcion) + proporcion / 2, posInicialY + objetosList.get(i).getFila() * proporcion, 5, proporcion);
                             g.fillRect((posInicialX + objetosList.get(i).getColumna() * proporcion), (posInicialY + objetosList.get(i).getFila() * proporcion) + proporcion / 2, proporcion, 5);
@@ -133,6 +139,31 @@ public class PanelVistaPrincipal extends javax.swing.JPanel {
             //g.setColor(Color.blue);
             //g.fillRect((estacionP.getPatrullas().get(i).getColumna()*proporcion)+posInicialX, (estacionP.getPatrullas().get(i).getFila()*proporcion)+posInicialY, 20, 20);
             g.drawImage(estacionP.getPatrullas().get(i).getImagenes(), estacionP.getPatrullas().get(i).getxObjeto(), estacionP.getPatrullas().get(i).getyObjeto(), proporcion, proporcion, this);
+            //pintarProyectil(estacionP.getPatrullas().get(i).getListaProyectiles(), g);
+        }
+    }
+
+    private void pintarProyectil(LinkedList<Proyectil> lista2, Graphics g) {
+        if (listaProyectil != null && !listaProyectil.isEmpty()) {
+            List<Proyectil> lista = listaProyectil;
+            //for (int i = 0; i < lista.size(); i++) {
+            for (int i = 0; i < lista.size(); i++) {
+                g.setColor(Color.black);
+                switch (lista.get(i).getSentido().toLowerCase()) {
+                    case "arriba":
+                        g.fillRect(posInicialX+lista.get(i).getX(), posInicialY+ lista.get(i).getY(), 5, 15);
+                        break;
+                    case "abajo":
+                        g.fillRect(posInicialX+lista.get(i).getX(), posInicialY+lista.get(i).getY(), 5, 15);
+                        break;
+                    case "izquierda":
+                        g.fillRect(posInicialX+lista.get(i).getX(),posInicialY+ lista.get(i).getY(), 15, 5);
+                        break;
+                    case "derecha":
+                        g.fillRect(posInicialX+lista.get(i).getX(), posInicialY+lista.get(i).getY(), 15, 5);
+                        break;
+                }
+            }
         }
     }
 
@@ -141,7 +172,7 @@ public class PanelVistaPrincipal extends javax.swing.JPanel {
     }
 
     private void pintarEscudos(Graphics g) {
-        if (!listaEscudos.isEmpty()) {
+        if (listaEscudos != null && !listaEscudos.isEmpty()) {
             for (int i = 0; i < listaEscudos.size(); i++) {
                 g.drawImage(listaEscudos.get(i).getImagen(), posInicialX + (listaEscudos.get(i).getColumna() * proporcion), posInicialY + (listaEscudos.get(i).getFila() * proporcion), proporcion, proporcion, this);
             }

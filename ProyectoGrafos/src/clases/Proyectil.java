@@ -5,55 +5,90 @@
  */
 package clases;
 
+import static clases.Sounds.proyectilSound;
+import javax.swing.ImageIcon;
+
 /**
  *
  * @author Mateo
  */
-public class Proyectil implements Runnable{
+public class Proyectil implements Runnable {
 
-    private int fila;
-    private int columna;
+    private int x;
+    private int y;
     private int idBala;
     private Thread hilo;
+    private String sentido;
+    private ImageIcon[] imagen;
 
     public Proyectil() {
     }
 
-    public Proyectil(int fila, int columna, int idBala) {
-        this.fila = fila;
-        this.columna = columna;
+    public Proyectil(int x, int y, int idBala, String sentido) {
+        this.x = x;
+        this.y = y;
         this.idBala = idBala;
         this.hilo = new Thread(this);
+        this.sentido = sentido;
+        proyectilSound();
+        iniciarHilo();
     }
     
-    
+    private void iniciarHilo(){
+        this.hilo.start();
+    }
 
-    /**
-     * @return the fila
-     */
-    public int getFila() {
-        return fila;
+    @Override
+    public void run() {
+        while (getX()>-5 && getX() <1000 && getY()>-5 && getY() < 1000) {
+            switch (getSentido().toLowerCase()) {
+                case "arriba":
+                    setY(getY() - 5);
+                    break;
+                case "abajo":
+                    setY(getY() + 5);
+                    break;
+                case "izquierda":
+                    setX(getX() - 5);
+                    break;
+                case "derecha":
+                    setX(getX() + 5);
+                    break;
+            }
+            try {
+                Thread.sleep(10);
+            } catch (Exception e) {
+                System.err.println("Error "+e);
+            }
+        }
     }
 
     /**
-     * @param fila the fila to set
+     * @return the x
      */
-    public void setFila(int fila) {
-        this.fila = fila;
+    public int getX() {
+        return x;
     }
 
     /**
-     * @return the columna
+     * @param x the x to set
      */
-    public int getColumna() {
-        return columna;
+    public void setX(int x) {
+        this.x = x;
     }
 
     /**
-     * @param columna the columna to set
+     * @return the y
      */
-    public void setColumna(int columna) {
-        this.columna = columna;
+    public int getY() {
+        return y;
+    }
+
+    /**
+     * @param y the y to set
+     */
+    public void setY(int y) {
+        this.y = y;
     }
 
     /**
@@ -70,10 +105,46 @@ public class Proyectil implements Runnable{
         this.idBala = idBala;
     }
 
-    @Override
-    public void run() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    /**
+     * @return the hilo
+     */
+    public Thread getHilo() {
+        return hilo;
     }
-    
+
+    /**
+     * @param hilo the hilo to set
+     */
+    public void setHilo(Thread hilo) {
+        this.hilo = hilo;
+    }
+
+    /**
+     * @return the sentido
+     */
+    public String getSentido() {
+        return sentido;
+    }
+
+    /**
+     * @param sentido the sentido to set
+     */
+    public void setSentido(String sentido) {
+        this.sentido = sentido;
+    }
+
+    /**
+     * @return the imagen
+     */
+    public ImageIcon[] getImagen() {
+        return imagen;
+    }
+
+    /**
+     * @param imagen the imagen to set
+     */
+    public void setImagen(ImageIcon[] imagen) {
+        this.imagen = imagen;
+    }
 
 }
